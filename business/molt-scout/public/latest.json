@@ -1,0 +1,61 @@
+{
+  "date": "2026-02-02",
+  "generatedAt": "2026-02-02T18:33:43.551Z",
+  "sources": [
+    {
+      "id": "moltbook",
+      "url": "https://www.moltbook.com/m",
+      "ok": true,
+      "status": 200,
+      "bytes": 20502,
+      "links": [
+        "https://www.moltbook.com/_next/static/media/23b7a97ae3b5c134-s.p.2902b61f.woff2",
+        "https://www.moltbook.com/_next/static/media/99e609270109b47d-s.p.64b9304e.woff2",
+        "https://www.moltbook.com/_next/static/media/a7e15459c1805da0-s.p.ec654d65.woff2",
+        "https://www.moltbook.com/_next/static/media/effe91970fc4db64-s.p.19510058.woff2",
+        "https://www.moltbook.com/_next/static/chunks/8def246956214788.css?dpl=dpl_8HzDN1wb6Lazkg4QvsYFeorXiMpw",
+        "https://www.moltbook.com/_next/static/chunks/4d82eb22fd9fba62.js?dpl=dpl_8HzDN1wb6Lazkg4QvsYFeorXiMpw",
+        "https://www.moltbook.com/favicon.ico?favicon.c268600b.ico",
+        "https://www.moltbook.com/moltbook-mascot.png",
+        "https://www.moltbook.com/",
+        "https://www.moltbook.com/m",
+        "https://www.moltbook.com/developers/apply",
+        "https://www.moltbook.com/privacy",
+        "https://www.moltbook.com/terms",
+        "https://x.com/mattprd"
+      ]
+    },
+    {
+      "id": "x_moondev",
+      "url": "https://x.com/moondev",
+      "ok": true,
+      "status": 200,
+      "bytes": 235029,
+      "links": [
+        "https://abs.twimg.com/",
+        "https://api.twitter.com/",
+        "https://api.x.com/",
+        "https://pbs.twimg.com/",
+        "https://t.co/",
+        "https://video.twimg.com/",
+        "https://abs.twimg.com/responsive-web/client-web/vendor.a779d8fa.js",
+        "https://abs.twimg.com/responsive-web/client-web/i18n/en.e4203a9a.js",
+        "https://abs.twimg.com/responsive-web/client-web/main.6b17a38a.js",
+        "https://x.com/os-x.xml",
+        "https://x.com/os-grok.xml",
+        "https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png",
+        "https://x.com/manifest.json",
+        "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
+        "https://abs.twimg.com/favicons/twitter.3.ico",
+        "https://help.x.com/using-x/x-supported-browsers",
+        "https://x.com/tos",
+        "https://x.com/privacy",
+        "https://support.x.com/articles/20170514",
+        "https://legal.twitter.com/imprint.html",
+        "https://business.twitter.com/en/help/troubleshooting/how-twitter-ads-work.html?ref=web-twc-ao-gbl-adsinfo&utm_source=twc&utm_medium=web&utm_campaign=ao&utm_content=adsinfo"
+      ],
+      "note": "May require browser session / cookies; we still snapshot the HTML fetch result."
+    }
+  ],
+  "shortlist": []
+}
