@@ -15,7 +15,13 @@ const SOURCES = [
     id: "x_moondev",
     kind: "web",
     url: "https://x.com/moondev",
-    note: "May require browser session / cookies; we still snapshot the HTML fetch result."
+    note: "May require browser session / cookies; we still snapshot the HTML fetch result.",
+  },
+  {
+    id: "awesome-openclaw-skills",
+    kind: "web",
+    url: "https://github.com/VoltAgent/awesome-openclaw-skills",
+    note: "Skills collection repo (source of automation building blocks)",
   },
 ];
 
