@@ -29,6 +29,12 @@ const SOURCES = [
     url: "https://github.com/PlaydaDev/pumpmolt",
     note: "Trading ideas / scripts repo",
   },
+  {
+    id: "bankrbot-openclaw-skills",
+    kind: "web",
+    url: "https://github.com/BankrBot/openclaw-skills",
+    note: "Additional OpenClaw skills repo (scan for useful automation building blocks)",
+  },
 ];
 
 function isoDate(d = new Date()) {
