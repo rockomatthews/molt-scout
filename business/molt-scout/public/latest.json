@@ -1,6 +1,6 @@
 {
   "date": "2026-02-02",
-  "generatedAt": "2026-02-02T20:26:59.918Z",
+  "generatedAt": "2026-02-02T20:39:45.816Z",
   "sources": [
     {
       "id": "moltbook",
@@ -30,7 +30,7 @@
       "url": "https://x.com/moondev",
       "ok": true,
       "status": 200,
-      "bytes": 235119,
+      "bytes": 235029,
       "links": [
         "https://abs.twimg.com/",
         "https://api.twitter.com/",
@@ -61,7 +61,7 @@
       "url": "https://github.com/VoltAgent/awesome-openclaw-skills",
       "ok": true,
       "status": 200,
-      "bytes": 1086161,
+      "bytes": 1086166,
       "links": [
         "https://github.githubassets.com/",
         "https://avatars.githubusercontent.com/",
@@ -219,6 +219,252 @@
         "https://github.com/VoltAgent/awesome-openclaw-skills#transportation",
         "https://github.com/VoltAgent/awesome-openclaw-skills#personal-development"
       ],
+      "parsed": {
+        "kind": "github",
+        "owner": "VoltAgent",
+        "repo": "awesome-openclaw-skills",
+        "readmeBranch": "main",
+        "readmeUrl": "https://raw.githubusercontent.com/VoltAgent/awesome-openclaw-skills/main/README.md",
+        "headings": [
+          {
+            "level": 1,
+            "title": "Awesome OpenClaw Skills"
+          },
+          {
+            "level": 2,
+            "title": "Installation"
+          },
+          {
+            "level": 3,
+            "title": "ClawHub CLI"
+          },
+          {
+            "level": 3,
+            "title": "Manual Installation"
+          },
+          {
+            "level": 3,
+            "title": "Alternative"
+          },
+          {
+            "level": 2,
+            "title": "Why This List Exists?"
+          },
+          {
+            "level": 2,
+            "title": "Table of Contents"
+          },
+          {
+            "level": 2,
+            "title": "🤝 Contributing"
+          },
+          {
+            "level": 2,
+            "title": "License"
+          }
+        ],
+        "links": [
+          "https://awesome.re/badge.svg",
+          "https://img.shields.io/badge/skills-1715+-blue?style=flat-square",
+          "https://img.shields.io/github/last-commit/VoltAgent/awesome-clawdbot-skills?label=Last%20update&style=flat-square",
+          "https://img.shields.io/discord/1361559153780195478.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2",
+          "https://img.shields.io/github/forks/VoltAgent/awesome-clawdbot-skills?style=social",
+          "https://www.clawhub.com/",
+          "https://github.com/openclaw/skills/tree/main/skills/seanphan/artifacts-builder/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/imaginelogo/claw-shell/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/briansmith80/clawdbot-zoho-email/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tullyhu/comfy-ai/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/xtopher86/comfyui-runner/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ram-raghav-s/computer-use/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/vishnubedi3/deliberate-frontend-redesign/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/discord/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/gxsy886/downloads/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/urosorozel/emporia-energy/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/igorls/fanvue/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/frontend-design/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/minbang930/giphy/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/vishnubedi3/human-optimized-frontend/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/kowl64/linux-service-triage/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/hartlco/miniflux-news/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jgarrison929/nextjs-expert/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/atefr/niri-ipc/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/georgi/nodetool/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sharanga10/pinak-frontend-guru/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/christina-de-martinez/react-email-skills/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/am-will/remotion-best-practices/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mvanhorn/remotion-server/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/shreefentsar/remotion-video-toolkit/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/amruthpillai/resume-builder/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/senior-fullstack/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/slack/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/xiwan/smtp-send/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/kesslerio/technews/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/deadlysilent/telegram-reaction-prober/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/peetzweg/trmnl/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tommygeoco/ui-audit/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/ui-design-system/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/correctroadh/ui-skills/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/kdbhalala/ui-ux-master/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/xobi667/ui-ux-pro-max/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tommygeoco/ux-audit/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tommygeoco/ux-decisions/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/ux-researcher-designer/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sharanga10/vercel-react-best-practices/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/johanesalxd/vision-sandbox/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sharanga10/web-design-guidelines/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/seanphan/webapp-testing/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jage9/winamp/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ipavlidakis/xcodebuildmcp/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/briansmith80/zoho-email-integration/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/seanphan/agenticflow-skill/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/nguyenphutrong/agentlens/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/kdbhalala/apple-hig/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/charmmm718/backend-patterns/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/fsa317/bot-bowl-party/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/yueranlu/botpress-adk/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/pkiv/browse/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/hexnickk/claude-optimised/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jalehman/claude-team/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/samuelkahessay/code-mentor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/larsonreever/codeconductor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/odrobnik/codex-account-switcher/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/odrobnik/codex-monitor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/shanelindsay/codex-orchestration/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/odrobnik/codex-quota/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/odrobnik/codexmonitor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/coding-agent/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/otherpowers/content-id-guide/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/swiftlysingh/cursor-agent/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/cmanfre7/debug-pro/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/seanphan/doc-coauthoring/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/arnarsson/docker-essentials/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/chenleiyanquan/executing-plans/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mitchellbernstein/factory-ai/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mrbeandev/file-links-tool/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/zsvedic/gembox-skill/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/itobey/get-tldr/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/rakesh1002/go2gg/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tanerilyazov/java-change-with-tests/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/anandrathnas/jo4/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/evgyur/kimi-integration/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/juanirm/logseq/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/seanphan/mcp-builder/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/model-usage/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/kesslerio/multi-coding-agent/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jp4g/noir-developer/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bjesuiter/opencode-acp-control/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jcorrego/openspec/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/gricha/perry-coding-agents/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/gricha/perry-workspaces/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jash2368-collab/pro/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thesash/prompt-log/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/shellishack/pulse-editor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/chenleiyanquan/receiving-code-review/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/davestarling/satellite-copilot/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/senior-architect/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/otherpowers/skill-content-id-guide/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/chindden/skill-creator/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ljglover/skill-creator-0-1-0/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/yixinli867/skill-creator-2/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mightyprime1/task-status/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/tdd-guide/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/cmanfre7/test-runner/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/binora/vibes/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/rubenfb23/whatsapp-styling-guide/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jordanprater/backup/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/arnarsson/bat-cat/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sebastian-buitrag0/clawdbot-backup/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bobrenze-bot/commit-analyzer/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bastos/conventional-commits/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/arun-8687/deepwiki/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/adunne09/deepwork-tracker/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sherajdev/deploy-agent/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/whiteknight07/exa-web-search-free/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/apuryear/fabric-pattern/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/daxiongmao87/gimhub/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/louzhixian/git-crypt-backup/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/arnarsson/git-essentials/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/autogame-17/git-sync/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/heythisischris/gitclassic/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/marian2js/gitclaw/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ericxliu1990/gitea/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/steipete/github/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/dbhurley/github-pr/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mordka/githunt/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/vince-winkintel/gitlab-ci-skills/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/vince-winkintel/gitlab-cli-skills/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jorgermp/gitlab-manager/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/waldekmastykarz/gitload/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/portavion/glab-cli/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/infantlab/god-mode/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/chenyuan99/openclaw-migration/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/joshp123/pr-commit-workflow/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/joe3112/project-context-sync/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/am-will/read-github/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/acastellana/skill-publisher-claw-skill/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/spclaudehome/skill-vetter/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thomeksolutions/web-deploy-github/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/leeguooooo/work-report/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/orosha-ai/agent-relay-digest/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/chrissorrell/bread-protocal/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/hukifl1/clankedin/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mapessaprince/clawork/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/floflo777/mbc-20/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/attn-bot/mea-clawpa/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/maherucifer/mersal/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/mattprd/moltbook/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/sweetsheldon/moltbook-curatoor/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/lunarcmd/moltbook-interact/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/drjmz/moltbook-registry/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bullish-moonrock/moltchan/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/nwx77/moltguess/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/buggy324234/moltland/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/eduarddriessen1/moltlang/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/promptrotator/moltline/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/grenghis-khan/moltoverflow/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jcheese1/moltpet/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/laurentenhoor/moltresearch/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/swahilipapi/moltspeak/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ahmedthegeek/moltysmind/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/swordfish444/nobot/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ferreirapablo/nonopost/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/luluf0x/post-queue/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/galor34/v-nomad-netrunner/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/fiddlybit/whisper/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/jakehandy/yclawker-news/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/rowbotik/adguard/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/aerialcombat/agent-directory/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/agent-framework-azure-ai-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bobrenze-bot/agent-news/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/manas-io-ai/agentguard/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/badaramoni/agentmemory/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/deploydon/aifs-space/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bryant-ba/aliyun-search/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/guang384/aliyun-tts/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/botond-rackhost/ansible-skill/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/impkind/anterior-cingulate-memory/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/byungkyu/api-gateway/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/avimak/appdeploy/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/cougz/arcane-docker-manager/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/koba42corp/autoresponder/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bmdhodl/aws-infra/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/spclaudehome/aws-security-scanner/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/alirezarezvani/aws-solution-architect/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azd-deployment/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/ddevaal/azure-cli/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-ai-agents-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-ai-evaluation-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-ai-projects-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-ai-transcription-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-ai-voicelive-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-identity-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/bmdhodl/azure-infra/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/thegovind/azure-storage-blob-py/SKILL.md",
+          "https://github.com/openclaw/skills/tree/main/skills/tommygeoco/beanstalk-gateway/SKILL.md",
+          "https://beans.talk",
+          "https://github.com/openclaw/skills/tree/main/skills/karakuscem/beszel-check/SKILL.md"
+        ]
+      },
       "note": "Skills collection repo (source of automation building blocks)"
     },
     {
@@ -226,7 +472,7 @@
       "url": "https://github.com/PlaydaDev/pumpmolt",
       "ok": true,
       "status": 200,
-      "bytes": 358677,
+      "bytes": 358708,
       "links": [
         "https://github.githubassets.com/",
         "https://avatars.githubusercontent.com/",
@@ -380,6 +626,181 @@
         "https://github.com/PlaydaDev/pumpmolt#launchtokenname-symbol-description-options",
         "https://github.com/PlaydaDev/pumpmolt#security-considerations"
       ],
+      "parsed": {
+        "kind": "github",
+        "owner": "PlaydaDev",
+        "repo": "pumpmolt",
+        "readmeBranch": "main",
+        "readmeUrl": "https://raw.githubusercontent.com/PlaydaDev/pumpmolt/main/README.md",
+        "headings": [
+          {
+            "level": 1,
+            "title": "Pump.fun Skill for MoltBot"
+          },
+          {
+            "level": 2,
+            "title": "Features"
+          },
+          {
+            "level": 2,
+            "title": "Installation"
+          },
+          {
+            "level": 3,
+            "title": "Prerequisites"
+          },
+          {
+            "level": 3,
+            "title": "Install Dependencies"
+          },
+          {
+            "level": 3,
+            "title": "Add to MoltBot"
+          },
+          {
+            "level": 1,
+            "title": "For managed skills (globally available)"
+          },
+          {
+            "level": 1,
+            "title": "Or for workspace skills (project-specific)"
+          },
+          {
+            "level": 2,
+            "title": "Configuration"
+          },
+          {
+            "level": 3,
+            "title": "Required Environment Variables"
+          },
+          {
+            "level": 3,
+            "title": "Optional Environment Variables"
+          },
+          {
+            "level": 1,
+            "title": "Custom RPC endpoint (recommended for production)"
+          },
+          {
+            "level": 1,
+            "title": "Priority fee in SOL (default: 0.0005)"
+          },
+          {
+            "level": 1,
+            "title": "Default slippage percentage (default: 10)"
+          },
+          {
+            "level": 3,
+            "title": "MoltBot Configuration"
+          },
+          {
+            "level": 2,
+            "title": "Usage"
+          },
+          {
+            "level": 3,
+            "title": "Via MoltBot Chat Commands"
+          },
+          {
+            "level": 1,
+            "title": "Buy tokens"
+          },
+          {
+            "level": 1,
+            "title": "Buy with custom slippage"
+          },
+          {
+            "level": 1,
+            "title": "Sell specific amount"
+          },
+          {
+            "level": 1,
+            "title": "Sell percentage of holdings"
+          },
+          {
+            "level": 1,
+            "title": "Sell all tokens"
+          },
+          {
+            "level": 1,
+            "title": "Launch a new token"
+          },
+          {
+            "level": 3,
+            "title": "Via CLI"
+          },
+          {
+            "level": 1,
+            "title": "Build first"
+          },
+          {
+            "level": 1,
+            "title": "Buy tokens"
+          },
+          {
+            "level": 1,
+            "title": "Sell tokens"
+          },
+          {
+            "level": 1,
+            "title": "Launch token"
+          },
+          {
+            "level": 3,
+            "title": "Programmatic Usage"
+          },
+          {
+            "level": 2,
+            "title": "API Reference"
+          },
+          {
+            "level": 3,
+            "title": "`buyTokens(mint, amountSol, options?)`"
+          },
+          {
+            "level": 3,
+            "title": "`sellTokens(mint, amount, options?)`"
+          },
+          {
+            "level": 3,
+            "title": "`launchToken(name, symbol, description, options?)`"
+          },
+          {
+            "level": 2,
+            "title": "Security Considerations"
+          },
+          {
+            "level": 2,
+            "title": "Fees"
+          },
+          {
+            "level": 2,
+            "title": "Supported Pools"
+          },
+          {
+            "level": 2,
+            "title": "Troubleshooting"
+          },
+          {
+            "level": 3,
+            "title": "\"SOLANA_PRIVATE_KEY environment variable is required\""
+          },
+          {
+            "level": 3,
+            "title": "\"Invalid private key format\""
+          },
+          {
+            "level": 3,
+            "title": "\"Transaction failed: insufficient funds\""
+          }
+        ],
+        "links": [
+          "https://pump.fun",
+          "https://pumpportal.fun",
+          "https://nodejs.org/",
+          "https://github.com/moltbot/moltbot"
+        ]
+      },
       "note": "Trading ideas / scripts repo"
     },
     {
@@ -387,7 +808,7 @@
       "url": "https://github.com/BankrBot/openclaw-skills",
       "ok": true,
       "status": 200,
-      "bytes": 286934,
+      "bytes": 286939,
       "links": [
         "https://github.githubassets.com/",
         "https://avatars.githubusercontent.com/",
@@ -536,12 +957,119 @@
         "https://qrcoin.fun/",
         "https://github.com/BankrBot/openclaw-skills/blob/main/qrcoin"
       ],
+      "parsed": {
+        "kind": "github",
+        "owner": "BankrBot",
+        "repo": "openclaw-skills",
+        "readmeBranch": "main",
+        "readmeUrl": "https://raw.githubusercontent.com/BankrBot/openclaw-skills/main/README.md",
+        "headings": [
+          {
+            "level": 1,
+            "title": "Moltbot Skills Library"
+          },
+          {
+            "level": 2,
+            "title": "Structure"
+          },
+          {
+            "level": 2,
+            "title": "Install Instructions"
+          },
+          {
+            "level": 2,
+            "title": "Available Skills"
+          },
+          {
+            "level": 2,
+            "title": "Contributing"
+          },
+          {
+            "level": 3,
+            "title": "Adding a New Skill"
+          },
+          {
+            "level": 3,
+            "title": "Guidelines"
+          }
+        ],
+        "links": [
+          "https://github.com/BankrBot/moltbot-skills",
+          "https://bankr.bot",
+          "https://8004.org",
+          "https://qrcoin.fun"
+        ]
+      },
       "note": "Additional OpenClaw skills repo (scan for useful automation building blocks)"
     }
   ],
   "shortlist": [
+    "https://img.shields.io/github/last-commit/VoltAgent/awesome-clawdbot-skills?label=Last%20update&style=flat-square",
+    "https://img.shields.io/github/forks/VoltAgent/awesome-clawdbot-skills?style=social",
+    "https://github.com/openclaw/skills/tree/main/skills/briansmith80/clawdbot-zoho-email/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/steipete/discord/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/deadlysilent/telegram-reaction-prober/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/fsa317/bot-bowl-party/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/yueranlu/botpress-adk/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/sebastian-buitrag0/clawdbot-backup/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/bobrenze-bot/commit-analyzer/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/attn-bot/mea-clawpa/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/swordfish444/nobot/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/rowbotik/adguard/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/bobrenze-bot/agent-news/SKILL.md",
+    "https://github.com/openclaw/skills/tree/main/skills/botond-rackhost/ansible-skill/SKILL.md",
+    "https://github.com/VoltAgent/awesome-openclaw-skills#clawdbot-tools",
+    "https://github.com/moltbot/moltbot",
+    "https://github.com/PlaydaDev/pumpmolt#pumpfun-skill-for-moltbot",
+    "https://github.com/PlaydaDev/pumpmolt#add-to-moltbot",
+    "https://github.com/PlaydaDev/pumpmolt#moltbot-configuration",
+    "https://github.com/PlaydaDev/pumpmolt#via-moltbot-chat-commands",
     "https://github.com/PlaydaDev/pumpmolt#buytokensmint-amountsol-options",
     "https://github.com/PlaydaDev/pumpmolt#selltokensmint-amount-options",
-    "https://github.com/PlaydaDev/pumpmolt#launchtokenname-symbol-description-options"
+    "https://github.com/PlaydaDev/pumpmolt#launchtokenname-symbol-description-options",
+    "https://github.com/BankrBot/moltbot-skills",
+    "https://github.com/BankrBot/openclaw-skills",
+    "https://github.com/BankrBot/openclaw-skills#start-of-content",
+    "https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2FBankrBot%2Fopenclaw-skills",
+    "https://github.com/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&amp;source=header-repo&amp;source_repo=BankrBot%2Fopenclaw-skills",
+    "https://github.com/login?return_to=%2FBankrBot%2Fopenclaw-skills",
+    "https://github.com/BankrBot/openclaw-skills/stargazers",
+    "https://github.com/BankrBot/openclaw-skills/forks",
+    "https://github.com/BankrBot/openclaw-skills/branches",
+    "https://github.com/BankrBot/openclaw-skills/tags",
+    "https://github.com/BankrBot/openclaw-skills/activity",
+    "https://github.com/BankrBot/openclaw-skills/issues",
+    "https://github.com/BankrBot/openclaw-skills/pulls",
+    "https://github.com/BankrBot/openclaw-skills/actions",
+    "https://github.com/BankrBot/openclaw-skills/projects",
+    "https://github.com/BankrBot/openclaw-skills/security",
+    "https://github.com/BankrBot/openclaw-skills/pulse",
+    "https://github.com/BankrBot/openclaw-skills/commits/main/",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/.github/workflows",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/bankr",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/base",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/botchan",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/clanker",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/endaoment",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/ens-primary-name",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/erc-8004",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/neynar",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/onchainkit",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/qrcoin",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/veil",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/yoink",
+    "https://github.com/BankrBot/openclaw-skills/tree/main/zapper",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/.gitignore",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/README.md",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/onchainkit.skill",
+    "https://github.com/BankrBot/openclaw-skills#",
+    "https://github.com/BankrBot/openclaw-skills#moltbot-skills-library",
+    "https://github.com/BankrBot/openclaw-skills#structure",
+    "https://github.com/BankrBot/openclaw-skills#install-instructions",
+    "https://github.com/BankrBot/openclaw-skills#available-skills",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/bankr",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/erc-8004",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/botchan",
+    "https://github.com/BankrBot/openclaw-skills/blob/main/qrcoin"
   ]
 }

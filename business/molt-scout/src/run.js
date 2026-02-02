@@ -67,6 +67,65 @@ async function fetchText(url) {
   return { ok: res.ok, status: res.status, text };
 }
 
+function parseGitHubRepo(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname !== "github.com") return null;
+    const parts = u.pathname.split("/").filter(Boolean);
+    if (parts.length < 2) return null;
+    const [owner, repo] = parts;
+    // ignore extra paths like /tree/main
+    return { owner, repo: repo.replace(/\.git$/i, "") };
+  } catch {
+    return null;
+  }
+}
+
+async function fetchGitHubReadme(owner, repo) {
+  // Try common default branches without requiring GitHub API.
+  const branches = ["main", "master"];
+  for (const br of branches) {
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${br}/README.md`;
+    try {
+      const res = await fetch(rawUrl, {
+        headers: { "user-agent": "molt-scout/0.1" },
+      });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text && text.length > 10) return { ok: true, branch: br, text, url: rawUrl };
+    } catch {
+      // continue
+    }
+  }
+  return { ok: false, branch: null, text: "", url: null };
+}
+
+function extractMarkdownHeadings(md, max = 40) {
+  const lines = md.split(/\r?\n/);
+  const out = [];
+  for (const line of lines) {
+    const m = /^(#{1,4})\s+(.+?)\s*$/.exec(line);
+    if (!m) continue;
+    const level = m[1].length;
+    const title = m[2].replace(/\s+#+\s*$/, "").trim();
+    out.push({ level, title });
+    if (out.length >= max) break;
+  }
+  return out;
+}
+
+function extractMarkdownLinks(md, max = 200) {
+  const out = [];
+  // [text](url)
+  const re = /\[[^\]]+\]\((https?:\/\/[^)\s]+)\)/g;
+  let m;
+  while ((m = re.exec(md))) {
+    out.push(m[1]);
+    if (out.length >= max) break;
+  }
+  return [...new Set(out)];
+}
+
 async function writeDashboard(latestRun) {
   const html = `<!doctype html>
 <html>
@@ -101,21 +160,53 @@ async function writeDashboard(latestRun) {
 
   ${latestRun.sources
     .map(
-      (s) => `
+      (s) => {
+        const parsed = s.parsed;
+        const ghBlock =
+          parsed && parsed.kind === "github"
+            ? `
+          <details style="margin-top:10px">
+            <summary>Repo summary (README)</summary>
+            <div class="muted">branch: <code>${parsed.readmeBranch || "?"}</code> · <a href="${parsed.readmeUrl}" target="_blank" rel="noreferrer">raw README</a></div>
+            <div style="margin-top:10px">
+              <strong>Headings</strong>
+              <ul>
+                ${(parsed.headings || [])
+                  .slice(0, 20)
+                  .map((h) => `<li class="muted">${"&nbsp;".repeat((h.level - 1) * 2)}${h.title}</li>`)
+                  .join("\n")}
+              </ul>
+            </div>
+            <div style="margin-top:10px">
+              <strong>Key links</strong>
+              <ul>
+                ${(parsed.links || [])
+                  .slice(0, 40)
+                  .map((l) => `<li><a href="${l}" target="_blank" rel="noreferrer">${l}</a></li>`)
+                  .join("\n")}
+              </ul>
+            </div>
+          </details>
+        `
+            : "";
+
+        return `
       <div class="card">
         <h2>${s.id}</h2>
         <div class="muted">${s.url} · status ${s.status} · bytes ${s.bytes}</div>
+        ${ghBlock}
         <details style="margin-top:10px">
           <summary>Top links (${s.links.length})</summary>
           <ul>
             ${s.links
-              .slice(0, 80)
+              .slice(0, 60)
               .map((l) => `<li><a href="${l}" target="_blank" rel="noreferrer">${l}</a></li>`)
               .join("\n")}
           </ul>
         </details>
       </div>
-    `,
+    `;
+      },
     )
     .join("\n")}
 
@@ -133,10 +224,28 @@ function buildShortlist(allLinks) {
   const norm = (u) => u.toLowerCase();
   const interesting = allLinks.filter((u) => {
     const x = norm(u);
-    const community = x.includes("t.me") || x.includes("telegram") || x.includes("discord") || x.includes("reddit") || x.includes("guild") || x.includes("forum");
+    const community =
+      x.includes("t.me") ||
+      x.includes("telegram") ||
+      x.includes("discord") ||
+      x.includes("reddit") ||
+      x.includes("guild") ||
+      x.includes("forum");
     const molt = x.includes("molt") || x.includes("moltbook");
-    const money = x.includes("trade") || x.includes("alpha") || x.includes("profit") || x.includes("airdrop") || x.includes("launch") || x.includes("token");
-    return molt && (community || money);
+    const money =
+      x.includes("trade") ||
+      x.includes("alpha") ||
+      x.includes("profit") ||
+      x.includes("airdrop") ||
+      x.includes("launch") ||
+      x.includes("token") ||
+      x.includes("bot") ||
+      x.includes("strategy");
+
+    // Also include OpenClaw/automation resources even if not "molt".
+    const automation = x.includes("openclaw") || x.includes("claw") || x.includes("skill");
+
+    return (molt && (community || money)) || (automation && (community || money));
   });
   return [...new Set(interesting)].slice(0, 200);
 }
@@ -154,6 +263,8 @@ async function main() {
     let status = 0;
     let ok = false;
     let text = "";
+    let parsed = undefined;
+
     try {
       const r = await fetchText(src.url);
       status = r.status;
@@ -176,6 +287,29 @@ async function main() {
       }
     });
 
+    // If this is a GitHub repo, also fetch README.md (raw) and parse it.
+    const gh = parseGitHubRepo(src.url);
+    if (gh) {
+      const readme = await fetchGitHubReadme(gh.owner, gh.repo);
+      if (readme.ok) {
+        const headings = extractMarkdownHeadings(readme.text);
+        const mdLinks = extractMarkdownLinks(readme.text);
+        parsed = {
+          kind: "github",
+          owner: gh.owner,
+          repo: gh.repo,
+          readmeBranch: readme.branch,
+          readmeUrl: readme.url,
+          headings,
+          links: mdLinks,
+        };
+        allLinks.push(...mdLinks);
+        // Save raw readme for audit
+        const safeId = src.id.replace(/[^a-z0-9_-]/gi, "_");
+        await fs.writeFile(path.join(RUNS_DIR, `${date}.${safeId}.README.md`), readme.text, "utf8");
+      }
+    }
+
     allLinks.push(...abs);
 
     sourcesOut.push({
@@ -185,6 +319,7 @@ async function main() {
       status,
       bytes: text.length,
       links: abs,
+      parsed,
       note: src.note,
     });
 
