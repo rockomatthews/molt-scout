@@ -23,6 +23,12 @@ const SOURCES = [
     url: "https://github.com/VoltAgent/awesome-openclaw-skills",
     note: "Skills collection repo (source of automation building blocks)",
   },
+  {
+    id: "pumpmolt",
+    kind: "web",
+    url: "https://github.com/PlaydaDev/pumpmolt",
+    note: "Trading ideas / scripts repo",
+  },
 ];
 
 function isoDate(d = new Date()) {
