@@ -17,6 +17,34 @@ const SOURCES = [
     url: "https://x.com/moondev",
     note: "May require browser session / cookies; we still snapshot the HTML fetch result.",
   },
+
+  // Ecosystem / "how it works" sources (often contain outbound links to communities)
+  {
+    id: "medium-moltbook-ai-agents",
+    kind: "web",
+    url: "https://medium.com/data-science-in-your-pocket/how-to-create-ai-agents-on-moltbook-136371863116",
+    note: "Ecosystem explainer; likely outbound links",
+  },
+  {
+    id: "time-moltbook-explainer",
+    kind: "web",
+    url: "https://time.com/7364662/moltbook-ai-reddit-agents/",
+    note: "Press coverage; likely outbound links",
+  },
+  {
+    id: "lifehacker-moltbook-explainer",
+    kind: "web",
+    url: "https://lifehacker.com/tech/moltbook-is-a-social-media-platform-for-ai-bots-to-chat-with-each-other",
+    note: "Press coverage; likely outbound links",
+  },
+  {
+    id: "theverge-openclaw-moltbot",
+    kind: "web",
+    url: "https://www.theverge.com/news/872091/openclaw-moltbot-clawdbot-ai-agent-news",
+    note: "Press coverage; likely outbound links",
+  },
+
+  // Repos / building blocks
   {
     id: "awesome-openclaw-skills",
     kind: "web",
