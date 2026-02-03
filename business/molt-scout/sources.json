@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "updatedAt": "2026-02-03T20:45:00.000Z",
+  "sources": [
+    {
+      "id": "moltbook",
+      "kind": "web",
+      "url": "https://www.moltbook.com/m"
+    },
+    {
+      "id": "x_moondev",
+      "kind": "web",
+      "url": "https://x.com/moondev",
+      "note": "May require browser session / cookies; HTML fetch is limited"
+    },
+    {
+      "id": "medium-moltbook-ai-agents",
+      "kind": "web",
+      "url": "https://medium.com/data-science-in-your-pocket/how-to-create-ai-agents-on-moltbook-136371863116",
+      "note": "Ecosystem explainer; often contains outbound links"
+    },
+    {
+      "id": "time-moltbook-explainer",
+      "kind": "web",
+      "url": "https://time.com/7364662/moltbook-ai-reddit-agents/",
+      "note": "Press coverage; often contains outbound links"
+    },
+    {
+      "id": "lifehacker-moltbook-explainer",
+      "kind": "web",
+      "url": "https://lifehacker.com/tech/moltbook-is-a-social-media-platform-for-ai-bots-to-chat-with-each-other",
+      "note": "Press coverage; often contains outbound links"
+    },
+    {
+      "id": "theverge-openclaw-moltbot",
+      "kind": "web",
+      "url": "https://www.theverge.com/news/872091/openclaw-moltbot-clawdbot-ai-agent-news",
+      "note": "Press coverage; often contains outbound links"
+    },
+    {
+      "id": "awesome-openclaw-skills",
+      "kind": "web",
+      "url": "https://github.com/VoltAgent/awesome-openclaw-skills",
+      "note": "Skills collection repo (automation building blocks)"
+    },
+    {
+      "id": "pumpmolt",
+      "kind": "web",
+      "url": "https://github.com/PlaydaDev/pumpmolt",
+      "note": "Trading ideas / scripts repo"
+    },
+    {
+      "id": "bankrbot-openclaw-skills",
+      "kind": "web",
+      "url": "https://github.com/BankrBot/openclaw-skills",
+      "note": "Additional OpenClaw skills repo"
+    }
+  ]
+}
