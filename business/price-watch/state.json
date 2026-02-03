@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "createdAt": "2026-02-03T20:57:30.000Z",
+  "alerts": {
+    "BTC>=77500": false,
+    "ETH>=2350": false,
+    "SOL>=105": false,
+    "HYPE>=38.25": false,
+    "MOLT>=0.00030": false
+  }
+}
