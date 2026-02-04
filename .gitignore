@@ -13,3 +13,14 @@ node_modules/
 # Build
 .dist/
 dist/
+
+# --- MOLT Scout generated artifacts ---
+# Keep the source-of-truth code/config in git; generated runs can be large/noisy.
+/business/molt-scout/runs/*.raw.txt
+/business/molt-scout/runs/*.README.md
+# Daily run JSON (can be large / changes constantly). Comment out if you want it tracked.
+/business/molt-scout/runs/*.json
+
+# Generated dashboard outputs (optional). Comment out if you want GitHub to reflect the latest dashboard data.
+/business/molt-scout/public/latest.json
+/business/molt-scout/public/index.html
