@@ -253,7 +253,7 @@ async function writeDashboard(latestRun) {
 </html>`;
 
   await fs.mkdir(PUBLIC_DIR, { recursive: true });
-  await fs.writeFile(path.join(PUBLIC_DIR, "index.html"), html, "utf8");
+  // index.html is a committed, static dashboard app; do not overwrite it.
   await fs.writeFile(path.join(PUBLIC_DIR, "latest.json"), JSON.stringify(latestRun, null, 2), "utf8");
 }
 
