@@ -22,7 +22,7 @@ export async function fetchTrendingCasts(limit = 20): Promise<Cast[]> {
   const res = await fetch(url, {
     headers: {
       accept: "application/json",
-      api_key: apiKey,
+      "x-api-key": apiKey,
     },
   });
   if (!res.ok) throw new Error(`neynar trending failed: ${res.status} ${await res.text()}`);

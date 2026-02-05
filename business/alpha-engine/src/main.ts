@@ -48,12 +48,14 @@ async function runOnce() {
   // Fetch input
   let casts;
   try {
-    casts = await fetchTrendingCasts(30);
+    casts = await fetchTrendingCasts(10);
   } catch (err) {
     log.warn({ err }, "neynar fetch failed; nothing to do");
     await appendLog({ kind: "error", where: "neynar", message: String((err as any)?.message || err) });
     return;
   }
+
+  log.info({ casts: casts.length }, "neynar casts fetched");
 
   // Score + candidate selection
   const candidates: Array<{ score: number; tickers: string[]; text: string; url: string }> = [];
@@ -67,6 +69,7 @@ async function runOnce() {
   }
 
   candidates.sort((a, b) => b.score - a.score);
+  log.info({ candidates: candidates.length }, "candidates after scoring");
 
   for (const cand of candidates.slice(0, 5)) {
     for (const ticker of cand.tickers.slice(0, 2)) {
