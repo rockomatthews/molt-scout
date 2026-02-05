@@ -31,6 +31,8 @@ async function runOnce() {
   if (state.day !== today) {
     state.day = today;
     state.realizedPnlUsd = 0;
+    state.goodAlertsCount = 0;
+    state.askedToGoLive = false;
   }
 
   if (cfg.mode.liveTrading && cfg.mode.dryRun) {
@@ -80,6 +82,12 @@ async function runOnce() {
 
       // Always log the alert event
       await appendLog({ kind: "alert", ticker, score: cand.score, url: cand.url, text: cand.text.slice(0, 280) });
+
+      // Count "good" alerts during dry-run (simple heuristic: strong score)
+      if ((cfg.mode.dryRun || !cfg.mode.liveTrading) && cand.score >= 75) {
+        state.goodAlertsCount = (state.goodAlertsCount || 0) + 1;
+        await appendLog({ kind: "good_alert", ticker, score: cand.score, url: cand.url });
+      }
 
       // Trading path (disabled until creds + liveTrading)
       const dryRun = cfg.mode.dryRun || !cfg.mode.liveTrading;

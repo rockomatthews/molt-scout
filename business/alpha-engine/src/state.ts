@@ -4,9 +4,13 @@ import path from "node:path";
 export type State = {
   version: 1;
   lastAlertByTicker: Record<string, string>; // ISO timestamp
-  day: string; // YYYY-MM-DD (local-ish)
+  day: string; // YYYY-MM-DD
   realizedPnlUsd: number;
   totalExposureUsd: number;
+
+  // Dry-run validation tracking
+  goodAlertsCount: number;
+  askedToGoLive: boolean;
 };
 
 export async function loadState(rootDir: string): Promise<State> {
@@ -21,6 +25,8 @@ export async function loadState(rootDir: string): Promise<State> {
       day: new Date().toISOString().slice(0, 10),
       realizedPnlUsd: 0,
       totalExposureUsd: 0,
+      goodAlertsCount: 0,
+      askedToGoLive: false,
     };
   }
 }
