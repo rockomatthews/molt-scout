@@ -1,0 +1,28 @@
+{
+  "mode": {
+    "dryRun": true,
+    "liveTrading": false
+  },
+  "risk": {
+    "usdPerTrade": 10,
+    "maxTotalExposureUsd": 120,
+    "maxDailyLossUsd": 50
+  },
+  "sources": {
+    "farcaster": {
+      "enabled": true,
+      "channels": ["base"],
+      "watchAccounts": []
+    }
+  },
+  "execution": {
+    "venues": {
+      "cex": { "enabled": true, "name": "hyperliquid" },
+      "onchain": { "enabled": true, "chain": "base" }
+    }
+  },
+  "alerts": {
+    "minScoreToAlert": 60,
+    "cooldownMinutesPerTicker": 30
+  }
+}
