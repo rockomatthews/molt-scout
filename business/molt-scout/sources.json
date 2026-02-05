@@ -54,6 +54,18 @@
       "kind": "web",
       "url": "https://github.com/BankrBot/openclaw-skills",
       "note": "Additional OpenClaw skills repo"
+    },
+    {
+      "id": "walletxyz-pulse",
+      "kind": "web",
+      "url": "https://wallet.xyz/pulse",
+      "note": "Potential source of high-signal wallet activity / trends"
+    },
+    {
+      "id": "zerion-api",
+      "kind": "web",
+      "url": "https://www.zerion.io/api",
+      "note": "Zerion API docs (portfolio + onchain activity feed)"
     }
   ]
 }
