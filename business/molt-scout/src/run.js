@@ -254,7 +254,13 @@ async function writeDashboard(latestRun) {
 
   await fs.mkdir(PUBLIC_DIR, { recursive: true });
   // index.html is a committed, static dashboard app; do not overwrite it.
-  await fs.writeFile(path.join(PUBLIC_DIR, "latest.json"), JSON.stringify(latestRun, null, 2), "utf8");
+  const latestJson = JSON.stringify(latestRun, null, 2);
+  await fs.writeFile(path.join(PUBLIC_DIR, "latest.json"), latestJson, "utf8");
+
+  // Write a JS wrapper so the dashboard works even when opened via file://
+  // (fetch() is often blocked for local files).
+  const latestJs = `window.__MOLT_SCOUT_LATEST__ = ${latestJson};\n`;
+  await fs.writeFile(path.join(PUBLIC_DIR, "latest.js"), latestJs, "utf8");
 }
 
 function scoreLink(u) {
