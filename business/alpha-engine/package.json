@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/main.ts",
-    "run": "node --no-warnings=ExperimentalWarning --loader tsx src/main.ts"
+    "run": "node --no-warnings=ExperimentalWarning --loader tsx src/main.ts",
+    "webhooks": "tsx src/webhook_server.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
