@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx src/main.ts",
     "run": "node --no-warnings=ExperimentalWarning --loader tsx src/main.ts",
-    "webhooks": "tsx src/webhook_server.ts"
+    "webhooks": "tsx src/webhook_server.ts",
+    "pulse": "tsx -e \"import {getPulseTokenTransactions} from './src/pulse'; getPulseTokenTransactions({}).then(r=>console.log(JSON.stringify(r,null,2))).catch(e=>{console.error(e); process.exit(1);});\""
   },
   "dependencies": {
     "dotenv": "^16.4.5",
