@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '../../../lib/supabase';
+import { verifyZerionSignature } from '../../../lib/zerion_signature';
 
 export const runtime = 'nodejs';
 
@@ -16,7 +17,22 @@ export async function POST(req: Request) {
     body = { _raw: raw.slice(0, 20000) };
   }
 
-  // TODO: Verify webhook signature if/when Zerion provides one.
+  // Zerion signature verification (per docs):
+  // message = X-Timestamp + "\n" + request.body + "\n"
+  // verify X-Signature using certificate at X-Certificate-URL
+  if (process.env.ZERION_VERIFY_SIGNATURE === 'true') {
+    const sig = req.headers.get('x-signature');
+    const ts = req.headers.get('x-timestamp');
+    const certUrl = req.headers.get('x-certificate-url');
+    if (!sig || !ts || !certUrl) {
+      return NextResponse.json({ ok: false, error: 'missing signature headers' }, { status: 401 });
+    }
+
+    const ok = await verifyZerionSignature({ signatureB64: sig, timestamp: ts, certUrl, rawBody: raw });
+    if (!ok) {
+      return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 });
+    }
+  }
 
   const supabase = getSupabaseAdmin();
 
