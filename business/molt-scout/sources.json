@@ -66,6 +66,18 @@
       "kind": "web",
       "url": "https://www.zerion.io/api",
       "note": "Zerion API docs (portfolio + onchain activity feed)"
+    },
+    {
+      "id": "singularityhacker-bank-skills",
+      "kind": "web",
+      "url": "https://github.com/singularityhacker/bank-skills",
+      "note": "Wise API banking skill pack (ops: balances / payouts). Not for arb edge, but useful for profit extraction + accounting later."
+    },
+    {
+      "id": "skills-sh-bank-skill",
+      "kind": "web",
+      "url": "https://skills.sh/singularityhacker/bank-skills/bank-skill",
+      "note": "Skill page mirror for bank-skills (Wise API)"
     }
   ]
 }
