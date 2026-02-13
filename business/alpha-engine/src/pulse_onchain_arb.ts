@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getPulseTokenTransactions } from './pulse.js';
-import { fetchPairInfo, quoteFromReserves, fmt } from './onchain_pools.js';
+import { fetchPairInfo, quoteFromReserves, fmt, baseClient, tryPairGetAmountOut } from './onchain_pools.js';
 
 const BASE_CHAIN_ID = '8453';
 const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
@@ -107,25 +107,30 @@ async function main() {
         continue;
       }
 
-      if (info.stable) continue; // skip stable curve pools for now
-
       const token0 = info.token0;
       const token1 = info.token1;
       const tokenAddr = ev.tokenAddress as any;
 
-      const out = quoteFromReserves({
-        amountInFloat: quoteUsdc,
-        amountInDecimals: USDC_DECIMALS,
-        tokenIn: USDC_BASE as any,
-        tokenOut: tokenAddr,
-        token0,
-        token1,
-        reserve0: info.reserve0,
-        reserve1: info.reserve1,
-        feeBps: 30,
-      });
+      // First try Solidly-style onchain quote (supports stable pools)
+      const amountIn = BigInt(Math.round(quoteUsdc * 10 ** USDC_DECIMALS));
+      let out = await tryPairGetAmountOut({ pairAddress: pairAddress as any, amountIn, tokenIn: USDC_BASE as any });
 
-      if (out === null) continue;
+      // Fallback: use reserves math for volatile pools
+      if (out === null) {
+        const out2 = quoteFromReserves({
+          amountInFloat: quoteUsdc,
+          amountInDecimals: USDC_DECIMALS,
+          tokenIn: USDC_BASE as any,
+          tokenOut: tokenAddr,
+          token0,
+          token1,
+          reserve0: info.reserve0,
+          reserve1: info.reserve1,
+          feeBps: 30,
+        });
+        if (out2 === null) continue;
+        out = out2;
+      }
 
       // token decimals: try from dexscreener baseToken.decimals
       const tokenDecimals = num(p?.baseToken?.address?.toLowerCase() === tokenAddr.toLowerCase() ? p?.baseToken?.decimals : p?.quoteToken?.decimals) ?? 18;

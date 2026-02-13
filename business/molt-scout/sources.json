@@ -90,6 +90,12 @@
       "kind": "web",
       "url": "https://botcoin.farm",
       "note": "Botcoin base URL + APIs (/api/hunts, /api/ticker, /api/transactions)."
+    },
+    {
+      "id": "cnxluc-token-analysis-skill",
+      "kind": "web",
+      "url": "https://github.com/CnxLuc/token-analysis-skill",
+      "note": "Farcaster-related early token discovery/training strategy; evaluate for signal extraction into arb pipeline."
     }
   ]
 }

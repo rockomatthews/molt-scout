@@ -44,6 +44,17 @@ export const PairAbi = [
     inputs: [],
     outputs: [{ name: '', type: 'bool' }],
   },
+  {
+    // Solidly-style quoting (works for both stable/volatile pools that implement it)
+    type: 'function',
+    name: 'getAmountOut',
+    stateMutability: 'view',
+    inputs: [
+      { name: 'amountIn', type: 'uint256' },
+      { name: 'tokenIn', type: 'address' },
+    ],
+    outputs: [{ name: 'amountOut', type: 'uint256' }],
+  },
 ] as const;
 
 export function getAmountOutVolatile(amountIn: bigint, reserveIn: bigint, reserveOut: bigint, feeBps: bigint) {
@@ -62,14 +73,36 @@ export async function fetchPairInfo(pairAddress: `0x${string}`) {
     baseClient.readContract({ address: pairAddress, abi: PairAbi, functionName: 'token1' }),
     baseClient.readContract({ address: pairAddress, abi: PairAbi, functionName: 'getReserves' }),
     // stable() not present on all pools; handle failures
-    baseClient
-      .readContract({ address: pairAddress, abi: PairAbi, functionName: 'stable' })
-      .catch(() => false as any),
+    baseClient.readContract({ address: pairAddress, abi: PairAbi, functionName: 'stable' }).catch(() => false as any),
   ]);
 
   const reserve0 = BigInt((reserves as any)[0]);
   const reserve1 = BigInt((reserves as any)[1]);
-  return { token0: token0 as `0x${string}`, token1: token1 as `0x${string}`, reserve0, reserve1, stable: Boolean(stable) };
+  return {
+    token0: token0 as `0x${string}`,
+    token1: token1 as `0x${string}`,
+    reserve0,
+    reserve1,
+    stable: Boolean(stable),
+  };
+}
+
+export async function tryPairGetAmountOut(opts: {
+  pairAddress: `0x${string}`;
+  amountIn: bigint;
+  tokenIn: `0x${string}`;
+}): Promise<bigint | null> {
+  try {
+    const out = await baseClient.readContract({
+      address: opts.pairAddress,
+      abi: PairAbi,
+      functionName: 'getAmountOut',
+      args: [opts.amountIn, opts.tokenIn],
+    });
+    return BigInt(out as any);
+  } catch {
+    return null;
+  }
 }
 
 export function quoteFromReserves(opts: {
