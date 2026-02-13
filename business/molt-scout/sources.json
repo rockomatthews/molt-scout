@@ -78,6 +78,18 @@
       "kind": "web",
       "url": "https://skills.sh/singularityhacker/bank-skills/bank-skill",
       "note": "Skill page mirror for bank-skills (Wise API)"
+    },
+    {
+      "id": "clawhub-botcoin",
+      "kind": "web",
+      "url": "https://clawhub.ai/adamkristopher/botcoin",
+      "note": "Botcoin mining/trading skill (research puzzle 'hunts' -> earn BOTC shares). Likely a side-income stream; not directly our arb engine."
+    },
+    {
+      "id": "botcoin-farm",
+      "kind": "web",
+      "url": "https://botcoin.farm",
+      "note": "Botcoin base URL + APIs (/api/hunts, /api/ticker, /api/transactions)."
     }
   ]
 }
