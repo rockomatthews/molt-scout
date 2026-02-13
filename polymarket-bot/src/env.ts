@@ -22,6 +22,12 @@ const EnvSchema = z.object({
   MAX_USD_PER_TRADE: z.coerce.number().positive().default(25),
 
   EDGE_REQUIRED: z.coerce.number().min(0).default(0.01),
+  // Conservative buffers (for DRY_RUN signals)
+  FEE_BPS: z.coerce.number().min(0).default(50), // assume 0.50% total friction unless proven otherwise
+  MIN_PROFIT_USD: z.coerce.number().min(0).default(0.25),
+  MIN_SIZE_SHARES: z.coerce.number().int().min(1).default(5),
+  MARKET_COUNT: z.coerce.number().int().min(1).max(50).default(12),
+
   POLL_MS: z.coerce.number().int().min(250).default(1500),
 
   MARKET_SLUGS: z

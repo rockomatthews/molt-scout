@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx src/bot.ts",
     "keys": "tsx src/keys.ts",
-    "check": "tsx src/check.ts"
+    "check": "tsx src/check.ts",
+    "scan:boxarb": "tsx src/box_arb_scan.ts"
   },
   "dependencies": {
     "@polymarket/clob-client": "^2.0.0",
