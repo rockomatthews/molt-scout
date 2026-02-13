@@ -10,7 +10,8 @@
     "pulse": "tsx -e \"import {getPulseTokenTransactions} from './src/pulse'; getPulseTokenTransactions({}).then(r=>console.log(JSON.stringify(r,null,2))).catch(e=>{console.error(e); process.exit(1);});\"",
     "pulse:arb": "tsx src/pulse_arb.ts",
     "pulse:quotes": "tsx src/quote_compare.ts",
-    "pulse:onchain": "tsx src/pulse_onchain_arb.ts"
+    "pulse:onchain": "tsx src/pulse_onchain_arb.ts",
+    "hl:scan": "tsx src/hl/scan.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
