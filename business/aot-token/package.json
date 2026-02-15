@@ -1,0 +1,12 @@
+{
+  "name": "aot-token",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy:base": "node scripts/deploy_base.js"
+  },
+  "dependencies": {
+    "solc": "^0.8.30",
+    "viem": "^2.37.2"
+  }
+}
