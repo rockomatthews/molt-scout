@@ -66,6 +66,9 @@ export default function Page() {
               <Button href="#pricing" variant="text" color="inherit">
                 Pricing
               </Button>
+              <Button href="/token" variant="text" color="inherit">
+                Token Gate
+              </Button>
               <Button href="#buy" variant="contained">
                 Subscribe
               </Button>

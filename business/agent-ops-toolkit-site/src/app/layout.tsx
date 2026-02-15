@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
+import WalletProviders from "./wallet-providers";
 
 export const metadata: Metadata = {
   title: "Agent Ops Toolkit — Reliable agents, lower spend",
@@ -19,7 +20,7 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <WalletProviders>{children}</WalletProviders>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
