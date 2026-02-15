@@ -23,3 +23,4 @@ dist/
 
 # Generated dashboard outputs (optional). Comment out if you want GitHub to reflect the latest dashboard data.
 /business/molt-scout/public/latest.json
+.firecrawl/
