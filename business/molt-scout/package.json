@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "run": "node src/run.js"
+    "run": "node src/run.js",
+    "moltbook:scrape": "bash src/moltbook_scan.sh"
   }
 }
