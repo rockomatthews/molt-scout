@@ -77,11 +77,11 @@ export default function Page() {
       <Container sx={{ py: 8 }}>
         <Stack spacing={2} sx={{ maxWidth: 900 }}>
           <Typography variant="h2" fontWeight={900}>
-            Run agents like production software.
+            OpenClaw agents that don’t miss events.
           </Typography>
           <Typography variant="h5" sx={{ opacity: 0.85 }}>
-            Webhooks, retries, queues, budgets, and observability templates so your agent never misses an event and
-            never blows your spend.
+            Production-grade webhooks, retries, queues, budgets, and observability templates for Molt/OpenClaw builders.
+            Keep your agent reliable — and keep your spend capped.
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }} id="buy">
             <Button size="large" variant="contained" href="/subscribe">
@@ -92,7 +92,7 @@ export default function Page() {
             </Button>
           </Stack>
           <Typography sx={{ opacity: 0.7, pt: 1 }}>
-            Designed for OpenClaw / Next.js / serverless. Deterministic-first. Cost-aware.
+            Built for OpenClaw / Molt builders. Webhook-native. Deterministic-first. Cost-aware.
           </Typography>
         </Stack>
 
