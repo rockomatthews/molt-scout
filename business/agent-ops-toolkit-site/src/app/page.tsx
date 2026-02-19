@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import ReviewsWidget from "./reviews-widget";
 
 const tiers = [
   {
@@ -45,6 +46,14 @@ const tiers = [
     ],
   },
 ];
+
+function ReviewsBlock() {
+  return (
+    <Box sx={{ maxWidth: 1100 }}>
+      <ReviewsWidget />
+    </Box>
+  );
+}
 
 export default function Page() {
   return (
@@ -85,25 +94,31 @@ export default function Page() {
       </Box>
 
       <Container sx={{ py: 8 }}>
-        <Stack spacing={2} sx={{ maxWidth: 900 }}>
-          <Typography variant="h2" fontWeight={900}>
-            OpenClaw agents that don’t miss events.
-          </Typography>
-          <Typography variant="h5" sx={{ opacity: 0.85 }}>
-            Production-grade webhooks, retries, queues, budgets, and observability templates for Molt/OpenClaw builders.
-            Keep your agent reliable — and keep your spend capped.
-          </Typography>
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }} id="buy">
-            <Button size="large" variant="contained" href="/subscribe">
-              Subscribe / Buy
-            </Button>
-            <Button size="large" variant="outlined" href="#features">
-              See what’s inside
-            </Button>
+        <Stack spacing={3}>
+          <Stack spacing={2} sx={{ maxWidth: 900 }}>
+            <Typography variant="h2" fontWeight={900}>
+              OpenClaw agents that don’t miss events.
+            </Typography>
+            <Typography variant="h5" sx={{ opacity: 0.85 }}>
+              Production-grade webhooks, retries, queues, budgets, and observability templates for Molt/OpenClaw builders.
+              Keep your agent reliable — and keep your spend capped.
+            </Typography>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }} id="buy">
+              <Button size="large" variant="contained" href="/subscribe">
+                Subscribe / Buy
+              </Button>
+              <Button size="large" variant="outlined" href="#features">
+                See what’s inside
+              </Button>
+            </Stack>
+            <Typography sx={{ opacity: 0.7, pt: 1 }}>
+              Built for OpenClaw / Molt builders. Webhook-native. Deterministic-first. Cost-aware.
+            </Typography>
           </Stack>
-          <Typography sx={{ opacity: 0.7, pt: 1 }}>
-            Built for OpenClaw / Molt builders. Webhook-native. Deterministic-first. Cost-aware.
-          </Typography>
+
+          {/* Above-the-fold reviews */}
+          {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
+          <ReviewsBlock />
         </Stack>
 
         <Divider sx={{ my: 6 }} />
