@@ -133,8 +133,8 @@ export default function TokenPage() {
                     Next: we’ll put the Pro downloads here (templates, runbooks, installers).
                   </Typography>
                   <Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={{ mt: 2 }}>
-                    <Button variant="contained" disabled>
-                      Download Pro Pack (next)
+                    <Button variant="contained" href="/pro-pack/AOT-Pro-Pack-v0.1.zip">
+                      Download Pro Pack
                     </Button>
                     <Button href="/" variant="outlined">
                       Back
