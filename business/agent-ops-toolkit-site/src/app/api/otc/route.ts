@@ -61,8 +61,32 @@ export async function POST(req: Request) {
   // USDC has 6 decimals
   const usdc = Number(value) / 1e6;
 
-  // Log for manual processing (Vercel logs)
-  console.log(JSON.stringify({ kind: "otc_request", wallet, txHash, usdc, at: new Date().toISOString() }));
+  // Persist for fulfillment
+  try {
+    const { getSupabaseServiceClient } = await import("../../supabase_server");
+    const supabase = getSupabaseServiceClient();
 
-  return ok(`Verified: received ${usdc.toFixed(2)} USDC. Logged for manual AOT delivery.`);
+    const { error } = await supabase.from("otc_requests").insert({
+      chain_id: 8453,
+      payer_wallet: hit.args.from,
+      receiver_wallet: wallet,
+      usdc_amount: usdc,
+      usdc_tx_hash: txHash,
+      status: "pending",
+    });
+
+    if (error) {
+      console.error("supabase insert error", error);
+      // fallback to logs so we don't lose it
+      console.log(JSON.stringify({ kind: "otc_request", wallet, txHash, usdc, at: new Date().toISOString() }));
+      return ok(
+        `Verified: received ${usdc.toFixed(2)} USDC. Saved fallback log (DB not configured). We will deliver manually.`,
+      );
+    }
+
+    return ok(`Verified: received ${usdc.toFixed(2)} USDC. Saved. Delivery will be processed shortly.`);
+  } catch (e: any) {
+    console.log(JSON.stringify({ kind: "otc_request", wallet, txHash, usdc, at: new Date().toISOString() }));
+    return ok(`Verified: received ${usdc.toFixed(2)} USDC. Logged for manual AOT delivery.`);
+  }
 }
