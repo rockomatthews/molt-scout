@@ -69,6 +69,9 @@ export default function Page() {
               <Button href="/token" variant="text" color="inherit">
                 Token Gate
               </Button>
+              <Button href="/otc" variant="text" color="inherit">
+                Get AOT (OTC)
+              </Button>
               <Button href="#buy" variant="contained">
                 Subscribe
               </Button>
