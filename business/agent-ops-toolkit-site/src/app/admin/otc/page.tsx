@@ -49,7 +49,20 @@ function short(s: string, n = 6) {
   return `${s.slice(0, n)}…${s.slice(-n)}`;
 }
 
-export default async function AdminOtcPage() {
+export default async function AdminOtcPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = (await searchParams) ?? {};
+  const supplied = Array.isArray(sp.key) ? sp.key[0] : sp.key;
+  const want = process.env.ADMIN_PASSWORD;
+
+  if (!want || !supplied || supplied !== want) {
+    const { default: AdminLogin } = await import("../admin-login");
+    return <AdminLogin nextPath="/admin/otc" />;
+  }
+
   const rows = await fetchRows();
   const pending = rows.filter((r) => r.status === "pending");
   const fulfilled = rows.filter((r) => r.status === "fulfilled");
