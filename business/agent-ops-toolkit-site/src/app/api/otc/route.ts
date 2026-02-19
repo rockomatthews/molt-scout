@@ -30,7 +30,13 @@ function bad(text: string) {
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   const wallet = String(body?.wallet ?? "").trim();
-  const txHash = String(body?.txHash ?? "").trim();
+  let txHash = String(body?.txHash ?? "").trim();
+
+  // Allow BaseScan URL paste
+  if (txHash.includes("basescan.org/tx/")) {
+    const m = txHash.match(/basescan\.org\/tx\/(0x[a-fA-F0-9]{64})/);
+    if (m) txHash = m[1];
+  }
 
   if (!wallet || !isAddress(wallet)) return bad("Invalid wallet address");
   if (!txHash.startsWith("0x") || txHash.length !== 66) return bad("Invalid tx hash");

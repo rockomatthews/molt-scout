@@ -92,11 +92,14 @@ export default function OtcPage() {
             placeholder="0x…"
           />
           <TextField
-            label="USDC transfer tx hash"
+            label="Payment link (BaseScan) or transaction ID"
             value={txHash}
             onChange={(e) => setTxHash(e.target.value)}
-            placeholder="0x…"
+            placeholder="Paste the BaseScan link from MetaMask Activity → View on explorer (or paste the 0x… tx id)"
           />
+          <Typography sx={{ opacity: 0.7, fontSize: 13 }}>
+            Where to find it: MetaMask → Activity → click the USDC send → View on explorer → copy the link.
+          </Typography>
           <Box>
             <Button variant="contained" onClick={submit}>
               Submit
