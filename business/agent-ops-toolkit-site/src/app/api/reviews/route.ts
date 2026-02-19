@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "node:crypto";
 
 export const dynamic = "force-dynamic";
 
@@ -33,14 +34,41 @@ export async function GET() {
   return okJson({ reviews: data ?? [], avg, count });
 }
 
+function getClientIp(req: Request): string {
+  // Vercel/Proxies
+  const xf = req.headers.get("x-forwarded-for");
+  if (xf) return xf.split(",")[0].trim();
+  const xr = req.headers.get("x-real-ip");
+  if (xr) return xr.trim();
+  return "unknown";
+}
+
+function hashIp(ip: string) {
+  const salt = process.env.REVIEW_IP_SALT || "";
+  return crypto.createHash("sha256").update(`${salt}:${ip}`).digest("hex");
+}
+
+function looksSpammy(comment: string) {
+  const low = comment.toLowerCase();
+  // Basic link spam filter
+  if (low.includes("http://") || low.includes("https://") || low.includes("www.")) return true;
+  // Excessive repeated chars
+  if (/(.)\1{8,}/.test(comment)) return true;
+  return false;
+}
+
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   const rating = Number(body?.rating);
   const comment = String(body?.comment ?? "").trim();
+  const honey = String(body?.website ?? "").trim(); // honeypot field
+
+  if (honey) return badJson("spam");
 
   if (!Number.isFinite(rating) || rating < 1 || rating > 5) return badJson("rating must be 1-5");
   if (!comment || comment.length < 3) return badJson("comment too short");
   if (comment.length > 1000) return badJson("comment too long");
+  if (looksSpammy(comment)) return badJson("links/repeated spam not allowed");
 
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -49,7 +77,21 @@ export async function POST(req: Request) {
   const { getSupabaseServiceClient } = await import("../../supabase_server");
   const supabase = getSupabaseServiceClient();
 
-  const { error } = await supabase.from("reviews").insert({ rating, comment });
+  const ip = getClientIp(req);
+  const ip_hash = hashIp(ip);
+
+  // Rate limit: 1 review per 24h per IP hash
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const { data: recent } = await supabase
+    .from("reviews")
+    .select("id, created_at")
+    .eq("ip_hash", ip_hash)
+    .gte("created_at", since)
+    .limit(1);
+
+  if (recent && recent.length) return badJson("rate limited (try again tomorrow)");
+
+  const { error } = await supabase.from("reviews").insert({ rating, comment, ip_hash });
   if (error) return badJson("failed to save review");
 
   return okJson({ ok: true });

@@ -33,6 +33,7 @@ export default function ReviewsWidget() {
   const [rating, setRating] = React.useState<number | null>(5);
   const [comment, setComment] = React.useState("");
   const [submitStatus, setSubmitStatus] = React.useState<string | null>(null);
+  const [website, setWebsite] = React.useState(""); // honeypot
 
   async function load() {
     setLoading(true);
@@ -56,7 +57,7 @@ export default function ReviewsWidget() {
     const res = await fetch("/api/reviews", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ rating, comment }),
+      body: JSON.stringify({ rating, comment, website }),
     });
     const j = await res.json().catch(() => ({}));
     if (!res.ok) {
@@ -112,13 +113,22 @@ export default function ReviewsWidget() {
               <Typography sx={{ opacity: 0.8, mb: 0.5 }}>Star rating</Typography>
               <Rating value={rating} onChange={(_, v) => setRating(v)} />
             </Box>
+            {/* Honeypot field (hidden). Bots often fill it. */}
+            <input
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              style={{ position: "absolute", left: -10000, top: -10000, height: 0, width: 0, opacity: 0 }}
+            />
+
             <TextField
               label="Comment"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               multiline
               minRows={3}
-              placeholder="What did Agent Ops Toolkit help you ship/fix?"
+              placeholder="What did Agent Ops Toolkit help you ship/fix? (no links)"
             />
             {submitStatus && <Typography sx={{ opacity: 0.75 }}>{submitStatus}</Typography>}
           </Stack>
