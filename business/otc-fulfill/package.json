@@ -1,0 +1,9 @@
+{
+  "name": "otc-fulfill",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "viem": "^2.46.0"
+  }
+}
