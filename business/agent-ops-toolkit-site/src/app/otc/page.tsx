@@ -22,18 +22,17 @@ const tiers = [
 
 export default function OtcPage() {
   const [wallet, setWallet] = React.useState("");
-  const [txHash, setTxHash] = React.useState("");
   const [status, setStatus] = React.useState<string | null>(null);
 
   async function submit() {
-    setStatus("Submitting…");
-    const res = await fetch("/api/otc", {
+    setStatus("Checking payments…");
+    const res = await fetch("/api/otc/claim", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ wallet, txHash }),
+      body: JSON.stringify({ wallet }),
     });
     const text = await res.text();
-    setStatus(text);
+    setStatus(res.ok ? text : `Error: ${text}`);
   }
 
   return (
@@ -43,7 +42,7 @@ export default function OtcPage() {
           OTC: Buy AOT with USDC (Base)
         </Typography>
         <Typography sx={{ opacity: 0.8 }}>
-          Send USDC on Base to the address below, then submit your tx hash and the wallet that should receive AOT.
+          Send USDC on Base to the address below, then paste your wallet address. We’ll automatically find your payment.
         </Typography>
 
         <Card variant="outlined">
@@ -86,19 +85,13 @@ export default function OtcPage() {
 
         <Stack spacing={1.5}>
           <TextField
-            label="Receiving wallet address (Base)"
+            label="Your wallet address (Base)"
             value={wallet}
             onChange={(e) => setWallet(e.target.value)}
             placeholder="0x…"
           />
-          <TextField
-            label="Payment link (BaseScan) or transaction ID"
-            value={txHash}
-            onChange={(e) => setTxHash(e.target.value)}
-            placeholder="Paste the BaseScan link from MetaMask Activity → View on explorer (or paste the 0x… tx id)"
-          />
           <Typography sx={{ opacity: 0.7, fontSize: 13 }}>
-            Where to find it: MetaMask → Activity → click the USDC send → View on explorer → copy the link.
+            After you send USDC, come back here and click Submit. We’ll scan recent USDC transfers to confirm.
           </Typography>
           <Box>
             <Button variant="contained" onClick={submit}>
