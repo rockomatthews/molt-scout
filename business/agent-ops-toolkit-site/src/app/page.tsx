@@ -61,7 +61,11 @@ export default function Page() {
       >
         <Container sx={{ py: 2 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography fontWeight={800}>Agent Ops Toolkit</Typography>
+            <Stack direction="row" spacing={1.25} alignItems="center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/logo-512.jpg" alt="Agent Ops Toolkit" width={34} height={34} style={{ borderRadius: 8 }} />
+              <Typography fontWeight={900}>Agent Ops Toolkit</Typography>
+            </Stack>
             <Stack direction="row" spacing={1}>
               <Button href="#pricing" variant="text" color="inherit">
                 Pricing
