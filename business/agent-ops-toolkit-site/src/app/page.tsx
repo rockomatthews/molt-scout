@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import ReviewsWidget from "./reviews-widget";
+import RadarTicker from "./components/RadarTicker";
 
 const tiers = [
   {
@@ -94,6 +95,8 @@ export default function Page() {
           </Stack>
         </Container>
       </Box>
+
+      <RadarTicker />
 
       <Container sx={{ py: 8 }}>
         <Stack spacing={3}>
