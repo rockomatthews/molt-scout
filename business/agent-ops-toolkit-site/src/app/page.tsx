@@ -72,7 +72,7 @@ export default function Page() {
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Stack direction="row" spacing={1.25} alignItems="center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/header-logo.jpg" alt="Agent Toolkit" width={52} height={52} style={{ display: "block" }} />
+              <img src="/brand/header-logo.png" alt="Agent Toolkit" width={72} height={72} style={{ display: "block" }} />
               <Typography fontWeight={900}>Agent Toolkit</Typography>
             </Stack>
             <Stack direction="row" spacing={1} sx={{ display: { xs: "none", sm: "flex" } }}>
