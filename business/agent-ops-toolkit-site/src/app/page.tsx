@@ -73,20 +73,19 @@ export default function Page() {
             <Stack direction="row" spacing={1.25} alignItems="center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/brand/logo-512.jpg" alt="Agent Ops Toolkit" width={34} height={34} style={{ borderRadius: 8 }} />
-              <Typography fontWeight={900}>Agent Ops Toolkit</Typography>
+              <Typography fontWeight={900}>Agent Toolkit</Typography>
             </Stack>
-            <Stack direction="row" spacing={1}>
-              <Button href="#pricing" variant="text" color="inherit">
-                Pricing
-              </Button>
-              <Button href="/token" variant="text" color="inherit">
-                Token Gate
-              </Button>
+            <Stack direction="row" spacing={1} sx={{ display: { xs: "none", sm: "flex" } }}>
               <Button href="/waitlist" variant="text" color="inherit">
                 Waitlist
               </Button>
               <Button href="#buy" variant="contained">
                 Subscribe
+              </Button>
+            </Stack>
+            <Stack direction="row" spacing={1} sx={{ display: { xs: "flex", sm: "none" } }}>
+              <Button href="/waitlist" variant="outlined" size="small">
+                Waitlist
               </Button>
             </Stack>
           </Stack>
@@ -97,17 +96,17 @@ export default function Page() {
         <Stack spacing={3}>
           <Stack spacing={2} sx={{ maxWidth: 900 }}>
             <Typography variant="h2" fontWeight={900}>
-              OpenClaw agents that don’t miss events.
+              Agents that don’t miss events.
             </Typography>
             <Typography variant="h5" sx={{ opacity: 0.85 }}>
               Production-grade webhooks, retries, queues, budgets, and observability templates for Molt/OpenClaw builders.
               Keep your agent reliable — and keep your spend capped.
             </Typography>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }} id="buy">
-              <Button size="large" variant="contained" href="/subscribe">
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2, width: "fit-content" }} id="buy">
+              <Button size="large" variant="contained" href="/subscribe" fullWidth>
                 Subscribe / Buy
               </Button>
-              <Button size="large" variant="outlined" href="#features">
+              <Button size="large" variant="outlined" href="#features" fullWidth>
                 See what’s inside
               </Button>
             </Stack>
