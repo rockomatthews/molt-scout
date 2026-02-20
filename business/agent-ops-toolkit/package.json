@@ -1,0 +1,11 @@
+{
+  "name": "agent-ops-toolkit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clawn:update": "node scripts/update_clawn_radar.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
+  }
+}
