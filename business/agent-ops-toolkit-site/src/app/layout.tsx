@@ -7,16 +7,16 @@ import WalletProviders from "./wallet-providers";
 export const metadata: Metadata = {
   metadataBase: new URL("https://agenttoolkit.xyz"),
   title: {
-    default: "Agent Ops Toolkit",
-    template: "%s — Agent Ops Toolkit",
+    default: "Agent Toolkit",
+    template: "%s — Agent Toolkit",
   },
   description:
     "Production-grade webhooks, retries, queues, budgets, and observability templates for OpenClaw/Molt agent builders.",
   openGraph: {
     type: "website",
     url: "https://agenttoolkit.xyz",
-    siteName: "Agent Ops Toolkit",
-    title: "Agent Ops Toolkit",
+    siteName: "Agent Toolkit",
+    title: "Agent Toolkit",
     description:
       "Run OpenClaw agents like production software. Webhook-native reliability + spend caps + observability.",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: "/brand/og-1200x630.jpg",
         width: 1200,
         height: 630,
-        alt: "Agent Ops Toolkit",
+        alt: "Agent Toolkit",
       },
     ],
   },
