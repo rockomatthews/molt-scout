@@ -1,12 +1,18 @@
 import { http, createConfig } from "wagmi";
 import { base } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
+import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
 
-// Minimal config: injected wallets only (MetaMask/Coinbase Extension/etc.).
-// We can add WalletConnect later once we have a projectId.
+const wcProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
+
 export const wagmiConfig = createConfig({
   chains: [base],
-  connectors: [injected()],
+  connectors: [
+    injected(),
+    // Coinbase Wallet (mobile + extension)
+    coinbaseWallet({ appName: "Agent Toolkit" }),
+    // WalletConnect is required for many mobile wallets
+    ...(wcProjectId ? [walletConnect({ projectId: wcProjectId, showQrModal: true })] : []),
+  ],
   transports: {
     [base.id]: http(),
   },
