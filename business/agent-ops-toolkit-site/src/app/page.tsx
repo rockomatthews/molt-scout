@@ -79,6 +79,9 @@ export default function Page() {
               <Button href="/waitlist" variant="text" color="inherit">
                 Waitlist
               </Button>
+              <Button href="/products/revenue-ops" variant="text" color="inherit">
+                Products
+              </Button>
               <Button href="#buy" variant="contained">
                 Subscribe
               </Button>
