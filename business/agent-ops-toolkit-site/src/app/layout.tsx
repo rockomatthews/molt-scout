@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       "Run OpenClaw agents like production software. Webhook-native reliability + spend caps + observability.",
     images: [
       {
-        url: "/brand/og-1200x630.jpg",
+        url: "/brand/og-1200x630.png",
         width: 1200,
         height: 630,
         alt: "Agent Toolkit",
@@ -30,10 +30,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agent Ops Toolkit",
+    title: "Agent Toolkit",
     description:
       "Webhook-native reliability + spend caps + observability for OpenClaw/Molt agents.",
-    images: ["/brand/og-1200x630.jpg"],
+    images: ["/brand/og-1200x630.png"],
   },
   icons: {
     icon: [{ url: "/brand/favicon-64.png" }],
