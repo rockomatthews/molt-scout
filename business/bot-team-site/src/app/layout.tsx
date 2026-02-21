@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://the-bot-team.vercel.app";
-const OG_IMAGE = "/og.png";
+const OG_IMAGE = "/og-1200x630.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
