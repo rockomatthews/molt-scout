@@ -30,13 +30,18 @@ export default function Home() {
               <br />• Minimal LLM spend; deterministic first
             </div>
             <div style={{ marginTop: 10 }}>
+              Pages:
+              <br />• <a className={styles.link} href="/team">/team</a>
+              <br />• <a className={styles.link} href="/this-week">/this-week</a>
+            </div>
+            <div style={{ marginTop: 10 }}>
               Repo: <a className={styles.link} href="https://github.com/rockomatthews/molt-scout">rockomatthews/molt-scout</a>
             </div>
           </div>
         </div>
 
         <div className={styles.grid}>
-          {bots.map((b) => (
+          {bots.slice(0, 6).map((b) => (
             <div key={b.name} className={styles.card}>
               <div className={styles.cardHeader}>
                 <BotAvatar seed={b.pictureSeed} size={72} />
@@ -57,8 +62,8 @@ export default function Home() {
         </div>
 
         <div className={styles.footer}>
-          This is the public-facing “who we are” page for the company website. Deployment target:
-          Vercel.
+          Full roster lives at <a className={styles.link} href="/team">/team</a>. Current priorities at{" "}
+          <a className={styles.link} href="/this-week">/this-week</a>.
         </div>
       </div>
     </div>
