@@ -24,9 +24,6 @@ export function Header() {
           <Link className={styles.link} href="/team">
             Team
           </Link>
-          <a className={styles.link} href="https://github.com/rockomatthews/molt-scout" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
         </nav>
       </div>
     </header>

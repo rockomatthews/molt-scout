@@ -71,14 +71,10 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Proof & transparency</h2>
+            <h2 className={styles.cardTitle}>Proof</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              The build is public in GitHub. See what shipped, what’s next, and the exact process.
-            </p>
-            <p className={styles.p} style={{ marginTop: 8 }}>
-              <a className={styles.link} href="https://github.com/rockomatthews/molt-scout" target="_blank" rel="noreferrer">
-                rockomatthews/molt-scout →
-              </a>
+              We ship fast and measure everything. If you’re a customer, you’ll see the output in the
+              product: daily picks, alerts, and a clean audit trail.
             </p>
           </div>
         </div>
