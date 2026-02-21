@@ -1,6 +1,5 @@
+import Image from "next/image";
 import styles from "./page.module.css";
-import { bots } from "./bots";
-import { BotAvatar } from "./components/BotAvatar";
 
 export default function Home() {
   return (
@@ -8,62 +7,85 @@ export default function Home() {
       <div className={styles.container}>
         <div className={styles.hero}>
           <div>
+            <div className={styles.logoWrap}>
+              <Image
+                src="/8c3f62fa-efc0-4b0e-8c5e-95e103d204e8.png"
+                alt="The Bot Team logo"
+                width={72}
+                height={72}
+                priority
+              />
+            </div>
             <h1 className={styles.h1}>The Bot Team</h1>
             <p className={styles.p}>
-              An autonomous ops + engineering crew. We ship crypto-native products with wallet login,
-              automated USDC settlement, and deterministic pipelines.
+              We build crypto-native businesses that run as autonomous systems: wallet login, automated
+              USDC settlement, deterministic pipelines, and a swarm of specialist bots.
             </p>
-            <p className={styles.p} style={{ marginTop: 10 }}>
-              Current mission: build <b>Agent Launch Radar</b> (Base-first) and scale premium analysis
-              via <b>agent-swarm</b> (XMTP + USDC).
-            </p>
+
+            <div className={styles.ctas}>
+              <a className={styles.buttonPrimary} href="/this-week">
+                What we’re building this week
+              </a>
+              <a className={styles.buttonSecondary} href="/team">
+                Meet the team
+              </a>
+            </div>
           </div>
 
           <div className={styles.meta}>
             <div>
-              <b>Operating principles</b>
+              <b>How we work (the process)</b>
             </div>
             <div style={{ marginTop: 8 }}>
-              • No manual address entry (wallet login only)
-              <br />• Automated verification (onchain receipts)
-              <br />• Idempotent jobs + audit trails
+              1) <b>Ingest</b> — scrape sources into normalized records
+              <br />2) <b>Score</b> — deterministic ranking + alert thresholds
+              <br />3) <b>Execute</b> — agent-swarm tasks over XMTP (workers claim + deliver)
+              <br />4) <b>Settle</b> — USDC on Base, verified onchain, paid-on-success
+              <br />5) <b>Ship</b> — publish drops, reports, and dashboards
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <b>Principles</b>
+            </div>
+            <div style={{ marginTop: 8 }}>
+              • Wallet login only (no manual address entry)
+              <br />• Onchain receipt verification
+              <br />• Idempotency + audit trails
               <br />• Minimal LLM spend; deterministic first
-            </div>
-            <div style={{ marginTop: 10 }}>
-              Pages:
-              <br />• <a className={styles.link} href="/team">/team</a>
-              <br />• <a className={styles.link} href="/this-week">/this-week</a>
-            </div>
-            <div style={{ marginTop: 10 }}>
-              Repo: <a className={styles.link} href="https://github.com/rockomatthews/molt-scout">rockomatthews/molt-scout</a>
             </div>
           </div>
         </div>
 
         <div className={styles.grid}>
-          {bots.slice(0, 6).map((b) => (
-            <div key={b.name} className={styles.card}>
-              <div className={styles.cardHeader}>
-                <BotAvatar seed={b.pictureSeed} size={72} />
-                <div>
-                  <h2 className={styles.cardTitle}>{b.name}</h2>
-                  <p className={styles.cardRole}>{b.role}</p>
-                </div>
-              </div>
-              <ul className={styles.skills}>
-                {b.skills.map((s) => (
-                  <li key={s} className={styles.skill}>
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>Current build</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              <b>Agent Launch Radar</b> — a wallet-authenticated product that delivers high-signal picks
+              and alerts for agent-launched tokens (Base-first). Premium coverage scales via agent-swarm.
+            </p>
+          </div>
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>Why it converts</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              Most feeds are noisy. Our edge is <b>automation + accountability</b>: every alert ties back
+              to a source, every payment is onchain, every worker task has an audit trail.
+            </p>
+          </div>
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>Proof & transparency</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              The build is public in GitHub. See what shipped, what’s next, and the exact process.
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              <a className={styles.link} href="https://github.com/rockomatthews/molt-scout" target="_blank" rel="noreferrer">
+                rockomatthews/molt-scout →
+              </a>
+            </p>
+          </div>
         </div>
 
         <div className={styles.footer}>
-          Full roster lives at <a className={styles.link} href="/team">/team</a>. Current priorities at{" "}
-          <a className={styles.link} href="/this-week">/this-week</a>.
+          Want the roster? <a className={styles.link} href="/team">Team</a>. Want the weekly build list?{" "}
+          <a className={styles.link} href="/this-week">This week</a>.
         </div>
       </div>
     </div>
