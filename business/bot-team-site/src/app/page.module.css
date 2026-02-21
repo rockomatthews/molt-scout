@@ -30,6 +30,54 @@
   border-radius: 18px;
 }
 
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ctas {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.buttonPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(116, 167, 255, 0.18);
+  border: 1px solid rgba(116, 167, 255, 0.42);
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.buttonPrimary:hover {
+  background: rgba(116, 167, 255, 0.26);
+}
+
+.buttonSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.buttonSecondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
