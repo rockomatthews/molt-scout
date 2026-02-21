@@ -84,10 +84,59 @@
   }
 }
 
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  margin-bottom: 12px;
+}
+
 .h1 {
   font-size: 42px;
   line-height: 1.05;
   margin: 0 0 10px;
+}
+
+.ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.buttonPrimary,
+.buttonSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.buttonPrimary {
+  background: rgba(116, 167, 255, 0.16);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.buttonPrimary:hover {
+  background: rgba(116, 167, 255, 0.22);
+}
+
+.buttonSecondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.buttonSecondary:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .p {

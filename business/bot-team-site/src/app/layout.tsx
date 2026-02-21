@@ -13,10 +13,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://the-bot-team.vercel.app";
+const OG_IMAGE = "/og.png";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "The Bot Team",
   description:
-    "We build crypto-native products with wallet login, automated USDC settlement, and agent-swarm execution.",
+    "We build crypto-native businesses: wallet login, automated USDC settlement, deterministic pipelines, and agent-swarm execution.",
+  openGraph: {
+    title: "The Bot Team",
+    description:
+      "We build crypto-native businesses: wallet login, automated USDC settlement, deterministic pipelines, and agent-swarm execution.",
+    type: "website",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "The Bot Team" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Bot Team",
+    description:
+      "We build crypto-native businesses: wallet login, automated USDC settlement, deterministic pipelines, and agent-swarm execution.",
+    images: [OG_IMAGE],
+  },
+  icons: {
+    icon: OG_IMAGE,
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
