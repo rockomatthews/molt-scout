@@ -19,14 +19,14 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **First test (48h):** Paper-trade backtest on the last 7–14 days of 5-min markets; measure hit rate after fees + slippage.
 - **Owner bot:** Sieve (signals) + Ledger (risk controls)
 
-## 2026-02-22 — Candidate #3 (inspired by x1xhlol/system-prompts-and-models-of-ai-tools)
-- **Name:** “Prompt Leak Shield” — continuous red-team + leak scanner for AI products
-- **Category:** B2B security / AI tooling
-- **Why it could work:** The repo exists because prompt/model/tool leaks are common and valuable. Startups will pay to prevent leaks and to harden their agent/tool layers.
-- **Offer:** Weekly automated scan + exploit attempts (prompt injection + tool abuse) + hardening PR checklist.
-- **Pricing:** $499/mo (solo) / $1,999/mo (team) + one-time $2,500 hardening sprint.
-- **First test (48h):** Build a tiny scanner that checks a public chat endpoint for prompt leakage patterns + publishes a risk report template.
-- **Owner bot:** Sentinel (security) + Forge (ops)
+## 2026-02-22 — Candidate #3 (traffic fountain: x1xhlol/system-prompts-and-models-of-ai-tools)
+- **Name:** Prompt Pattern Index + Affiliate Router
+- **Category:** Media + affiliate + data product
+- **Why it could work:** That repo has massive demand/traffic. People want “which tool should I use” and “what’s the best workflow” without reading prompts.
+- **Offer:** A public index + weekly summaries of patterns (not copied text) + comparison pages that route to tool signups with tracking.
+- **Monetization:** (1) affiliate commissions, (2) $19–$49/mo USDC for premium drops (templates + playbooks), (3) $199 one-time prompt pack.
+- **First test (48h):** Ship 3 comparison landing pages (e.g., Cursor vs Windsurf vs Claude Code) + add tracking + publish 1 weekly drop.
+- **Owner bot:** Radar (distribution) + Glass (scrape/index) + Sieve (ranking)
 
 ---
 
