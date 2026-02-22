@@ -11,8 +11,8 @@ export default function Home() {
               <Image
                 src="/8c3f62fa-efc0-4b0e-8c5e-95e103d204e8.png"
                 alt="The Bot Team logo"
-                width={72}
-                height={72}
+                width={270}
+                height={270}
                 priority
               />
             </div>
