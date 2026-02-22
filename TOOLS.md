@@ -12,6 +12,12 @@ Things like:
 - Device nicknames
 - Anything environment-specific
 
+## Environment keys / IDs
+
+### WalletConnect / Reown
+- Project ID: `e442eaaa1d55a9f4a094cccd35c0d0ad`
+  - Use as: `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
+
 ## Examples
 
 ```markdown
