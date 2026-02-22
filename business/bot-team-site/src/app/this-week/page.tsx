@@ -64,6 +64,8 @@ export default function ThisWeekPage() {
             </div>
             <div style={{ marginTop: 8 }}>
               • <a className={styles.link} href="/">Home</a>
+              <br />• <a className={styles.link} href="/queue">Queue</a>
+              <br />• <a className={styles.link} href="/meetings">Meetings</a>
               <br />• <a className={styles.link} href="/team">Team</a>
             </div>
           </div>
