@@ -18,6 +18,10 @@ Things like:
 - Project ID: `e442eaaa1d55a9f4a094cccd35c0d0ad`
   - Use as: `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
 
+### X (Twitter)
+- Handle: `@TheBotTeamHQ`
+- Note: API keys must be stored in environment variables (never committed). For auto-posting we need X API credentials; xAI API keys are not the same as X posting keys.
+
 ## Examples
 
 ```markdown

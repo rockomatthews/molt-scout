@@ -30,6 +30,14 @@ export function Header() {
           <Link className={styles.link} href="/team">
             Team
           </Link>
+          <a
+            className={styles.link}
+            href="https://x.com/TheBotTeamHQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            X
+          </a>
         </nav>
       </div>
     </header>
