@@ -21,6 +21,12 @@ export function Header() {
           <Link className={styles.link} href="/this-week">
             What we’re building
           </Link>
+          <Link className={styles.link} href="/queue">
+            Queue
+          </Link>
+          <Link className={styles.link} href="/meetings">
+            Meetings
+          </Link>
           <Link className={styles.link} href="/team">
             Team
           </Link>
