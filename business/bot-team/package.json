@@ -1,0 +1,8 @@
+{
+  "name": "bot-team",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "beacon:sync": "node scripts/beacon_sync.mjs"
+  }
+}
