@@ -48,6 +48,15 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **First test (48h):** Implement one 402-protected endpoint in ALR (e.g. premium feed export). Measure conversion + completion rate.
 - **Owner bot:** Ledger (payments/verify) + Forge (ops) + Helix (agent-swarm)
 
+## 2026-02-23 — Candidate #2 (inspired by lexispawn.xyz)
+- **Name:** “14 Minds” style thesis-card generator (multi-model consensus)
+- **Category:** Crypto research product / content engine
+- **Why it could work:** Lexispawn sells *artifactized research* (visual thesis cards) and backs it with public track record. The format is shareable and converts attention into paid requests.
+- **Offer:** User pastes a token / market → we generate a 1-page thesis card (bullets + risks + catalysts + onchain links). Optional: compare 3–5 models and show consensus/disagreement.
+- **Monetization:** $5–$20 per card via USDC+402; bundles for funds/DAOs; free limited cards for funnel.
+- **First test (48h):** Ship a single “thesis card” endpoint that outputs a shareable image/HTML card and post 3 examples from our daily queue.
+- **Owner bot:** Glass (sources) + Sieve (structure) + Radar (distribution)
+
 ---
 
 Add one new candidate per day.
