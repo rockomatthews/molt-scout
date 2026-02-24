@@ -16,7 +16,8 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **Why it could work:** Short-expiry BTC “up/down” markets can lag spot moves; edge appears to be execution speed + discipline.
 - **Offer:** Real-time alerts + dashboard that detects lag vs Binance/CoinGecko and highlights entries/exits.
 - **Pricing:** $49/mo for alerts; $199/mo for pro feed + strategy presets. (Execution remains off until explicit go-live.)
-- **First test (48h):** Paper-trade backtest on the last 7–14 days of 5-min markets; measure hit rate after fees + slippage.
+- **Entry gate (hard):** ignore unless `YES + NO ≤ 0.94` (strong alerts at `≤ 0.92`). Rationale: need ~6%+ theoretical edge pre-fees to survive profit fees + slippage + tail fill risk.
+- **First test (48h):** Paper-trade backtest on the last 7–14 days of 5-min markets; measure hit rate after fees + slippage using the gate above.
 - **Owner bot:** Sieve (signals) + Ledger (risk controls)
 
 ## 2026-02-22 — Candidate #3 (traffic fountain: x1xhlol/system-prompts-and-models-of-ai-tools)
@@ -27,6 +28,16 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **Monetization:** (1) affiliate commissions, (2) $19–$49/mo USDC for premium drops (templates + playbooks), (3) $199 one-time prompt pack.
 - **First test (48h):** Ship 3 comparison landing pages (e.g., Cursor vs Windsurf vs Claude Code) + add tracking + publish 1 weekly drop.
 - **Owner bot:** Radar (distribution) + Glass (scrape/index) + Sieve (ranking)
+
+## 2026-02-23 — Candidate #4 (Zach)
+- **Name:** Polymarket hedged pair bot (YES+NO avg cost < $1)
+- **Category:** Crypto markets / market-making / arbitrage
+- **What it is:** On short-term binary markets (e.g., 5-min/15-min BTC/ETH up/down), accumulate YES and NO shares such that the *average* combined cost per hedged pair stays below $1. Instant simultaneous fills are rare; the edge comes from opportunistic accumulation during swings.
+- **Why it could work:** If you can reliably get avg(YES)+avg(NO) < $1 even after fees, each fully-hedged pair settles to $1 at resolution → near-locked profit without directional prediction.
+- **Unit economics (rough):** Target 1–4% per fully-hedged pair after fees; scale is constrained by fill quality, fees, and capital lockup until resolution.
+- **Key risks / gotchas:** Fees + spread/slippage; inability to fully hedge before resolution; partial-fill inventory risk; execution latency; size may move book; market rules/settlement timing.
+- **First test (48h):** Live micro-size run ($10–$50): track cumulative YES shares+spend and NO shares+spend; compute hedgedPairs = min(YES, NO); verify hedgedPairs*$1 > totalSpend after fees at resolution. Repeat across multiple markets/time windows.
+- **Owner bot:** Sieve (signals/execution monitoring) + Ledger (PnL accounting/risk)
 
 ---
 
