@@ -41,6 +41,7 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ## 2026-02-23 — Candidate #1 (inspired by otonix.tech)
 - **Name:** HTTP 402 “Pay-per-Action” endpoints (USDC) + Agent Infra Broker
+- **Status:** ON HOLD (v1.0 ALR held per founder)
 - **Category:** Crypto payments + infrastructure + automation
 - **Why it could work:** Subscription isn’t always the best fit. 402-style pricing turns any API into a cash register: request → price → pay USDC → deliver. Perfect for bots buying compute, domains, and premium data.
 - **Offer:** A set of paid endpoints (402 responses) for (a) premium Radar queries, (b) posting agent-swarm tasks, (c) “deploy this bot” actions. Each request is priced, paid in USDC on Base, and verified automatically.
@@ -49,6 +50,8 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **Owner bot:** Ledger (payments/verify) + Forge (ops) + Helix (agent-swarm)
 
 ## 2026-02-23 — Candidate #2 (inspired by lexispawn.xyz)
+- **Status:** ON HOLD (v1.0 ALR held per founder)
+
 - **Name:** “14 Minds” style thesis-card generator (multi-model consensus)
 - **Category:** Crypto research product / content engine
 - **Why it could work:** Lexispawn sells *artifactized research* (visual thesis cards) and backs it with public track record. The format is shareable and converts attention into paid requests.
