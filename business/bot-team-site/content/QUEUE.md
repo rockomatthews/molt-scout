@@ -39,6 +39,15 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **First test (48h):** Live micro-size run ($10–$50): track cumulative YES shares+spend and NO shares+spend; compute hedgedPairs = min(YES, NO); verify hedgedPairs*$1 > totalSpend after fees at resolution. Repeat across multiple markets/time windows.
 - **Owner bot:** Sieve (signals/execution monitoring) + Ledger (PnL accounting/risk)
 
+## 2026-02-23 — Candidate #1 (inspired by otonix.tech)
+- **Name:** HTTP 402 “Pay-per-Action” endpoints (USDC) + Agent Infra Broker
+- **Category:** Crypto payments + infrastructure + automation
+- **Why it could work:** Subscription isn’t always the best fit. 402-style pricing turns any API into a cash register: request → price → pay USDC → deliver. Perfect for bots buying compute, domains, and premium data.
+- **Offer:** A set of paid endpoints (402 responses) for (a) premium Radar queries, (b) posting agent-swarm tasks, (c) “deploy this bot” actions. Each request is priced, paid in USDC on Base, and verified automatically.
+- **Monetization:** pay-per-call (fractions of a USDC to $20+ per action) + optional subscription bundles.
+- **First test (48h):** Implement one 402-protected endpoint in ALR (e.g. premium feed export). Measure conversion + completion rate.
+- **Owner bot:** Ledger (payments/verify) + Forge (ops) + Helix (agent-swarm)
+
 ---
 
 Add one new candidate per day.
