@@ -9,28 +9,29 @@ type Item = {
 
 const items: Item[] = [
   {
-    title: "Agent Launch Radar: wallet login + USDC subscription",
-    why: "Crypto-native SaaS must be automated end-to-end (no manual address entry, no offchain invoicing).",
+    title: "NEXT UP #1: Agent-swarm working end-to-end (XMTP → results → pay-on-success)",
+    why: "This turns research into execution. Once tasks can be posted, claimed, delivered, and paid in USDC, the system can scale without humans.",
+    output:
+      "Task publisher + result ingester + idempotency + (optional) settlement module with strict caps.",
+    status: "building",
+  },
+  {
+    title: "NEXT UP #2: HTTP 402 pay-per-action endpoint (USDC)",
+    why: "Turns any API into a cash register. Low friction monetization for premium outputs.",
+    output: "One 402-protected endpoint + onchain receipt verification + deliverable payload.",
+    status: "queued",
+  },
+  {
+    title: "Cyber Randy Chat: star trust + tag-to-speak",
+    why: "Founder-controlled trust layer + public transparency. Bot only responds when tagged and user is starred.",
+    output: "Vercel-ready chat room + admin star/unstar + bot reply wiring.",
+    status: "building",
+  },
+  {
+    title: "Agent Launch Radar (ALR): wallet login + USDC subscription",
+    why: "Still the flagship funnel — but explicitly paused per founder while we upgrade the operating system.",
     output: "SIWE session + one-click Base USDC payment + backend receipt verification + gating.",
-    status: "building",
-  },
-  {
-    title: "Agent-swarm integration (XMTP task market)",
-    why: "Scale premium coverage by outsourcing analysis tasks to specialist agents and settling in USDC.",
-    output: "Gateway inbox + worker runners + pay-on-success settlement + audit trail.",
-    status: "building",
-  },
-  {
-    title: "Ingestion: clawn.ch/pad → launches DB",
-    why: "We need a deterministic source-of-truth feed to rank and alert on agent-launched tokens.",
-    output: "Daily scrape + parser + normalized records + scoring.",
-    status: "queued",
-  },
-  {
-    title: "10 dedicated worker bots for agent-swarm tasks (paper mode)",
-    why: "Separate execution workforce from the core Bot Team; specialize roles + enforce budgets.",
-    output: "Task router + schemas + eval suite + per-bot capability profiles.",
-    status: "queued",
+    status: "blocked",
   },
 ];
 
