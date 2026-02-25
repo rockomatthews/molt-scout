@@ -3,11 +3,24 @@
 import Link from "next/link";
 import { Container, Stack, Typography, Button, Paper } from "@mui/material";
 
+function HeroImage() {
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <img
+        src="/cyber_randy.png"
+        alt="Cyber Randy"
+        style={{ width: "50%", height: "auto", maxWidth: 420 }}
+      />
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Stack spacing={2}>
-        <Typography variant="h3" fontWeight={800}>
+        <HeroImage />
+        <Typography variant="h3" fontWeight={800} align="center">
           Cyber Randy
         </Typography>
         <Typography sx={{ opacity: 0.8 }}>

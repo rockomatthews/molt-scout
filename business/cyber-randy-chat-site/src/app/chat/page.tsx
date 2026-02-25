@@ -221,15 +221,29 @@ export default function ChatPage() {
         </div>
 
         <div className="feed">
-          {messages.map((m) => (
-            <div key={m.id} className="msg">
-              <div className="msgMeta">
-                <b>{m.handle}</b> · {" "}
-                <span suppressHydrationWarning>{new Date(m.created_at).toLocaleString()}</span>
+          {messages.map((m) => {
+            const isBot = (m.handle || "").toLowerCase() === BOT_HANDLE.toLowerCase();
+            return (
+              <div key={m.id} className={`msg ${isBot ? "msg--bot" : "msg--user"}`}>
+                <div className="msgMeta">
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    {isBot ? (
+                      <img
+                        src="/cyber_randy_chat_icon.png"
+                        alt="Randy"
+                        style={{ width: 18, height: 18, borderRadius: 6, opacity: 0.95 }}
+                      />
+                    ) : null}
+                    <b>{m.handle}</b>
+                  </span>
+                  <span style={{ opacity: 0.8 }}>
+                    <span suppressHydrationWarning>{new Date(m.created_at).toLocaleString()}</span>
+                  </span>
+                </div>
+                <div style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
               </div>
-              <div style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="composer">
