@@ -40,37 +40,73 @@ function latestMeetingSnippet(dir: string, maxChars: number) {
 }
 
 async function llmReply(input: {
+  userId: string;
   userHandle: string;
   message: string;
   queueMd: string;
   meetingMd: string;
 }) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return "(Randy offline) Missing OPENAI_API_KEY on the responder.";
-  }
-  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  // Preferred: OpenClaw internal brain via Gateway OpenAI-compatible endpoint
+  const gwUrl = process.env.OPENCLAW_GATEWAY_URL;
+  const gwPassword = process.env.OPENCLAW_GATEWAY_PASSWORD;
+  const agentId = process.env.OPENCLAW_AGENT_ID || "main";
 
-  const system = `You are Cyber Randy (@cyber_randy), the Bot Team's builder-brain.
+  const system = `You are Cyber Randy (@cyber_randy), the Bot Team's builder-brain running inside OpenClaw.
 You speak tersely, with strong opinions, and you propose concrete next steps.
-You are currently working inside a repo that contains a public /queue and /meetings.
+You have tool access.
 Rules:
 - Reply in plain text.
-- Be helpful and direct.
-- If asked what you're building, summarize current priorities and 1-3 next actions.
-- Don't mention private keys or secrets.
+- Only respond to the tagged message; do not be verbose.
+- If the user proposes a genuinely good money idea or operational improvement, you are allowed to:
+  - append a concise new item to business/bot-team-site/content/QUEUE.md (include "Source: Cyber Randy chat")
+  - and commit it to git.
+- Never touch trading execution. Never request or reveal secrets.
 `;
 
   const context = `# Context: QUEUE.md\n${input.queueMd}\n\n# Context: latest meeting\n${input.meetingMd}`;
+  const user = `Message from ${input.userHandle} (user_id=${input.userId}):\n${input.message}`;
 
-  const user = `Message from ${input.userHandle}:\n${input.message}`;
+  if (gwUrl && gwPassword) {
+    const url = `${gwUrl.replace(/\/$/, "")}/v1/chat/completions`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${gwPassword}`,
+        "x-openclaw-agent-id": agentId,
+      },
+      body: JSON.stringify({
+        model: `openclaw:${agentId}`,
+        user: `cyber-randy:${input.userId}`,
+        messages: [
+          { role: "system", content: system },
+          { role: "system", content: context },
+          { role: "user", content: user },
+        ],
+        temperature: 0.6,
+      }),
+    });
 
+    if (res.ok) {
+      const json: any = await res.json();
+      const out = json?.choices?.[0]?.message?.content;
+      return typeof out === "string" && out.trim() ? out.trim() : "(Randy error) Empty reply.";
+    }
+
+    const text = await res.text().catch(() => "");
+    return `(Randy error) OpenClaw gateway call failed: ${res.status} ${text}`;
+  }
+
+  // Fallback: direct OpenAI
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return "(Randy offline) Missing OPENCLAW_GATEWAY_PASSWORD (preferred) and OPENAI_API_KEY (fallback).";
+  }
+
+  const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
     body: JSON.stringify({
       model,
       messages: [
@@ -148,6 +184,7 @@ async function main() {
           const meetingMd = latestMeetingSnippet(path.resolve(process.cwd(), meetingsDir), 6000);
 
           const reply = await llmReply({
+            userId: msg.user_id,
             userHandle: msg.handle || "@user",
             message: body,
             queueMd,
