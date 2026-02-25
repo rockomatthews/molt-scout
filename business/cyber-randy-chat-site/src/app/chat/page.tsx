@@ -10,6 +10,7 @@ const BOT_HANDLE = "@cyber_randy";
 
 export default function ChatPage() {
   const supabase = useMemo(() => createClient(), []);
+  const [mounted, setMounted] = useState(false);
   const [me, setMe] = useState<{ id: string; email?: string } | null>(null);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -17,6 +18,7 @@ export default function ChatPage() {
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
+    setMounted(true);
     if (!supabase) {
       setStatus("Supabase not connected yet. Deploy on Vercel + add Supabase integration first.");
       return;
@@ -113,6 +115,8 @@ export default function ChatPage() {
     }
   }
 
+  if (!mounted) return null;
+
   return (
     <div className="shell">
       <aside className="sidebar">
@@ -144,7 +148,7 @@ export default function ChatPage() {
           {messages.map((m) => (
             <div key={m.id} className="msg">
               <div className="msgMeta">
-                <b>{m.handle}</b> · {new Date(m.created_at).toLocaleString()}
+                <b>{m.handle}</b> · <span suppressHydrationWarning>{new Date(m.created_at).toLocaleString()}</span>
               </div>
               <div style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
             </div>
