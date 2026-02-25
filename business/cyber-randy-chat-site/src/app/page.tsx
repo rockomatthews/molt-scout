@@ -25,7 +25,7 @@ export default function Home() {
         </Typography>
         <Typography sx={{ opacity: 0.8 }}>
           Private Bot Team chat room. You must register. The bot only speaks when tagged as{" "}
-          <b>@cyber_randy</b>. Only users you star are considered trusted.
+          <b>@cyber_randy</b>. Only users that are starred are considered trusted. Randy will give these user's the time of day and even consider your ideas. Everyone unstarred with access... watching is your gift. You ALL are welcome <i>(appreciatively not literally. ASK ME for the site's Access Password)</i>
         </Typography>
 
         <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
@@ -43,9 +43,7 @@ export default function Home() {
               Open chat
             </Button>
           </Stack>
-          <Typography sx={{ mt: 1.5, opacity: 0.75 }} variant="body2">
-            Deploy on Vercel, add Supabase integration, set an access password, then invite users.
-          </Typography>
+{/* intentionally blank */}
         </Paper>
       </Stack>
     </Container>
