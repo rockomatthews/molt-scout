@@ -17,30 +17,7 @@ export default function ChatPage() {
   const [text, setText] = useState("");
   const [status, setStatus] = useState<string>("");
 
-  useEffect(() => {
-    setMounted(true);
-    if (!supabase) {
-      setStatus("Supabase not connected yet. Deploy on Vercel + add Supabase integration first.");
-      return;
-    }
-    supabase.auth.getUser().then(({ data }) => {
-      const u = data.user;
-      if (!u) {
-        setStatus("Not logged in. Register/login first.");
-        return;
-      }
-      setMe({ id: u.id, email: u.email ?? undefined });
-
-      // ensure profile exists
-      const handle = u.email ? `@${u.email.split("@")[0]}` : `@user_${u.id.slice(0, 6)}`;
-      supabase
-        .from("cr_profiles")
-        .upsert({ id: u.id, handle }, { onConflict: "id" })
-        .then(() => {
-          // no-op
-        });
-    });
-  }, [supabase]);
+  const myProfile = me ? profiles.find((p) => p.id === me.id) : undefined;
 
   async function load() {
     if (!supabase) return;
@@ -57,23 +34,80 @@ export default function ChatPage() {
   }
 
   useEffect(() => {
-    if (!supabase) return;
-    load();
+    setMounted(true);
+    if (!supabase) {
+      setStatus("Supabase not connected yet. Check Vercel env vars for NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.");
+      return;
+    }
+
+    // Keep auth state in sync
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      const u = session?.user;
+      setMe(u ? { id: u.id, email: u.email ?? undefined } : null);
+      setStatus(u ? "" : "Not logged in. Use Login/Register.");
+      // Reload after auth transitions
+      load();
+    });
+
+    // Initial user
+    supabase.auth.getUser().then(({ data }) => {
+      const u = data.user;
+      setMe(u ? { id: u.id, email: u.email ?? undefined } : null);
+      setStatus(u ? "" : "Not logged in. Use Login/Register.");
+      if (u) {
+        const handle = u.email ? `@${u.email.split("@")[0]}` : `@user_${u.id.slice(0, 6)}`;
+        supabase.from("cr_profiles").upsert({ id: u.id, handle }, { onConflict: "id" }).then(load);
+      } else {
+        load();
+      }
+    });
+
+    // Realtime subscription (nice-to-have). We also do optimistic append after sends.
     const channel = supabase
       .channel("cr_messages")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "cr_messages" },
         (payload) => {
-          setMessages((cur) => [...cur, payload.new as any]);
+          setMessages((cur) => {
+            const next = payload.new as any;
+            if (cur.some((m) => m.id === next.id)) return cur;
+            return [...cur, next];
+          });
         }
       )
       .subscribe();
+
     return () => {
       supabase.removeChannel(channel);
+      sub.subscription.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function saveDisplayName(nextHandle: string) {
+    if (!supabase || !me) return;
+    const handle = nextHandle.trim();
+    if (!handle) return;
+    const normalized = handle.startsWith("@") ? handle : `@${handle}`;
+    const { error } = await supabase
+      .from("cr_profiles")
+      .update({ handle: normalized })
+      .eq("id", me.id);
+    if (error) {
+      setStatus(error.message);
+      return;
+    }
+    await load();
+  }
+
+  async function logout() {
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    setMe(null);
+    setStatus("Logged out.");
+    window.location.href = "/login";
+  }
 
   async function send() {
     if (!me) {
@@ -81,36 +115,52 @@ export default function ChatPage() {
       return;
     }
     if (!supabase) {
-      setStatus("Supabase not connected yet. Deploy on Vercel + add Supabase integration first.");
+      setStatus("Supabase not connected yet.");
       return;
     }
+
     const body = text.trim();
     if (!body) return;
 
     setText("");
     setStatus("");
 
-    const myProfile = profiles.find((p) => p.id === me.id);
     const handle = myProfile?.handle || (me.email ? `@${me.email.split("@")[0]}` : "@anon");
 
-    const { error } = await supabase.from("cr_messages").insert({ user_id: me.id, handle, body });
-    if (error) setStatus(error.message);
+    const { data, error } = await supabase
+      .from("cr_messages")
+      .insert({ user_id: me.id, handle, body })
+      .select("id,created_at,handle,body,user_id")
+      .single();
+
+    if (error) {
+      setStatus(error.message);
+      return;
+    }
+
+    // Optimistic append (even if Realtime is off)
+    if (data) setMessages((cur) => (cur.some((m) => m.id === data.id) ? cur : [...cur, data as any]));
 
     // Bot behavior v0:
     // - only respond when tagged
     // - only respond if author is starred
     if (body.includes(BOT_HANDLE)) {
       const starred = !!myProfile?.starred;
-      if (!starred) {
-        // silently ignore (per spec)
-      } else {
-        // placeholder response until we wire this to OpenClaw/xAI
-        await supabase.from("cr_messages").insert({
-          user_id: me.id,
-          handle: BOT_HANDLE,
-          body:
-            "(bot online) I saw the tag. Bot replies will be wired to the real agent next — for now this is a stub.",
-        });
+      if (starred) {
+        const { data: botData } = await supabase
+          .from("cr_messages")
+          .insert({
+            user_id: me.id,
+            handle: BOT_HANDLE,
+            body:
+              "(bot online) I saw the tag. Bot replies will be wired to the real agent next — for now this is a stub.",
+          })
+          .select("id,created_at,handle,body,user_id")
+          .single();
+        if (botData)
+          setMessages((cur) =>
+            cur.some((m) => m.id === (botData as any).id) ? cur : [...cur, botData as any]
+          );
       }
     }
   }
@@ -121,6 +171,23 @@ export default function ChatPage() {
     <div className="shell">
       <aside className="sidebar">
         <div style={{ fontWeight: 700 }}>Users</div>
+
+        {me ? (
+          <div className="card" style={{ marginTop: 10 }}>
+            <div style={{ opacity: 0.7, fontSize: 12 }}>Your display name</div>
+            <input
+              className="input"
+              defaultValue={myProfile?.handle || (me.email ? `@${me.email.split("@")[0]}` : "")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") saveDisplayName((e.target as HTMLInputElement).value);
+              }}
+            />
+            <div style={{ opacity: 0.65, fontSize: 12, marginTop: 8 }}>
+              Press Enter to save. Use @cyber_randy to tag the bot.
+            </div>
+          </div>
+        ) : null}
+
         <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
           {profiles.map((p) => (
             <div key={p.id} className="card" style={{ padding: 10 }}>
@@ -139,8 +206,16 @@ export default function ChatPage() {
             <b>Bot Team Chat</b> <span style={{ opacity: 0.7 }}>tag {BOT_HANDLE} to talk to the bot</span>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
+            {me ? (
+              <button className="button" onClick={logout} style={{ padding: "6px 10px" }}>
+                Logout
+              </button>
+            ) : (
+              <>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+              </>
+            )}
             <a href="/">Home</a>
           </div>
         </div>
@@ -149,7 +224,8 @@ export default function ChatPage() {
           {messages.map((m) => (
             <div key={m.id} className="msg">
               <div className="msgMeta">
-                <b>{m.handle}</b> · <span suppressHydrationWarning>{new Date(m.created_at).toLocaleString()}</span>
+                <b>{m.handle}</b> · {" "}
+                <span suppressHydrationWarning>{new Date(m.created_at).toLocaleString()}</span>
               </div>
               <div style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
             </div>
