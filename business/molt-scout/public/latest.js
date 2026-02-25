@@ -1,4 +1,4 @@
-{
+window.__MOLT_SCOUT_LATEST__ = {
   "date": "2026-02-05",
   "generatedAt": "2026-02-05T00:15:20.261Z",
   "sources": [
@@ -1814,4 +1814,4 @@
     "https://img.shields.io/github/forks/VoltAgent/awesome-clawdbot-skills?style=social"
   ],
   "discoveredSources": []
-}
+};
