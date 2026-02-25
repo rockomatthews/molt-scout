@@ -139,6 +139,7 @@ export default function ChatPage() {
             <b>Bot Team Chat</b> <span style={{ opacity: 0.7 }}>tag {BOT_HANDLE} to talk to the bot</span>
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <a href="/login">Login</a>
             <a href="/register">Register</a>
             <a href="/">Home</a>
           </div>

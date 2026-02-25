@@ -23,7 +23,10 @@ export default function Home() {
             <Button component={Link} href="/register" variant="contained">
               Register
             </Button>
-            <Button component={Link} href="/chat" variant="outlined">
+            <Button component={Link} href="/login" variant="outlined">
+              Login
+            </Button>
+            <Button component={Link} href="/chat" variant="text">
               Open chat
             </Button>
           </Stack>
