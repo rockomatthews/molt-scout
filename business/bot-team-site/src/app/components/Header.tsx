@@ -27,6 +27,9 @@ export function Header() {
           <Link className={styles.link} href="/meetings">
             Meetings
           </Link>
+          <Link className={styles.link} href="/mission-control">
+            Mission Control
+          </Link>
           <Link className={styles.link} href="/team">
             Team
           </Link>
