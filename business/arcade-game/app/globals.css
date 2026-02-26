@@ -28,3 +28,8 @@ a:hover{text-decoration:underline}
 
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
 .small{font-size:12px;opacity:.75}
+
+/* UI helpers */
+.h2{font-size:18px;margin:0 0 10px;font-weight:800}
+.hr{height:1px;background:rgba(255,255,255,.08);border:0;margin:14px 0}
+.kv{display:flex;justify-content:space-between;gap:12px;align-items:center}

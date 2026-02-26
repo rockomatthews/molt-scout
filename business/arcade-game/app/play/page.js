@@ -17,6 +17,13 @@ export default function PlayPage() {
 
   const [handle, setHandle] = useState("player");
   const [avatarSeed, setAvatarSeed] = useState("player");
+
+  // Improve first impression: default avatar seed follows the wallet
+  useEffect(() => {
+    if (!address) return;
+    setAvatarSeed((cur) => (cur === "player" ? address : cur));
+    setHandle((cur) => (cur === "player" ? `@${address.slice(2, 8)}` : cur));
+  }, [address]);
   const [joined, setJoined] = useState(false);
   const [status, setStatus] = useState("");
   const [crownIdx, setCrownIdx] = useState(pickCrownIndex());
@@ -111,29 +118,49 @@ export default function PlayPage() {
         </a>
       </div>
 
-      <div className="card" style={{ marginBottom: 14 }}>
-        <b>Wallet</b>
-        <div style={{ marginTop: 10 }}>
-          <WalletBar />
+      <div className="card" style={{ marginBottom: 14, maxWidth: 760 }}>
+        <div className="kv">
+          <div>
+            <div className="h2">1) Connect wallet</div>
+            <div className="small">Base network. This is your identity (and later, your paid entry).</div>
+          </div>
         </div>
-        <div className="small" style={{ marginTop: 10 }}>
-          You need a wallet to play. This will become the identity anchor (and later, paid rounds).
+        <div style={{ marginTop: 12 }}>
+          <WalletBar />
         </div>
       </div>
 
       {!joined ? (
-        <div className="card" style={{ maxWidth: 560 }}>
-          <b>Choose a username + picture</b>
-          <div className="small" style={{ marginTop: 10 }}>
-            Connected: {isConnected ? `${address?.slice(0, 6)}…${address?.slice(-4)}` : "not connected"}
+        <div className="card" style={{ maxWidth: 760 }}>
+          <div className="h2">2) Pick a username + avatar</div>
+          <div className="small" style={{ marginTop: 6 }}>
+            {isConnected ? (
+              <>Connected: <b>{address?.slice(0, 6)}…{address?.slice(-4)}</b></>
+            ) : (
+              <>Connect first, then pick your name.</>
+            )}
           </div>
 
-          <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr 92px", gap: 12, alignItems: "center" }}>
-            <input className="input" value={handle} onChange={(e) => setHandle(e.target.value)} placeholder="@yourname" />
+          <div
+            style={{
+              marginTop: 12,
+              display: "grid",
+              gridTemplateColumns: "1fr 80px",
+              gap: 12,
+              alignItems: "center",
+            }}
+          >
+            <input
+              className="input"
+              value={handle}
+              onChange={(e) => setHandle(e.target.value)}
+              placeholder="@yourname"
+              disabled={!isConnected}
+            />
             <img
               src={avatarUrl(avatarSeed)}
               alt="avatar"
-              style={{ width: 92, height: 92, borderRadius: 16, background: "rgba(255,255,255,.04)" }}
+              style={{ width: 80, height: 80, borderRadius: 16, background: "rgba(255,255,255,.04)" }}
             />
           </div>
 
@@ -142,13 +169,14 @@ export default function PlayPage() {
               className="input"
               value={avatarSeed}
               onChange={(e) => setAvatarSeed(e.target.value)}
-              placeholder="avatar seed (try: potato, crown, randy)"
+              placeholder="avatar seed (optional)"
+              disabled={!isConnected}
             />
           </div>
 
           <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
             <button className="button" onClick={join} disabled={!isConnected}>
-              Join
+              Start playing
             </button>
             <button
               className="button"
@@ -157,7 +185,7 @@ export default function PlayPage() {
                 setOwners(emptyOwners());
               }}
             >
-              Reset local
+              Reset board
             </button>
           </div>
 
