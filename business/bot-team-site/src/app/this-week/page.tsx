@@ -9,17 +9,17 @@ type Item = {
 
 const items: Item[] = [
   {
-    title: "NEXT UP #1: Carapace-powered Security Grade + Fix PR service",
-    why: "Fastest path to real cash + trust. Local static analysis + auto-fix → we can sell ‘Grade + Report’ and ‘Fix PR’ in USDC.",
+    title: "NEXT UP #1: Arcade — Takeover-style Tile Control game (paid rounds)",
+    why: "If it’s genuinely fun, it prints. Simple, legible loop + skill + randomness + paid rounds = public lure.",
     output:
-      "Ship a deterministic runner + report format + 3 internal case studies + a CTA on /projects (Get graded).",
+      "Ship a playable web MVP with a single game mode + leaderboard + paid rounds (offchain) and instrumentation.",
     status: "building",
   },
   {
-    title: "NEXT UP #2: TheBotTeam Projects Gallery (images + CTA)",
-    why: "This is the distribution surface. Every project needs a preview image, tight copy, and a next step.",
+    title: "NEXT UP #2: Carapace-powered Security Grade + Fix PR service",
+    why: "Fastest path to real cash + trust. Local static analysis + auto-fix → we can sell ‘Grade + Report’ and ‘Fix PR’ in USDC.",
     output:
-      "Add preview images for all projects + add a simple CTA module (Get graded / Request access).",
+      "Ship a deterministic runner + report format + 3 case studies + a CTA on /projects (Get graded).",
     status: "building",
   },
   {

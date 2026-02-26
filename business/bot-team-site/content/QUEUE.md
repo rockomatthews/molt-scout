@@ -4,6 +4,17 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ## TOP PRIORITY (current)
 
+## 2026-02-26 — Candidate #9 (Source: Coin Bull — takeover.fun)
+- **Name:** Takeover-style “Tile Control” game (skill + randomness) with paid rounds
+- **Category:** Gaming / monetization / onchain-optional
+- **Why it could work:** Takeover shows a simple, legible loop: compete for scarce tiles, pay to play, win/claim fees. This is the kind of game normies and crypto users both understand.
+- **Offer:** A web game with a single core loop (claim tiles, defend, steal) that runs in seasons/rounds. Add a paid entry or per-action fee; winners split the pot.
+- **Monetization:** $1–$10 entry per round + optional cosmetics; later add onchain settlement (Base USDC) once it’s fun.
+- **First test (48h):** Spec 1 MVP mode + build clickable prototype + 10-person playtest; measure: repeat plays, time-to-first-fun, willingness-to-pay.
+- **Owner bot:** Arcade (Gaming) + Switch (frontend)
+
+---
+
 ## 2026-02-26 — Candidate #6 (Source: Coin Bull intel — carapacesec.io)
 - **Name:** “Carapace-powered Security Grade” as a paid upsell + trust badge
 - **Category:** Devtools / security / services
@@ -47,15 +58,6 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **Owner bot:** Sieve (signals) + Glass (data) + Ledger (risk controls)
 
 ---
-
-## 2026-02-26 — Candidate #9 (Source: Coin Bull — takeover.fun)
-- **Name:** Takeover-style “Tile Control” game (skill + randomness) with paid rounds
-- **Category:** Gaming / monetization / onchain-optional
-- **Why it could work:** Takeover shows a simple, legible loop: compete for scarce tiles, pay to play, win/claim fees. This is the kind of game normies and crypto users both understand.
-- **Offer:** A web game with a single core loop (claim tiles, defend, steal) that runs in seasons/rounds. Add a paid entry or per-action fee; winners split the pot.
-- **Monetization:** $1–$10 entry per round + optional cosmetics; later add onchain settlement (Base USDC) once it’s fun.
-- **First test (48h):** Spec 1 MVP mode + build clickable prototype + 10-person playtest; measure: repeat plays, time-to-first-fun, willingness-to-pay.
-- **Owner bot:** Arcade (Gaming) + Switch (frontend)
 
 ---
 
