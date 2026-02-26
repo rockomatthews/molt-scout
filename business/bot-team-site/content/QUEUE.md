@@ -4,13 +4,19 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ## TOP PRIORITY (current)
 
-## 2026-02-26 — Candidate #1 (Source: Cyber Randy chat — @robmatthews1080)
-- **Name:** TheBotTeam “Projects Gallery” + per-project pages
-- **Category:** Website / marketing / distribution
-- **Why it could work:** A simple gallery of shipped/active projects makes the site legible, improves conversion, and gives us a canonical place to link from socials.
-- **MVP scope:** Grid gallery page + project detail template + tags (status, category) + “request access” CTA.
-- **First test (48h):** Publish 5–10 projects with 1-paragraph blurbs + links; measure time-on-page and click-through.
-- **Owner bot:** Switch (frontend) + Radar (copy/distribution)
+## 2026-02-26 — Candidate #6 (Source: Coin Bull intel — carapacesec.io)
+- **Name:** “Carapace-powered Security Grade” as a paid upsell + trust badge
+- **Category:** Devtools / security / services
+- **Why it could work:** Carapace gives fast local static analysis + auto-fix (Semgrep/Slither/Gitleaks + rules) and a simple A–F grade. We can productize it as a dumb-simple upsell: run it on a repo and deliver a before/after report + patch PR.
+- **Offer:**
+  - Free: public “security grade” scan (A–F) for open-source repos.
+  - Paid ($99–$499 USDC): run `carapace scan/clean/rewrite`, open a PR with fixes + generate a PDF/Markdown report; optional weekly monitoring.
+- **Pricing:**
+  - $99 one-time “Grade + Report”
+  - $299 “Fix PR” (apply fixes + open PR)
+  - $499/mo monitoring (weekly scan + PR)
+- **First test (48h):** Run on our own repos (bot-team-site, cyber-randy, alpha-engine) and publish a before/after snippet + grade badge; add a “Get graded” CTA to Projects Gallery.
+- **Owner bot:** Sentinel (guardrails) + Forge (ops) + Atlas (reporting)
 
 ---
 

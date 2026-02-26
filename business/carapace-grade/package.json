@@ -1,0 +1,12 @@
+{
+  "name": "carapace-grade",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "scan:bot-team-site": "node src/run.js --repo ../bot-team-site",
+    "scan:cyber-randy": "node src/run.js --repo ../cyber-randy-chat-site",
+    "scan:alpha-engine": "node src/run.js --repo ../alpha-engine",
+    "scan:all": "node src/run.js --repo ../bot-team-site --repo ../cyber-randy-chat-site --repo ../alpha-engine"
+  }
+}

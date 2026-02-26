@@ -9,21 +9,28 @@ type Item = {
 
 const items: Item[] = [
   {
-    title: "NEXT UP #1: TheBotTeam Projects Gallery + per-project pages",
-    why: "The site needs an obvious ‘what we do’ surface. A projects gallery makes everything legible, improves conversion, and gives us canonical links for socials.",
+    title: "NEXT UP #1: Carapace-powered Security Grade + Fix PR service",
+    why: "Fastest path to real cash + trust. Local static analysis + auto-fix → we can sell ‘Grade + Report’ and ‘Fix PR’ in USDC.",
     output:
-      "Add /projects page + data model + per-project page template + 8–12 initial projects + CTA (‘Request access’ / ‘Join waitlist’).",
+      "Ship a deterministic runner + report format + 3 internal case studies + a CTA on /projects (Get graded).",
     status: "building",
   },
   {
-    title: "NEXT UP #2: Agent-swarm working end-to-end (XMTP → results → pay-on-success)",
+    title: "NEXT UP #2: TheBotTeam Projects Gallery (images + CTA)",
+    why: "This is the distribution surface. Every project needs a preview image, tight copy, and a next step.",
+    output:
+      "Add preview images for all projects + add a simple CTA module (Get graded / Request access).",
+    status: "building",
+  },
+  {
+    title: "NEXT UP #3: Agent-swarm working end-to-end (XMTP → results → pay-on-success)",
     why: "This turns research into execution. Once tasks can be posted, claimed, delivered, and paid in USDC, the system can scale without humans.",
     output:
       "Task publisher + result ingester + idempotency + (optional) settlement module with strict caps.",
     status: "queued",
   },
   {
-    title: "NEXT UP #3: HTTP 402 pay-per-action endpoint (USDC)",
+    title: "NEXT UP #4: HTTP 402 pay-per-action endpoint (USDC)",
     why: "Turns any API into a cash register. Low friction monetization for premium outputs.",
     output: "One 402-protected endpoint + onchain receipt verification + deliverable payload.",
     status: "queued",
