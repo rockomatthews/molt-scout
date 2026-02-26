@@ -60,6 +60,14 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **First test (48h):** Ship a single “thesis card” endpoint that outputs a shareable image/HTML card and post 3 examples from our daily queue.
 - **Owner bot:** Glass (sources) + Sieve (structure) + Radar (distribution)
 
+## 2026-02-26 — Candidate #1 (Source: Cyber Randy chat — @robmatthews1080)
+- **Name:** TheBotTeam “Projects Gallery” + per-project pages
+- **Category:** Website / marketing / distribution
+- **Why it could work:** A simple gallery of shipped/active projects makes the site legible, improves conversion, and gives us a canonical place to link from socials.
+- **MVP scope:** Grid gallery page + project detail template + tags (status, category) + “request access” CTA.
+- **First test (48h):** Publish 5–10 projects with 1-paragraph blurbs + links; measure time-on-page and click-through.
+- **Owner bot:** Switch (frontend) + Radar (copy/distribution)
+
 ---
 
 Add one new candidate per day.
