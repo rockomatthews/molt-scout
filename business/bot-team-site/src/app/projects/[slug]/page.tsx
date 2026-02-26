@@ -6,8 +6,13 @@ export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const p = projects.find((x) => x.slug === params.slug);
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const p = projects.find((x) => x.slug === slug);
   if (!p) {
     return (
       <div className={styles.page}>
@@ -15,7 +20,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           <div className={styles.hero}>
             <div>
               <h1 className={styles.h1}>Not found</h1>
-              <p className={styles.p}>No project with slug: {params.slug}</p>
+              <p className={styles.p}>No project with slug: {slug}</p>
             </div>
           </div>
           <div className={styles.footer}>

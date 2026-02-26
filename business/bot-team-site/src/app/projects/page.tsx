@@ -1,6 +1,7 @@
 import styles from "../page.module.css";
 import { projects } from "./projects";
 import { statusBadge } from "./lib/projectStyles";
+import { BotAvatar } from "../components/BotAvatar";
 
 export default function ProjectsPage() {
   return (
@@ -29,19 +30,25 @@ export default function ProjectsPage() {
         <div className={styles.grid}>
           {projects.map((p) => {
             const badge = statusBadge(p.status);
+            const href = p.href ? p.href : `/projects/${p.slug}`;
             return (
               <a
                 key={p.slug}
-                href={`/projects/${p.slug}`}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.card}
                 style={{ display: "block" }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                  <h2 className={styles.cardTitle} style={{ margin: 0 }}>
-                    {p.name}
-                  </h2>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    <div style={{ width: 44, height: 44 }}>
+                      <BotAvatar seed={p.slug} size={44} />
+                    </div>
+                    <h2 className={styles.cardTitle} style={{ margin: 0 }}>
+                      {p.name}
+                    </h2>
+                  </div>
                   <div
                     className={styles.skill}
                     style={{
@@ -64,6 +71,11 @@ export default function ProjectsPage() {
                     </>
                   ) : null}
                 </div>
+                {p.href ? (
+                  <div className={styles.p} style={{ marginTop: 10, opacity: 0.7 }}>
+                    <b>Opens:</b> {p.href}
+                  </div>
+                ) : null}
               </a>
             );
           })}
