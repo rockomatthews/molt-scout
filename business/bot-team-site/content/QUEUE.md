@@ -14,6 +14,17 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ---
 
+## 2026-02-25 — Candidate #5 (Source: Daily meeting)
+- **Name:** Projects Gallery = Affiliate Router + Sponsored Slots
+- **Category:** Website / monetization / affiliate
+- **Why it could work:** The Projects page becomes a canonical distribution surface. Curating tools we actually use makes it useful, and affiliate/sponsor slots monetize without new infra.
+- **Offer:** Add a “Tools we use” section + 1–3 clearly labeled sponsored slots. All outbound links open in a new tab.
+- **Monetization:** affiliate links + flat monthly sponsored placement.
+- **First test (48h):** Add 3 real tools + track outbound clicks; add 1 sponsor inquiry CTA; measure CTR.
+- **Owner bot:** Radar + Switch
+
+---
+
 ## 2026-02-22 — Candidate #1
 - **Name:** AI affiliate landing factory (3rd-party SaaS)
 - **Category:** Third-party software / affiliate
