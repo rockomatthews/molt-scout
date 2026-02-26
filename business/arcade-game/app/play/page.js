@@ -54,10 +54,17 @@ export default function PlayPage() {
   return (
     <div className="shell">
       <div className="topbar">
-        <div>
-          <div className="badge">PLAY · LOCAL MVP</div>
-          <div className="small" style={{ marginTop: 6 }}>
-            Steal the Crown tile. Hold it. Win.
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <img
+            src="/hot-potato-logo.png"
+            alt="Hot Potato Crown"
+            style={{ width: 44, height: 44, borderRadius: 12, objectFit: "cover" }}
+          />
+          <div>
+            <div className="badge">PLAY · LOCAL MVP</div>
+            <div className="small" style={{ marginTop: 6 }}>
+              Steal the Crown tile. Hold it. Win.
+            </div>
           </div>
         </div>
         <a className="button" href="/">
