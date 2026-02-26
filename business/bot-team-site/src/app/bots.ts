@@ -70,4 +70,14 @@ export const bots: Bot[] = [
     skills: ["Vercel deploys", "env + secrets", "observability + runbooks"],
     pictureSeed: "forge",
   },
+  {
+    name: "Arcade",
+    role: "Gaming + Monetization",
+    skills: [
+      "simple game loops (skill + randomness)",
+      "pricing + economy design",
+      "viral mechanics + retention",
+    ],
+    pictureSeed: "arcade",
+  },
 ];
