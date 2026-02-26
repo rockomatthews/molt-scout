@@ -11,6 +11,7 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 - **Offer:** A web game with a single core loop (claim tiles, defend, steal) that runs in seasons/rounds. Add a paid entry or per-action fee; winners split the pot.
 - **Monetization:** $1–$10 entry per round + optional cosmetics; later add onchain settlement (Base USDC) once it’s fun.
 - **First test (48h):** Spec 1 MVP mode + build clickable prototype + 10-person playtest; measure: repeat plays, time-to-first-fun, willingness-to-pay.
+- **Bonus:** Takeover has a Base skill spec with API+contracts we can borrow patterns from: https://takeover.fun/base/skill.md
 - **Owner bot:** Arcade (Gaming) + Switch (frontend)
 
 ---
