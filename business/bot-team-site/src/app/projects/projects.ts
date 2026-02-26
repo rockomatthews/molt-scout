@@ -2,6 +2,7 @@ export type Project = {
   slug: string;
   name: string;
   blurb: string;
+  image?: string; // /public path (optional)
   status: "active" | "building" | "paused" | "archived";
   category: string;
   tags: string[];
@@ -14,6 +15,7 @@ export const projects: Project[] = [
     name: "Cyber Randy (private chat)",
     blurb:
       "Founder-controlled private chat room where @cyber_randy only responds when tagged and the user is starred.",
+    image: "/projects/cyber-randy.png",
     status: "active",
     category: "Community / Ops",
     tags: ["supabase", "vercel", "trust-gating"],

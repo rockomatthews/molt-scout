@@ -1,6 +1,7 @@
 import styles from "../page.module.css";
 import { projects } from "./projects";
 import { statusBadge } from "./lib/projectStyles";
+import Image from "next/image";
 import { BotAvatar } from "../components/BotAvatar";
 
 export default function ProjectsPage() {
@@ -42,8 +43,18 @@ export default function ProjectsPage() {
               >
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                    <div style={{ width: 44, height: 44 }}>
-                      <BotAvatar seed={p.slug} size={44} />
+                    <div style={{ width: 56, height: 56, position: "relative", flex: "0 0 auto" }}>
+                      {p.image ? (
+                        <Image
+                          src={p.image}
+                          alt={p.name}
+                          fill
+                          sizes="56px"
+                          style={{ borderRadius: 12, objectFit: "cover" }}
+                        />
+                      ) : (
+                        <BotAvatar seed={p.slug} size={56} />
+                      )}
                     </div>
                     <h2 className={styles.cardTitle} style={{ margin: 0 }}>
                       {p.name}
