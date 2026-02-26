@@ -2,10 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
+
 import { supabaseClient } from "../../lib/supabase";
 import { avatarUrl } from "../../lib/avatars";
+
 import { WalletBar } from "./wallet";
 import { emptyOwners, loadState, saveState } from "./state";
+
+import { Shell, Topbar, Card, Box, Button, Chip, Stack, TextField, Typography } from "../ui";
 
 function pickCrownIndex() {
   return 1 + Math.floor(Math.random() * 98);
@@ -17,27 +21,24 @@ export default function PlayPage() {
 
   const [handle, setHandle] = useState("player");
   const [avatarSeed, setAvatarSeed] = useState("player");
-
-  // Improve first impression: default avatar seed follows the wallet
-  useEffect(() => {
-    if (!address) return;
-    setAvatarSeed((cur) => (cur === "player" ? address : cur));
-    setHandle((cur) => (cur === "player" ? `@${address.slice(2, 8)}` : cur));
-  }, [address]);
   const [joined, setJoined] = useState(false);
   const [status, setStatus] = useState("");
   const [crownIdx, setCrownIdx] = useState(pickCrownIndex());
   const [owners, setOwners] = useState(() => emptyOwners());
 
+  // Better defaults once a wallet exists
+  useEffect(() => {
+    if (!address) return;
+    setAvatarSeed((cur) => (cur === "player" ? address : cur));
+    setHandle((cur) => (cur === "player" ? `@${address.slice(2, 8)}` : cur));
+  }, [address]);
+
   useEffect(() => {
     if (!supabase) {
-      setStatus(
-        "Supabase not connected yet (local-only mode). Add Supabase env vars in Vercel when ready."
-      );
+      setStatus("Supabase not connected (ok for local mode). Add env vars in Vercel for multiplayer.");
       return;
     }
 
-    // Load state once + subscribe to updates
     (async () => {
       try {
         const s = await loadState();
@@ -82,7 +83,6 @@ export default function PlayPage() {
     const username = h.startsWith("@") ? h : `@${h}`;
     setHandle(username);
 
-    // Upsert profile (MVP: no signature yet)
     if (supabase) {
       try {
         await supabase
@@ -98,158 +98,166 @@ export default function PlayPage() {
   }
 
   return (
-    <div className="shell">
-      <div className="topbar">
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img
-            src="/hot-potato-logo.png"
-            alt="Hot Potato Crown"
-            style={{ width: 72, height: 72, borderRadius: 16, objectFit: "cover" }}
-          />
-          <div>
-            <div className="badge">PLAY · LOCAL MVP</div>
-            <div className="small" style={{ marginTop: 6 }}>
-              Steal the Crown tile. Hold it. Win.
-            </div>
-          </div>
-        </div>
-        <a className="button" href="/">
-          Home
-        </a>
-      </div>
-
-      <div className="card" style={{ marginBottom: 14, maxWidth: 760 }}>
-        <div className="kv">
-          <div>
-            <div className="h2">1) Connect wallet</div>
-            <div className="small">Base network. This is your identity (and later, your paid entry).</div>
-          </div>
-        </div>
-        <div style={{ marginTop: 12 }}>
-          <WalletBar />
-        </div>
-      </div>
-
-      {!joined ? (
-        <div className="card" style={{ maxWidth: 760 }}>
-          <div className="h2">2) Pick a username + avatar</div>
-          <div className="small" style={{ marginTop: 6 }}>
-            {isConnected ? (
-              <>Connected: <b>{address?.slice(0, 6)}…{address?.slice(-4)}</b></>
-            ) : (
-              <>Connect first, then pick your name.</>
-            )}
-          </div>
-
-          <div
-            style={{
-              marginTop: 12,
-              display: "grid",
-              gridTemplateColumns: "1fr 80px",
-              gap: 12,
-              alignItems: "center",
-            }}
-          >
-            <input
-              className="input"
-              value={handle}
-              onChange={(e) => setHandle(e.target.value)}
-              placeholder="@yourname"
-              disabled={!isConnected}
-            />
+    <Shell>
+      <Topbar
+        left={
+          <Stack direction="row" spacing={1.5} alignItems="center">
             <img
-              src={avatarUrl(avatarSeed)}
-              alt="avatar"
-              style={{ width: 80, height: 80, borderRadius: 16, background: "rgba(255,255,255,.04)" }}
+              src="/hot-potato-logo.png"
+              alt="Hot Potato Crown"
+              style={{ width: 56, height: 56, borderRadius: 16, objectFit: "cover" }}
             />
-          </div>
+            <Box>
+              <Chip label="PLAY" size="small" />
+              <Typography variant="h5" fontWeight={900} sx={{ mt: 0.5, lineHeight: 1.05 }}>
+                Hot Potato Crown
+              </Typography>
+              <Typography variant="body2" sx={{ opacity: 0.75 }}>
+                Steal the crown tile. Hold it. Win.
+              </Typography>
+            </Box>
+          </Stack>
+        }
+        right={
+          <Button component="a" href="/" variant="outlined">
+            Home
+          </Button>
+        }
+      />
 
-          <div style={{ marginTop: 10 }}>
-            <input
-              className="input"
-              value={avatarSeed}
-              onChange={(e) => setAvatarSeed(e.target.value)}
-              placeholder="avatar seed (optional)"
-              disabled={!isConnected}
-            />
-          </div>
+      <Stack spacing={2}>
+        <Card title="1) Connect wallet" subtitle="Base network. This is your identity (and later, your paid entry).">
+          <WalletBar />
+        </Card>
 
-          <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button className="button" onClick={join} disabled={!isConnected}>
-              Start playing
-            </button>
-            <button
-              className="button"
-              onClick={() => {
-                setCrownIdx(pickCrownIndex());
-                setOwners(emptyOwners());
-              }}
-            >
-              Reset board
-            </button>
-          </div>
+        {!joined ? (
+          <Card title="2) Pick a username + avatar" subtitle="This is how you show up on the leaderboard.">
+            <Stack spacing={1.5}>
+              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                {isConnected ? (
+                  <>
+                    Connected: <b>{address?.slice(0, 6)}…{address?.slice(-4)}</b>
+                  </>
+                ) : (
+                  <>Connect first, then pick your name.</>
+                )}
+              </Typography>
 
-          {status ? <div className="small" style={{ marginTop: 10 }}>{status}</div> : null}
-        </div>
-      ) : (
-        <>
-          <div className="small" style={{ marginBottom: 10 }}>
-            You are <b>{handle}</b>. Click tiles to capture. Crown tile is outlined.
-          </div>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
+                <TextField
+                  label="Username"
+                  value={handle}
+                  onChange={(e) => setHandle(e.target.value)}
+                  placeholder="@yourname"
+                  disabled={!isConnected}
+                  fullWidth
+                />
+                <img
+                  src={avatarUrl(avatarSeed)}
+                  alt="avatar"
+                  style={{ width: 72, height: 72, borderRadius: 16, background: "rgba(255,255,255,.04)" }}
+                />
+              </Stack>
 
-          <div className="grid">
-            {owners.map((o, idx) => {
-              const cls = ["tile"];
-              if (o === address) cls.push("me");
-              if (idx === crownIdx) cls.push("crown");
-              return (
-                <div
-                  key={idx}
-                  className={cls.join(" ")}
-                  onClick={async () => {
-                    if (!address) return;
-                    const ok = Math.random() < 0.7;
-                    if (!ok) {
-                      setStatus("Missed. Try again.");
-                      return;
-                    }
-                    const nextOwners = owners.slice();
-                    nextOwners[idx] = address;
-                    setOwners(nextOwners);
-                    setStatus(idx === crownIdx ? "You stole the Crown. Hold it." : "");
+              <TextField
+                label="Avatar seed (optional)"
+                value={avatarSeed}
+                onChange={(e) => setAvatarSeed(e.target.value)}
+                disabled={!isConnected}
+                fullWidth
+              />
 
-                    // Persist to Supabase if connected
-                    if (supabase) {
-                      try {
-                        await saveState({
-                          crown_idx: crownIdx,
-                          round_ends_at: null,
-                          tiles: { owners: nextOwners },
-                        });
-                      } catch (e) {
-                        setStatus(String(e?.message || e));
-                      }
-                    }
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
+                <Button variant="contained" onClick={join} disabled={!isConnected}>
+                  Start playing
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setCrownIdx(pickCrownIndex());
+                    setOwners(emptyOwners());
                   }}
                 >
-                  {o ? "•" : ""}
-                </div>
-              );
-            })}
-          </div>
+                  Reset board
+                </Button>
+              </Stack>
 
-          {status ? <div className="small" style={{ marginTop: 12 }}>{status}</div> : null}
+              {status ? (
+                <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                  {status}
+                </Typography>
+              ) : null}
+            </Stack>
+          </Card>
+        ) : (
+          <Card
+            title="Arena"
+            subtitle="Crown tile is outlined. Capture success is 70% (for now)."
+          >
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(10, 1fr)",
+                gap: { xs: 0.6, sm: 0.8 },
+              }}
+            >
+              {owners.map((o, idx) => {
+                const isMine = o && address && o.toLowerCase() === address.toLowerCase();
+                const isCrown = idx === crownIdx;
+                return (
+                  <Box
+                    key={idx}
+                    onClick={async () => {
+                      if (!address) return;
+                      const ok = Math.random() < 0.7;
+                      if (!ok) {
+                        setStatus("Missed. Try again.");
+                        return;
+                      }
+                      const nextOwners = owners.slice();
+                      nextOwners[idx] = address;
+                      setOwners(nextOwners);
+                      setStatus(idx === crownIdx ? "You stole the Crown. Hold it." : "");
 
-          <div className="card" style={{ marginTop: 16 }}>
-            <b>Next step</b>
-            <div className="small" style={{ marginTop: 10, lineHeight: 1.6 }}>
-              • rounds (3 min) + crown points
-              <br />• leaderboard
-              <br />• paid entry (USDC on Base) after fun is proven
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+                      if (supabase) {
+                        try {
+                          await saveState({
+                            crown_idx: crownIdx,
+                            round_ends_at: null,
+                            tiles: { owners: nextOwners },
+                          });
+                        } catch (e) {
+                          setStatus(String(e?.message || e));
+                        }
+                      }
+                    }}
+                    sx={{
+                      aspectRatio: "1 / 1",
+                      borderRadius: 1.5,
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      bgcolor: isMine ? "rgba(116,167,255,0.16)" : "rgba(255,255,255,0.03)",
+                      outline: isCrown ? "2px solid rgba(251,191,36,0.95)" : "none",
+                      cursor: "pointer",
+                      userSelect: "none",
+                    }}
+                    title={o ? `occupied` : `empty`}
+                  />
+                );
+              })}
+            </Box>
+
+            {status ? (
+              <Typography variant="body2" sx={{ mt: 1.5, opacity: 0.85 }}>
+                {status}
+              </Typography>
+            ) : null}
+
+            <Typography variant="caption" sx={{ display: "block", mt: 1.5, opacity: 0.6 }}>
+              MVP note: game rules + payouts not live yet.
+            </Typography>
+          </Card>
+        )}
+      </Stack>
+    </Shell>
   );
 }

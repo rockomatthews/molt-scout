@@ -1,4 +1,5 @@
 import "./globals.css";
+import { MuiTheme } from "./mui-theme";
 import { WalletProviders } from "../lib/wagmi";
 
 export const metadata = {
@@ -10,7 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <WalletProviders>{children}</WalletProviders>
+        <MuiTheme>
+          <WalletProviders>{children}</WalletProviders>
+        </MuiTheme>
       </body>
     </html>
   );
