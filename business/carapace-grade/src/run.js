@@ -44,16 +44,26 @@ async function main() {
 
     console.log(`\n[carapace-grade] scanning ${repoName} (${repo})`);
 
+    const carapaceRoot = path.resolve("vendor", "carapace");
+    const cliPath = path.join(carapaceRoot, "packages", "cli", "dist", "cli.js");
+
+    // Ensure vendored Carapace is installed + built (stubs + engine + cli)
+    await run("corepack", ["enable"], carapaceRoot);
+    await run("corepack", ["prepare", "pnpm@9.15.4", "--activate"], carapaceRoot);
+    await run("pnpm", ["install"], carapaceRoot);
+    await run("pnpm", ["--filter", "@carapacesecurity/engine", "build"], carapaceRoot);
+    await run("pnpm", ["--filter", "@carapacesecurity/cli", "build"], carapaceRoot);
+
     // Scan (full)
-    const scan = await run("npx", ["-y", "carapace", "scan", ".", "--full"], repo);
+    const scan = await run("node", [cliPath, "scan", ".", "--full"], repo);
     fs.writeFileSync(path.join(outDir, "scan.txt"), scan.out + "\n\n" + scan.err);
 
     // Attempt clean (non-fatal)
-    const clean = await run("npx", ["-y", "carapace", "clean", "."], repo);
+    const clean = await run("node", [cliPath, "clean", "."], repo);
     fs.writeFileSync(path.join(outDir, "clean.txt"), clean.out + "\n\n" + clean.err);
 
     // Rescan to capture improvement
-    const rescan = await run("npx", ["-y", "carapace", "scan", ".", "--full"], repo);
+    const rescan = await run("node", [cliPath, "scan", ".", "--full"], repo);
     fs.writeFileSync(path.join(outDir, "rescan.txt"), rescan.out + "\n\n" + rescan.err);
 
     // Tiny summary
