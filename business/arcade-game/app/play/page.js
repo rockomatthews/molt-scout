@@ -97,7 +97,7 @@ export default function PlayPage() {
           <img
             src="/hot-potato-logo.png"
             alt="Hot Potato Crown"
-            style={{ width: 44, height: 44, borderRadius: 12, objectFit: "cover" }}
+            style={{ width: 72, height: 72, borderRadius: 16, objectFit: "cover" }}
           />
           <div>
             <div className="badge">PLAY · LOCAL MVP</div>

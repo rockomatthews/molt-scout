@@ -8,7 +8,7 @@ export default function Home() {
           <img
             src="/hot-potato-logo.png"
             alt="Hot Potato Crown"
-            style={{ width: 44, height: 44, borderRadius: 12, objectFit: "cover" }}
+            style={{ width: 88, height: 88, borderRadius: 18, objectFit: "cover" }}
           />
           <div>
             <div className="badge">ARCADE · MVP</div>
