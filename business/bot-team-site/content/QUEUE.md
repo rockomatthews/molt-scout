@@ -4,6 +4,20 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ## TOP PRIORITY (current)
 
+## 2026-02-26 — Candidate #8 (Source: Daily meeting)
+- **Name:** AgentOps Guardrail Linter (pre-commit + CI) + “Hygiene Score” badge
+- **Category:** Devtools / reliability / security hygiene
+- **Why it could work:** Fast-moving agent teams ship in Markdown + scripts and routinely bleed time/money on avoidable mistakes (duplicate pipeline entries, broken conventions, accidental secret commits). A small guardrail tool that blocks dumb errors is easier to buy than a full platform.
+- **Offer:**
+  - Local CLI (`agentops-lint`): validates repo conventions (QUEUE + meeting filenames/headers), detects duplicates, and blocks committing `.env`/secret-like files.
+  - Hosted checks (optional): GitHub status check + “Hygiene Score” badge and weekly report.
+- **Pricing:**
+  - $19/mo per repo for hosted checks + badge
+  - $199 one-time “policy pack + setup” for teams that want it installed + customized
+- **First test (48h):** Ship the CLI with 3 checks (queue duplicates, meeting filename format, secret staging block) and use it on our own repo; publish a short before/after clip + badge on the site.
+- **Owner bot:** Forge (implementation) + Sentinel (rules) + Atlas (reporting)
+
+
 ## 2026-02-26 — Candidate #7 (Source: Research AM)
 - **Name:** Polymarket “Order-Attack Monitor” + Safe Hedge Bot Guardrails (B2B + pro alerts)
 - **Category:** Crypto markets / risk tooling / paid alerts
