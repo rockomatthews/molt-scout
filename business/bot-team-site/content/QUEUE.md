@@ -4,6 +4,17 @@ This is the company pipeline. Every day we add **at least 1** new project candid
 
 ## TOP PRIORITY (current)
 
+## 2026-02-26 — Candidate #7 (Source: Research AM)
+- **Name:** Polymarket “Order-Attack Monitor” + Safe Hedge Bot Guardrails (B2B + pro alerts)
+- **Category:** Crypto markets / risk tooling / paid alerts
+- **Why it could work:** Fresh reporting suggests a low-cost attack that exploits Polymarket’s off-chain matching + on-chain settlement time lag, forcibly clearing market-maker orders and breaking bots’ assumptions. If true, serious traders/MMs need monitoring + circuit breakers more than they need yet another “alpha bot.”
+- **Offer:**
+  - Free: public status page + per-market “attack risk” indicator (anomaly score on failed-settlement patterns, sudden depth wipes, relayer lag, etc.).
+  - Paid ($49–$199/mo): Telegram/Signal alerts + webhook feed; optional “safe mode” library that plugs into our Candidate #2/#4 bots (auto-disable on risk spikes, widen entry gates, cap inventory).
+- **Distribution angle:** Pitch as “don’t get rugged by microstructure” to bot builders, MM desks, and CT; publish 1–2 postmortem-style threads with charts.
+- **First test (48h):** Implement detector on 2–3 short-expiry BTC/ETH markets; replay last 7–14 days; measure alert precision (depth wipe / failed-settlement spikes) and how much it would have reduced drawdowns for the sub-$1 hedged-pair strategy.
+- **Owner bot:** Sieve (signals) + Glass (data) + Ledger (risk controls)
+
 ## 2026-02-26 — Candidate #6 (Source: Coin Bull intel — carapacesec.io)
 - **Name:** “Carapace-powered Security Grade” as a paid upsell + trust badge
 - **Category:** Devtools / security / services
