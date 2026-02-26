@@ -6,6 +6,14 @@ import { useAccount } from "wagmi";
 import { supabaseClient } from "../../lib/supabase";
 import { avatarUrl } from "../../lib/avatars";
 
+function normalizeUsername(s) {
+  const raw = String(s || "").trim();
+  if (!raw) return "";
+  const noSpaces = raw.replace(/\s+/g, "_");
+  const withAt = noSpaces.startsWith("@") ? noSpaces : `@${noSpaces}`;
+  return withAt.slice(0, 20);
+}
+
 import { WalletBar } from "./wallet";
 import { emptyOwners, loadState, saveState } from "./state";
 
@@ -21,6 +29,8 @@ export default function PlayPage() {
 
   const [handle, setHandle] = useState("player");
   const [avatarSeed, setAvatarSeed] = useState("player");
+  const [avatarUrlOverride, setAvatarUrlOverride] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [joined, setJoined] = useState(false);
   const [status, setStatus] = useState("");
   const [crownIdx, setCrownIdx] = useState(pickCrownIndex());
@@ -77,20 +87,30 @@ export default function PlayPage() {
       return;
     }
 
-    const h = handle.trim().replace(/\s+/g, "_");
-    if (!h) return;
+    const username = normalizeUsername(handle);
+    if (!username) {
+      setStatus("Pick a username.");
+      return;
+    }
 
-    const username = h.startsWith("@") ? h : `@${h}`;
     setHandle(username);
 
-    if (supabase) {
-      try {
-        await supabase
-          .from("arc_profiles")
-          .upsert({ address, username, avatar_seed: avatarSeed }, { onConflict: "address" });
-      } catch (e) {
-        setStatus(String(e?.message || e));
-      }
+    try {
+      const res = await fetch("/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address,
+          username,
+          avatarSeed,
+          avatarUrl: avatarUrlOverride,
+        }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || "Profile save failed");
+    } catch (e) {
+      setStatus(String(e?.message || e));
+      return;
     }
 
     setJoined(true);
@@ -145,30 +165,75 @@ export default function PlayPage() {
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
                 <TextField
-                  label="Username"
+                  label="Username (unique)"
                   value={handle}
                   onChange={(e) => setHandle(e.target.value)}
                   placeholder="@yourname"
                   disabled={!isConnected}
                   fullWidth
+                  helperText="Unique across the game."
                 />
                 <img
-                  src={avatarUrl(avatarSeed)}
+                  src={avatarUrlOverride || avatarUrl(avatarSeed)}
                   alt="avatar"
                   style={{ width: 72, height: 72, borderRadius: 16, background: "rgba(255,255,255,.04)" }}
                 />
               </Stack>
 
-              <TextField
-                label="Avatar seed (optional)"
-                value={avatarSeed}
-                onChange={(e) => setAvatarSeed(e.target.value)}
-                disabled={!isConnected}
-                fullWidth
-              />
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
+                <TextField
+                  label="Avatar seed (optional)"
+                  value={avatarSeed}
+                  onChange={(e) => setAvatarSeed(e.target.value)}
+                  disabled={!isConnected}
+                  fullWidth
+                />
+                <Button
+                  variant="outlined"
+                  component="label"
+                  disabled={!isConnected || uploading}
+                  sx={{ whiteSpace: "nowrap" }}
+                >
+                  {uploading ? "Uploading…" : "Upload photo"}
+                  <input
+                    hidden
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file || !address) return;
+                      setUploading(true);
+                      setStatus("");
+                      try {
+                        const start = await fetch("/api/avatar", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ address, contentType: file.type }),
+                        });
+                        const j = await start.json();
+                        if (!start.ok) throw new Error(j.error || "Upload init failed");
+
+                        // Upload bytes to signed URL
+                        const put = await fetch(j.signedUrl, {
+                          method: "PUT",
+                          headers: { "Content-Type": file.type || "image/png" },
+                          body: file,
+                        });
+                        if (!put.ok) throw new Error("Upload failed");
+
+                        setAvatarUrlOverride(j.publicUrl);
+                      } catch (err) {
+                        setStatus(String(err?.message || err));
+                      } finally {
+                        setUploading(false);
+                      }
+                    }}
+                  />
+                </Button>
+              </Stack>
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
-                <Button variant="contained" onClick={join} disabled={!isConnected}>
+                <Button variant="contained" onClick={join} disabled={!isConnected || uploading}>
                   Start playing
                 </Button>
                 <Button
