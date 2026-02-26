@@ -141,28 +141,9 @@ export default function ChatPage() {
     // Optimistic append (even if Realtime is off)
     if (data) setMessages((cur) => (cur.some((m) => m.id === data.id) ? cur : [...cur, data as any]));
 
-    // Bot behavior v0:
-    // - only respond when tagged
-    // - only respond if author is starred
-    if (body.includes(BOT_HANDLE)) {
-      const starred = !!myProfile?.starred;
-      if (starred) {
-        const { data: botData } = await supabase
-          .from("cr_messages")
-          .insert({
-            user_id: me.id,
-            handle: BOT_HANDLE,
-            body:
-              "(bot online) I saw the tag. Bot replies will be wired to the real agent next — for now this is a stub.",
-          })
-          .select("id,created_at,handle,body,user_id")
-          .single();
-        if (botData)
-          setMessages((cur) =>
-            cur.some((m) => m.id === (botData as any).id) ? cur : [...cur, botData as any]
-          );
-      }
-    }
+    // Bot behavior:
+    // Replies are generated server-side by the always-on responder worker.
+    // We do nothing here (no fake stub messages).
   }
 
   if (!mounted) return null;
