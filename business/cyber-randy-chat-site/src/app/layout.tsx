@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Private Bot Team chat room. The bot only speaks when tagged as @cyber_randy. Only starred users are trusted.",
   applicationName: "Cyber Randy",
-  metadataBase: new URL("https://cyber-randy.vercel.app"),
+  metadataBase: new URL("https://cyberrandy.com"),
   openGraph: {
     title: "Cyber Randy — Bot Team Chat",
     description:
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/cyber_randy.png",
+        url: "/og-1200x630.png",
         width: 1200,
         height: 630,
         alt: "Cyber Randy",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "Cyber Randy — Bot Team Chat",
     description:
       "Private Bot Team chat room. The bot only speaks when tagged as @cyber_randy. Only starred users are trusted.",
-    images: ["/cyber_randy.png"],
+    images: ["/og-1200x630.png"],
   },
   icons: {
     icon: "/cyber_randy_chat_icon.png",
