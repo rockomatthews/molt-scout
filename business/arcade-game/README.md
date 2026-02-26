@@ -33,4 +33,4 @@ The app runs in local-only mode without Supabase, but multiplayer + persistence 
 
 ## Routes
 - `/` landing
-- `/play` local MVP arena
+- `/play` Hot Potato (10 players) arena

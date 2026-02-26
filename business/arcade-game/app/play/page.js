@@ -23,7 +23,18 @@ function pickCrownIndex() {
   return 1 + Math.floor(Math.random() * 98);
 }
 
+import { HotPotatoGame } from "./hotpotato";
+
 export default function PlayPage() {
+  // New game mode: Hot Potato (10 players)
+  return <HotPotatoGame />;
+}
+
+/*
+  Previous tile-crown prototype kept below for reference. We'll delete once Hot Potato is stable.
+*/
+
+function OldPrototype() {
   const supabase = useMemo(() => supabaseClient(), []);
   const { address, isConnected } = useAccount();
 
