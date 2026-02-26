@@ -1,4 +1,5 @@
 import "./globals.css";
+import { WalletProviders } from "../lib/wagmi";
 
 export const metadata = {
   title: "Arcade — Hot Potato Crown",
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <WalletProviders>{children}</WalletProviders>
+      </body>
     </html>
   );
 }
