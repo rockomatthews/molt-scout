@@ -68,4 +68,4 @@ First test: Live micro-size run ($10–$50): track cumulative YES shares+spend a
 
 ---
 
-Last published: 2026-02-27T02:29:59.334Z
+Last published: 2026-02-27T02:40:27.906Z
