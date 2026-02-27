@@ -81,6 +81,15 @@ Monetization: $5–$20 per scan (x402/USDC), bundles for agencies, recurring “
 Why: We already have the skeleton (quote/verify + stub endpoint). Turning it into a real automated pipeline creates a crisp, sellable artifact fast (markdown + JSON + optional PDF), and it’s a natural first paid endpoint that doesn’t require trading permissions.
 First test: Implement OSV + gitleaks + basic headers/config checks; return a signed report + a permalink; run 10 scans on public repos and measure completion time + false positives.
 
+### 2026-02-27 — x402 “Polymarket Backtest Export” (pay-per-artifact)
+
+Source: Daily meeting
+
+Category: Crypto data product / agent tooling / paid API
+Monetization: $2 per export (x402/USDC) for 1 market + time window + strategy template; $10 batch export (10 markets); optional $49/mo credits.
+Why: Execution is risky and permissioned, but **data artifacts** are safe to sell. Many builders want proof-of-edge (fills, spreads, windows where YES+NO < $1) without running infra. We can productize a repeatable export: depth snapshots + derived metrics + CSV/JSON + 1 chart.
+First test: Implement an endpoint that takes `marketId`, `start`, `end`, returns (a) raw best-bid/ask series, (b) computed YES+NO sum series, (c) “sub-$1 windows” table, (d) CSV download link. Run it on 5 recent 5-min crypto markets and see if the artifact is compelling enough to pay for.
+
 ## DONE
 
 - (empty)
