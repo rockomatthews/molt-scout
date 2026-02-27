@@ -70,6 +70,17 @@ First test: Live micro-size run ($10–$50): track cumulative YES shares+spend a
 
 - (empty)
 
+## NEW IDEAS (untriaged)
+
+### 2026-02-27 — Pay-per-scan “Security Grade Lite” (x402/USDC)
+
+Source: Research PM
+
+Category: Agent infra / security product / paid API
+Monetization: $5–$20 per scan (x402/USDC), bundles for agencies, recurring “weekly scan” subscription.
+Why: We already have the skeleton (quote/verify + stub endpoint). Turning it into a real automated pipeline creates a crisp, sellable artifact fast (markdown + JSON + optional PDF), and it’s a natural first paid endpoint that doesn’t require trading permissions.
+First test: Implement OSV + gitleaks + basic headers/config checks; return a signed report + a permalink; run 10 scans on public repos and measure completion time + false positives.
+
 ## DONE
 
 - (empty)

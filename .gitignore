@@ -29,3 +29,6 @@ dist/
 
 # Carapace grade generated reports
 /business/carapace-grade/reports/
+
+# Nested standalone repos / experiments (avoid accidentally committing secrets like .env)
+/business/polymarket-btc-5min/
