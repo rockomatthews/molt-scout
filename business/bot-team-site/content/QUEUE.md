@@ -12,6 +12,14 @@ Rules:
 
 ## BACKLOG
 
+### 2026-02-27 — #1: x402-paywalled MCP servers (paid tools for agents)
+
+Category: Crypto payments + agent infra + developer tooling
+Monetization: $0.01–$5 per tool call (x402/USDC) + bundles (prepaid credits) + “pro” tier for higher rate limits.
+Why: The agent ecosystem needs a default way to *pay* for tools (MCP servers / APIs) without accounts/subscriptions. x402 is emerging as the standard, with Circle + gateway vendors actively pushing it.
+First test: Ship 1 MCP server + 1 HTTP endpoint behind x402 (e.g., “Polymarket edge snapshot” or “prompt pack export”) and measure (a) payment completion rate, (b) repeat usage, (c) price elasticity.
+
+
 ### 2026-02-22 — #1: AI affiliate landing factory (3rd-party SaaS)
 - **Beacon:** https://claw-beaconbackend-production.up.railway.app/tasks/1
 
