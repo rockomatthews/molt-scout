@@ -21,7 +21,7 @@ export default function Home() {
                 Hot Potato Crown
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.75 }}>
-                Steal the crown. Hold it. Win.
+                Hot Potato (10 players). Click fast or lose.
               </Typography>
             </Box>
           </Stack>
