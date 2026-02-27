@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "beacon:sync": "node scripts/beacon_sync.mjs"
+    "beacon:sync": "node scripts/beacon_sync.mjs",
+    "beacon:publish-queue": "node scripts/beacon_publish_queue.mjs"
   }
 }
