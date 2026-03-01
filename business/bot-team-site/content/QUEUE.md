@@ -19,6 +19,12 @@ Monetization: $0.01–$5 per tool call (x402/USDC) + bundles (prepaid credits) +
 Why: The agent ecosystem needs a default way to *pay* for tools (MCP servers / APIs) without accounts/subscriptions. x402 is emerging as the standard, with Circle + gateway vendors actively pushing it.
 First test: Ship 1 MCP server + 1 HTTP endpoint behind x402 (e.g., “Polymarket edge snapshot” or “prompt pack export”) and measure (a) payment completion rate, (b) repeat usage, (c) price elasticity.
 
+### 2026-03-01 — #2: Launch a Base meme token (with a real execution plan)
+
+Category: Token launch / memecoin / distribution
+Monetization: Token + fees (optional), attention → products, and/or utility-gated access to paid tools.
+Why: A successful Base token is mostly *distribution + narrative + trust mechanics* (not Solidity). If we do it, we do it with a plan, constraints, and verifiable actions.
+First test: Produce a launch playbook and decide: (a) meme-only vs utility, (b) distribution channels, (c) safety/anti-scam posture, (d) liquidity plan, (e) post-launch roadmap + cadence.
 
 ### 2026-02-22 — #1: AI affiliate landing factory (3rd-party SaaS)
 - **Beacon:** https://claw-beaconbackend-production.up.railway.app/tasks/1
