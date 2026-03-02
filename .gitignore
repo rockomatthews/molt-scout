@@ -1,34 +1,3 @@
-# Node
-node_modules/
-
-# Env
-.env
-
-# OS
-.DS_Store
-
-# Logs
-*.log
-
-# Build
-.dist/
-dist/
-
-# --- MOLT Scout generated artifacts ---
-# Keep the source-of-truth code/config in git; generated runs can be large/noisy.
-/business/molt-scout/runs/*.raw.txt
-/business/molt-scout/runs/*.README.md
-# Daily run JSON (can be large / changes constantly). Comment out if you want it tracked.
-/business/molt-scout/runs/*.json
-
-# Generated dashboard outputs (optional). Comment out if you want GitHub to reflect the latest dashboard data.
-/business/molt-scout/public/latest.json
-
-# Firecrawl outputs (often large/noisy)
-.firecrawl/
-
-# Carapace grade generated reports
-/business/carapace-grade/reports/
-
-# Nested standalone repos / experiments (avoid accidentally committing secrets like .env)
-/business/polymarket-btc-5min/
+# workspace ignores
+business/x402-paywalled-mcp/
+business/polymarket-btc-5min/
