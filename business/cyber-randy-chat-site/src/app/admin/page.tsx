@@ -9,6 +9,15 @@ type Profile = { id: string; handle: string; starred: boolean };
 export default function AdminPage() {
   const supabase = useMemo(() => createClient(), []);
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("cr_admin_password");
+      if (saved) setPassword(saved);
+    } catch {
+      // ignore
+    }
+  }, []);
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [status, setStatus] = useState<string>("");
 
@@ -38,7 +47,7 @@ export default function AdminPage() {
     const res = await fetch("/api/admin/star", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password, userId, starred }),
+      body: JSON.stringify({ password: password.trim(), userId, starred }),
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok) {
@@ -65,7 +74,16 @@ export default function AdminPage() {
               label="ADMIN_PASSWORD"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                const v = e.target.value;
+                setPassword(v);
+                try {
+                  localStorage.setItem("cr_admin_password", v);
+                } catch {
+                  // ignore
+                }
+              }}
+              helperText="Stored locally in this browser only."
               fullWidth
             />
             <Button variant="outlined" onClick={load}>

@@ -16,8 +16,16 @@ export async function POST(req: Request) {
     starred?: boolean;
   };
 
-  if (password !== adminPassword) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const got = (password ?? "").trim();
+  const expected = (adminPassword ?? "").trim();
+  if (!got || got !== expected) {
+    return NextResponse.json(
+      {
+        error:
+          "Unauthorized. Check that ADMIN_PASSWORD is set on Vercel and that you entered it exactly (no extra spaces).",
+      },
+      { status: 401 }
+    );
   }
   if (!userId || typeof starred !== "boolean") {
     return NextResponse.json({ error: "Missing userId/starred" }, { status: 400 });
