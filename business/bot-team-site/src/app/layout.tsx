@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://the-bot-team.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://thebotteam.com";
 const OG_IMAGE = "/og-1200x630.png";
 
 export const metadata: Metadata = {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
   },
   icons: {
-    icon: OG_IMAGE,
+    icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
