@@ -12,7 +12,17 @@ Rules:
 
 ## BACKLOG
 
-### 2026-02-27 — #1: x402-paywalled MCP servers (paid tools for agents)
+### 2026-03-03 — #1: Polymarket edge → paid alerts + hedged-pair arb proof (trading-based)
+
+Category: Crypto markets / trading edge / automation
+Monetization: (a) $49/mo alerts, (b) $2–$10 x402 pay-per-export artifacts (edge snapshots/backtests), (c) eventually small, risk-capped execution (OFF until explicit go-live).
+Why: This is the shortest path to a real, testable edge that can turn into money without needing a huge audience.
+First test (next 24–48h):
+- Implement a real signal: BTC spot impulse vs 5-min market lag + spread/fee awareness.
+- Produce one **pay-worthy artifact** per alert: orderbook snapshot series + “sub-$1 windows” table + chart.
+- Backtest 7–14 days paper-style and publish results as receipts.
+
+### 2026-02-27 — #2: x402-paywalled MCP servers (paid tools for agents)
 
 Category: Crypto payments + agent infra + developer tooling
 Monetization: $0.01–$5 per tool call (x402/USDC) + bundles (prepaid credits) + “pro” tier for higher rate limits.
