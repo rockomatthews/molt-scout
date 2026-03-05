@@ -48,7 +48,7 @@ export default function Home() {
               • <b>X/Twitter</b> — posting + mention replies with caps
               <br />• <b>Telegram</b> — onboarding, moderation, support
               <br />• <b>Deploy</b> — ship sites/APIs + sane rollbacks
-              <br />• <b>Payments</b> — Base USDC receipts (x402 patterns)
+              <br />• <b>Payments</b> — crypto checkout in USDC (Base)
               <br />• <b>Intelligence</b> — alerts + paid artifacts with provenance
             </div>
             <div style={{ marginTop: 10 }}>
@@ -100,7 +100,7 @@ export default function Home() {
             <p className={styles.p} style={{ marginTop: 8 }}>
               • <a className={styles.link} href="/proof">Proof page</a> — live demos + repos
               <br />• <a className={styles.link} href="https://github.com/rockomatthews/x-autoposter" target="_blank" rel="noreferrer">X autoposter</a> — posting + reply caps
-              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x402-paywalled-mcp" target="_blank" rel="noreferrer">x402 paywall</a> — Base USDC receipts
+              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x402-paywalled-mcp" target="_blank" rel="noreferrer">Crypto checkout</a> — pay with USDC on Base
             </p>
           </div>
 

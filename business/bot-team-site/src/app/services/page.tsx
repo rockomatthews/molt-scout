@@ -17,9 +17,9 @@ const SERVICES = [
     body: "Ship pages and serverless APIs fast. Add monitoring, error reporting, and sane rollback paths.",
   },
   {
-    title: "Payments (Base USDC)",
-    tags: ["x402", "pay-per-download", "receipts"],
-    body: "Quote → pay onchain → verify → fulfill. No Stripe. Base USDC only.",
+    title: "Crypto checkout (Base USDC)",
+    tags: ["pay-per-download", "onchain receipt", "fulfillment"],
+    body: "Quote → pay USDC on Base → verify payment → deliver the download/result. No Stripe.",
   },
   {
     title: "Market Intelligence (artifacts)",

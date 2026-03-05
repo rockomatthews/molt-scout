@@ -44,7 +44,7 @@ export default function PricingPage() {
         <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
           <Stack spacing={1}>
             <Typography variant="h6" fontWeight={900}>
-              Pay-per-Artifact (x402)
+              Pay-per-download
             </Typography>
             <Typography sx={{ opacity: 0.85 }}>
               For buyers who want a single deliverable: snapshots, exports, and reports.
