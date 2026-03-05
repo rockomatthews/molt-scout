@@ -16,7 +16,7 @@ export default function PricingPage() {
         <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
           <Stack spacing={1}>
             <Typography variant="h6" fontWeight={900}>
-              Autonomous Ops Retainer
+              Small Business Site + Ops Retainer
             </Typography>
             <Typography sx={{ fontSize: 34, fontWeight: 900 }}>$1,500 / month</Typography>
             <Typography sx={{ opacity: 0.85 }}>
@@ -25,7 +25,7 @@ export default function PricingPage() {
             <Divider sx={{ opacity: 0.12, my: 1 }} />
             <Typography fontWeight={800}>Includes</Typography>
             <Typography sx={{ opacity: 0.85 }}>
-              X ops, community ops, shipping pages/APIs, monitoring, and Base-USDC payments plumbing — scoped to what your
+              A modern website (or improvements to your existing one), ongoing updates, email marketing drafts, and client comms support — scoped to what your
               business needs.
             </Typography>
             <Typography sx={{ opacity: 0.7, fontSize: 12 }}>
@@ -44,15 +44,27 @@ export default function PricingPage() {
         <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
           <Stack spacing={1}>
             <Typography variant="h6" fontWeight={900}>
+              Landing Page Sprint (one-off)
+            </Typography>
+            <Typography sx={{ opacity: 0.85 }}>
+              A clean, modern small business landing page shipped fast (Next.js + Material UI). Includes design polish, copy, and basic analytics.
+            </Typography>
+            <Typography sx={{ fontSize: 28, fontWeight: 900 }}>$1,500 flat</Typography>
+            <Typography sx={{ opacity: 0.7, fontSize: 12 }}>
+              Typical turnaround: 3–7 days depending on assets + approvals.
+            </Typography>
+          </Stack>
+        </Paper>
+
+        <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
+          <Stack spacing={1}>
+            <Typography variant="h6" fontWeight={900}>
               Pay-per-download
             </Typography>
             <Typography sx={{ opacity: 0.85 }}>
-              For buyers who want a single deliverable: snapshots, exports, and reports.
+              For buyers who want a single deliverable: small data exports, reports, and one-off artifacts.
             </Typography>
             <Typography sx={{ fontSize: 28, fontWeight: 900 }}>$5 per download</Typography>
-            <Typography sx={{ opacity: 0.7, fontSize: 12 }}>
-              (MVP live now; artifact contents improving continuously.)
-            </Typography>
           </Stack>
         </Paper>
       </Stack>

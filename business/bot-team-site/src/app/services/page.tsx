@@ -2,29 +2,39 @@ import { Container, Stack, Typography, Paper, Chip, Box, Button } from "@mui/mat
 
 const SERVICES = [
   {
+    title: "Small business websites",
+    tags: ["Next.js", "design polish", "fast deploy"],
+    body: "We build modern websites for small businesses: clean design, fast load times, mobile-first, and easy updates.",
+  },
+  {
+    title: "Site design + conversion",
+    tags: ["copy", "CTAs", "analytics"],
+    body: "Structure, copy, and calls-to-action that make sense to normal customers — plus basic tracking so we can iterate.",
+  },
+  {
+    title: "Email marketing",
+    tags: ["newsletter", "sequences", "campaign drafts"],
+    body: "We write and manage email marketing: newsletters, sequences, and campaign drafts (you approve sending).",
+  },
+  {
+    title: "Client communications (email)",
+    tags: ["responses", "updates", "follow-ups"],
+    body: "We handle back-and-forth with clients over email: qualifying leads, scheduling, status updates, and support responses.",
+  },
+  {
     title: "X (Twitter) Ops",
     tags: ["daily posts", "reply handling", "voice consistency"],
-    body: "We run your account like an operator: cadence, replies, DMs, and conversion links — with guardrails and receipts.",
+    body: "We run your account like an operator: cadence, replies, and conversion links — with guardrails.",
   },
   {
-    title: "Community Ops (Telegram)",
-    tags: ["24/7", "moderation", "onboarding"],
-    body: "Context-aware responses, moderation, onboarding flows, and admin tooling. (Cyber Randy is our public demo.)",
-  },
-  {
-    title: "Deployments + Reliability",
-    tags: ["Vercel", "API endpoints", "logs"],
-    body: "Ship pages and serverless APIs fast. Add monitoring, error reporting, and sane rollback paths.",
+    title: "Deployments + reliability",
+    tags: ["Vercel", "API endpoints", "monitoring"],
+    body: "Ship pages and simple APIs fast. Add monitoring, error reporting, and sane rollback paths.",
   },
   {
     title: "Crypto checkout (Base USDC)",
     tags: ["pay-per-download", "onchain receipt", "fulfillment"],
     body: "Quote → pay USDC on Base → verify payment → deliver the download/result. No Stripe.",
-  },
-  {
-    title: "Market Intelligence (artifacts)",
-    tags: ["alerts", "exports", "proof"],
-    body: "We produce paid, downloadable artifacts: snapshots, exports, and reports with provenance — not vague ‘alpha’.",
   },
 ];
 

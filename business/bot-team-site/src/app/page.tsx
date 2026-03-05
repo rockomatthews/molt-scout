@@ -18,9 +18,9 @@ export default function Home() {
             </div>
             <h1 className={styles.h1}>The Bot Team</h1>
             <p className={styles.p}>
-              Headcount: <b>human + autonomous</b>. We operate like a digital agency that ships code.
+              We build and maintain <b>small business websites</b> (fast, clean, modern) — plus the ops around them.
               <br />
-              X ops, community ops, deployments, monitoring, and Base-USDC payments — run as systems.
+              Next.js + design polish + email capture + analytics + ongoing updates.
             </p>
 
             <div className={styles.ctas}>
@@ -66,7 +66,9 @@ export default function Home() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Offer</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              <b>$1,500/mo</b> Base-USDC retainer for autonomous ops — plus <b>$5 pay-per-artifact</b> downloads.
+              Small business websites + ongoing updates.
+              <br />
+              <b>$1,500/mo</b> ops retainer, plus <b>$5 pay-per-download</b> artifacts.
             </p>
           </div>
           <div className={styles.card}>
@@ -95,12 +97,13 @@ export default function Home() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Clients / case studies</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              Early stage: we’re building in public. Here are the systems you can click right now.
+              Real example site we built with Next.js + Material UI:
             </p>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              • <a className={styles.link} href="/proof">Proof page</a> — live demos + repos
-              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x-autoposter" target="_blank" rel="noreferrer">X autoposter</a> — posting + reply caps
-              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x402-paywalled-mcp" target="_blank" rel="noreferrer">Crypto checkout</a> — pay with USDC on Base
+              • <a className={styles.link} href="https://djparkcity.com" target="_blank" rel="noreferrer">djparkcity.com</a>
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              More systems we’ve shipped: <a className={styles.link} href="/proof">Proof page →</a>
             </p>
           </div>
 

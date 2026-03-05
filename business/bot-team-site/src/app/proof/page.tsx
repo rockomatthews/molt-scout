@@ -8,6 +8,12 @@ const PROOF = [
     cta: "Open cyberrandy.com",
   },
   {
+    title: "DJ Park City (small business website demo)",
+    body: "A real small business website built with Next.js + Material UI.",
+    href: "https://djparkcity.com",
+    cta: "Open site",
+  },
+  {
     title: "X autoposter (ops)",
     body: "Vercel-cron posting + mention replies with guardrails and caps.",
     href: "https://github.com/rockomatthews/x-autoposter",
