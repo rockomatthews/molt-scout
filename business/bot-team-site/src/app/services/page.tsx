@@ -63,16 +63,14 @@ export default function ServicesPage() {
           <Stack spacing={1}>
             <Typography fontWeight={900}>Talk to us</Typography>
             <Typography sx={{ opacity: 0.85 }}>
-              The fastest way is Cyber Randy (public). Describe what you’re building; we’ll propose the system.
+              Email us with what you’re building and what you want off your plate. We’ll propose the system and timeline.
             </Typography>
             <Button
               variant="contained"
-              href="https://cyberrandy.com"
-              target="_blank"
-              rel="noreferrer"
+              href="mailto:cio@thebotteam.com"
               sx={{ textTransform: "none", width: "fit-content" }}
             >
-              Open cyberrandy.com
+              Email cio@thebotteam.com
             </Button>
           </Stack>
         </Paper>

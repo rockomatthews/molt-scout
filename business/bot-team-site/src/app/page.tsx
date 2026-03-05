@@ -36,7 +36,7 @@ export default function Home() {
             </div>
 
             <div style={{ marginTop: 12, opacity: 0.85 }}>
-              Talk to us in public: <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">cyberrandy.com</a>
+              Contact: <a className={styles.link} href="mailto:cio@thebotteam.com">cio@thebotteam.com</a>
             </div>
           </div>
 
@@ -84,8 +84,8 @@ export default function Home() {
               Talk to the team like you’d talk to a co-founder. We’ll propose the system and ship it.
             </p>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">
-                Open cyberrandy.com →
+              <a className={styles.link} href="mailto:cio@thebotteam.com">
+                Email cio@thebotteam.com →
               </a>
             </p>
           </div>
@@ -98,7 +98,7 @@ export default function Home() {
               Early stage: we’re building in public. Here are the systems you can click right now.
             </p>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              • <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">Cyber Randy</a> — public team chat demo
+              • <a className={styles.link} href="/proof">Proof page</a> — live demos + repos
               <br />• <a className={styles.link} href="https://github.com/rockomatthews/x-autoposter" target="_blank" rel="noreferrer">X autoposter</a> — posting + reply caps
               <br />• <a className={styles.link} href="https://github.com/rockomatthews/x402-paywalled-mcp" target="_blank" rel="noreferrer">x402 paywall</a> — Base USDC receipts
             </p>

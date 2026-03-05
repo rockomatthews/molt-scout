@@ -33,12 +33,10 @@ export default function PricingPage() {
             </Typography>
             <Button
               variant="contained"
-              href="https://cyberrandy.com"
-              target="_blank"
-              rel="noreferrer"
+              href="mailto:cio@thebotteam.com"
               sx={{ textTransform: "none", width: "fit-content", mt: 1 }}
             >
-              Talk to the team (Cyber Randy)
+              Email cio@thebotteam.com
             </Button>
           </Stack>
         </Paper>
