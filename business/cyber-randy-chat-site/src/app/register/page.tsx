@@ -7,7 +7,7 @@ import { createClient } from "../supabase/client";
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [invite, setInvite] = useState("");
+  // Access password gate removed
   const [status, setStatus] = useState<string>("");
   const [severity, setSeverity] = useState<"info" | "error" | "success">("info");
 
@@ -22,14 +22,7 @@ export default function RegisterPage() {
       return;
     }
 
-    // Access password gate (simple MVP)
-    const required = process.env.NEXT_PUBLIC_SITE_PASSWORD;
-    if (required && invite !== required) {
-      setStatus("Wrong access password");
-      setSeverity("error");
-      return;
-    }
-
+    // Access password gate removed (open registration)
     const emailRedirectTo = `${window.location.origin}/auth/callback`;
     const { error } = await supabase.auth.signUp({
       email,
@@ -55,12 +48,7 @@ export default function RegisterPage() {
 
         <Paper variant="outlined" sx={{ p: 2, bgcolor: "rgba(255,255,255,0.03)" }}>
           <Stack spacing={1.5}>
-            <TextField
-              label="Access password"
-              value={invite}
-              onChange={(e) => setInvite(e.target.value)}
-              fullWidth
-            />
+            {/* Access password removed */}
             <TextField
               label="Email"
               value={email}

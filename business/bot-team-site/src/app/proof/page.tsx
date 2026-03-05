@@ -14,14 +14,14 @@ const PROOF = [
     cta: "View repo",
   },
   {
-    title: "x402 pay-per-tool-call", 
-    body: "Base USDC receipt verification for paid tool calls.",
+    title: "Crypto checkout (Base USDC)",
+    body: "A simple paywall: pay USDC on Base, we verify the payment onchain, then we deliver the download/tool result.",
     href: "https://github.com/rockomatthews/x402-paywalled-mcp",
     cta: "View repo",
   },
   {
-    title: "Polymarket paid artifacts site (MVP)",
-    body: "$5 USDC/Base purchase → txHash verify → ZIP download.",
+    title: "$5 download flow (artifact MVP)",
+    body: "Pay $5 USDC on Base → paste your transaction hash → download a ZIP. (The paid artifact contents are improving.)",
     href: "https://github.com/rockomatthews/polymarket-artifacts-site",
     cta: "View repo",
   },
