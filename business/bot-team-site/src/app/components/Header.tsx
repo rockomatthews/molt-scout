@@ -18,23 +18,14 @@ export function Header() {
         </Link>
 
         <nav className={styles.nav}>
-          <Link className={styles.link} href="/projects">
-            Projects
+          <Link className={styles.link} href="/services">
+            Services
           </Link>
-          <Link className={styles.link} href="/recipes">
-            Recipe Lab
+          <Link className={styles.link} href="/pricing">
+            Pricing
           </Link>
-          <Link className={styles.link} href="/this-week">
-            What we’re building
-          </Link>
-          <Link className={styles.link} href="/queue">
-            Queue
-          </Link>
-          <Link className={styles.link} href="/meetings">
-            Meetings
-          </Link>
-          <Link className={styles.link} href="/mission-control">
-            Mission Control
+          <Link className={styles.link} href="/proof">
+            Proof
           </Link>
           <Link className={styles.link} href="/team">
             Team

@@ -18,70 +18,83 @@ export default function Home() {
             </div>
             <h1 className={styles.h1}>The Bot Team</h1>
             <p className={styles.p}>
-              We build crypto-native businesses that run as autonomous systems: wallet login, automated
-              USDC settlement, deterministic pipelines, and a swarm of specialist bots.
+              Headcount: <b>human + autonomous</b>. We operate like a digital agency that ships code.
+              <br />
+              X ops, community ops, deployments, monitoring, and Base-USDC payments — run as systems.
             </p>
 
             <div className={styles.ctas}>
-              <a className={styles.buttonPrimary} href="/this-week">
-                What we’re building this week
+              <a className={styles.buttonPrimary} href="/services">
+                Services
+              </a>
+              <a className={styles.buttonSecondary} href="/pricing">
+                Pricing
               </a>
               <a className={styles.buttonSecondary} href="/team">
-                Meet the team
+                Team
               </a>
+            </div>
+
+            <div style={{ marginTop: 12, opacity: 0.85 }}>
+              Talk to us in public: <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">cyberrandy.com</a>
             </div>
           </div>
 
           <div className={styles.meta}>
             <div>
-              <b>How we work (the process)</b>
+              <b>What we actually run</b>
             </div>
             <div style={{ marginTop: 8 }}>
-              1) <b>Ingest</b> — scrape sources into normalized records
-              <br />2) <b>Score</b> — deterministic ranking + alert thresholds
-              <br />3) <b>Execute</b> — agent-swarm tasks over XMTP (workers claim + deliver)
-              <br />4) <b>Settle</b> — USDC on Base, verified onchain, paid-on-success
-              <br />5) <b>Ship</b> — publish drops, reports, and dashboards
+              • <b>X/Twitter</b> — posting + mention replies with caps
+              <br />• <b>Telegram</b> — onboarding, moderation, support
+              <br />• <b>Deploy</b> — ship sites/APIs + sane rollbacks
+              <br />• <b>Payments</b> — Base USDC receipts (x402 patterns)
+              <br />• <b>Intelligence</b> — alerts + paid artifacts with provenance
             </div>
             <div style={{ marginTop: 10 }}>
               <b>Principles</b>
             </div>
             <div style={{ marginTop: 8 }}>
-              • Wallet login only (no manual address entry)
-              <br />• Onchain receipt verification
-              <br />• Idempotency + audit trails
-              <br />• Minimal LLM spend; deterministic first
+              • No hype. Receipts &gt; claims.
+              <br />• Deterministic first; LLMs where they help.
+              <br />• Guardrails on anything that can cost money.
             </div>
           </div>
         </div>
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Current build</h2>
+            <h2 className={styles.cardTitle}>Offer</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              <b>Agent Launch Radar</b> — a wallet-authenticated product that delivers high-signal picks
-              and alerts for agent-launched tokens (Base-first). Premium coverage scales via agent-swarm.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Why it converts</h2>
-            <p className={styles.p} style={{ marginTop: 8 }}>
-              Most feeds are noisy. Our edge is <b>automation + accountability</b>: every alert ties back
-              to a source, every payment is onchain, every worker task has an audit trail.
+              <b>$1,500/mo</b> Base-USDC retainer for autonomous ops — plus <b>$5 pay-per-artifact</b> downloads.
             </p>
           </div>
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Proof</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              We ship fast and measure everything. If you’re a customer, you’ll see the output in the
-              product: daily picks, alerts, and a clean audit trail.
+              We link to live demos and source. No “capabilities deck.”
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              <a className={styles.link} href="/proof">See proof →</a>
+            </p>
+          </div>
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>Get started</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              Talk to the team like you’d talk to a co-founder. We’ll propose the system and ship it.
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">
+                Open cyberrandy.com →
+              </a>
             </p>
           </div>
         </div>
 
         <div className={styles.footer}>
-          Want the roster? <a className={styles.link} href="/team">Team</a>. Want the weekly build list?{" "}
-          <a className={styles.link} href="/this-week">This week</a>.
+          Keep browsing: <a className={styles.link} href="/services">Services</a> ·{" "}
+          <a className={styles.link} href="/pricing">Pricing</a> ·{" "}
+          <a className={styles.link} href="/team">Team</a>
         </div>
       </div>
     </div>
