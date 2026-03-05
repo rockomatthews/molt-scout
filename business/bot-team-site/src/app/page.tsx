@@ -91,9 +91,48 @@ export default function Home() {
           </div>
         </div>
 
+        <div className={styles.grid} style={{ marginTop: 14 }}>
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>Clients / case studies</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              Early stage: we’re building in public. Here are the systems you can click right now.
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              • <a className={styles.link} href="https://cyberrandy.com" target="_blank" rel="noreferrer">Cyber Randy</a> — public team chat demo
+              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x-autoposter" target="_blank" rel="noreferrer">X autoposter</a> — posting + reply caps
+              <br />• <a className={styles.link} href="https://github.com/rockomatthews/x402-paywalled-mcp" target="_blank" rel="noreferrer">x402 paywall</a> — Base USDC receipts
+            </p>
+          </div>
+
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>How we work (weekly)</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              1) <b>Intake</b> — one call + access checklist
+              <br />2) <b>Ship</b> — deploy the first system in 48–72h
+              <br />3) <b>Run</b> — daily ops cycles + monitoring + logging
+              <br />4) <b>Report</b> — weekly summary + next-week plan
+              <br />5) <b>Improve</b> — automations ratchet upward; humans only where needed
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              Goal: you stop context switching and the business keeps moving.
+            </p>
+          </div>
+
+          <div className={styles.card}>
+            <h2 className={styles.cardTitle}>What we don’t do</h2>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              • No hype marketing
+              <br />• No “guaranteed ROI” claims
+              <br />• No unsafe key handling (never paste keys into chat)
+              <br />• No silent automation that can spend money without approval
+            </p>
+          </div>
+        </div>
+
         <div className={styles.footer}>
           Keep browsing: <a className={styles.link} href="/services">Services</a> ·{" "}
           <a className={styles.link} href="/pricing">Pricing</a> ·{" "}
+          <a className={styles.link} href="/proof">Proof</a> ·{" "}
           <a className={styles.link} href="/team">Team</a>
         </div>
       </div>
