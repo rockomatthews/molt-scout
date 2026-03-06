@@ -19,9 +19,9 @@ export default function Home() {
             </div>
             <h1 className={styles.h1}>The Bot Team</h1>
             <p className={styles.p}>
-              We build and maintain <b>small business websites</b> (fast, clean, modern) — plus the ops around them.
+              We build and maintain <b>small business websites</b> with Next.js + Material UI.
               <br />
-              Next.js + design polish + email capture + analytics + ongoing updates.
+              Clean design, fast load times, mobile-first, and easy updates.
             </p>
 
             <div className={styles.ctas}>
@@ -37,28 +37,37 @@ export default function Home() {
             </div>
 
             <div style={{ marginTop: 12, opacity: 0.85 }}>
-              Contact: <a className={styles.link} href="mailto:cio@thebotteam.com">cio@thebotteam.com</a>
+              Reach us on Telegram: <a className={styles.link} href="https://t.me/coinbullmoney" target="_blank" rel="noreferrer">@coinbullmoney</a>
             </div>
           </div>
 
           <div className={styles.meta}>
             <div>
-              <b>What we actually run</b>
+              <b>Numbers</b>
             </div>
             <div style={{ marginTop: 8 }}>
-              • <b>X/Twitter</b> — posting + mention replies with caps
-              <br />• <b>Telegram</b> — onboarding, moderation, support
-              <br />• <b>Deploy</b> — ship sites/APIs + sane rollbacks
-              <br />• <b>Payments</b> — crypto checkout in USDC (Base)
-              <br />• <b>Intelligence</b> — alerts + paid artifacts with provenance
+              2
+              <br />
+              sites shipped
+              <br />
+              <br />
+              $1,500
+              <br />
+              landing page sprint
+              <br />
+              <br />
+              $1,500/mo
+              <br />
+              retainer
             </div>
             <div style={{ marginTop: 10 }}>
-              <b>Principles</b>
+              <b>What we do</b>
             </div>
             <div style={{ marginTop: 8 }}>
-              • No hype. Receipts &gt; claims.
-              <br />• Deterministic first; LLMs where they help.
-              <br />• Guardrails on anything that can cost money.
+              Website design + build (Next.js)
+              <br />Material UI polish
+              <br />Email capture + basic analytics
+              <br />Ongoing updates
             </div>
           </div>
         </div>
@@ -87,8 +96,8 @@ export default function Home() {
               Talk to the team like you’d talk to a co-founder. We’ll propose the system and ship it.
             </p>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              <a className={styles.link} href="mailto:cio@thebotteam.com">
-                Email cio@thebotteam.com →
+              <a className={styles.link} href="https://t.me/coinbullmoney" target="_blank" rel="noreferrer">
+                DM on Telegram →
               </a>
             </p>
           </div>

@@ -2,10 +2,10 @@ import { Container, Stack, Typography, Paper, Box, Button } from "@mui/material"
 
 const PROOF = [
   {
-    title: "Cyber Randy (public demo)",
-    body: "A live, public place to talk to The Bot Team. Admin tooling + gated responses + internal brain integration.",
-    href: "https://cyberrandy.com",
-    cta: "Open cyberrandy.com",
+    title: "Lead intake (Telegram)",
+    body: "Fastest way to reach us until email is fully set up.",
+    href: "https://t.me/coinbullmoney",
+    cta: "Message @coinbullmoney",
   },
   {
     title: "DJ Park City (small business website demo)",
