@@ -27,6 +27,9 @@ export function Header() {
           <Link className={styles.link} href="/proof">
             Proof
           </Link>
+          <Link className={styles.link} href="/daily">
+            Daily
+          </Link>
           <Link className={styles.link} href="/team">
             Team
           </Link>
