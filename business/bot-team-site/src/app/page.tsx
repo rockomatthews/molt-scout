@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { UiHighlights } from "./components/UiHighlights";
 
 export default function Home() {
   return (
@@ -136,6 +137,10 @@ export default function Home() {
               <br />• No unsafe key handling (never paste keys into chat)
               <br />• No silent automation that can spend money without approval
             </p>
+          </div>
+
+          <div className={styles.card}>
+            <UiHighlights />
           </div>
         </div>
 
