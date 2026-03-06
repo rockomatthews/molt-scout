@@ -95,15 +95,22 @@ export default function Home() {
 
         <div className={styles.grid} style={{ marginTop: 14 }}>
           <div className={styles.card}>
-            <h2 className={styles.cardTitle}>Clients / case studies</h2>
+            <h2 className={styles.cardTitle}>Featured build: DJ Park City</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              Real example site we built with Next.js + Material UI:
+              A real small business site we built with <b>Next.js</b> + <b>Material UI</b>.
             </p>
-            <p className={styles.p} style={{ marginTop: 8 }}>
-              • <a className={styles.link} href="https://djparkcity.com" target="_blank" rel="noreferrer">djparkcity.com</a>
-            </p>
-            <p className={styles.p} style={{ marginTop: 8 }}>
-              More systems we’ve shipped: <a className={styles.link} href="/proof">Proof page →</a>
+            <a href="https://djparkcity.com" target="_blank" rel="noreferrer" style={{ display: "block", marginTop: 12 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/case-studies/djparkcity.png"
+                alt="DJ Park City website preview"
+                style={{ width: "100%", borderRadius: 14, border: "1px solid rgba(255,255,255,0.10)" }}
+              />
+            </a>
+            <p className={styles.p} style={{ marginTop: 10 }}>
+              <a className={styles.link} href="https://djparkcity.com" target="_blank" rel="noreferrer">
+                Open djparkcity.com →
+              </a>
             </p>
           </div>
 
