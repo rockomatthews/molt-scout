@@ -51,7 +51,7 @@ export default function Home() {
               sites shipped
               <br />
               <br />
-              $1,500
+              $1,000
               <br />
               landing page sprint
               <br />

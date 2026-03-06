@@ -49,7 +49,7 @@ export default function PricingPage() {
             <Typography sx={{ opacity: 0.85 }}>
               A clean, modern small business landing page shipped fast (Next.js + Material UI). Includes design polish, copy, and basic analytics.
             </Typography>
-            <Typography sx={{ fontSize: 28, fontWeight: 900 }}>$1,500 flat</Typography>
+            <Typography sx={{ fontSize: 28, fontWeight: 900 }}>$1,000 flat</Typography>
             <Typography sx={{ opacity: 0.7, fontSize: 12 }}>
               Typical turnaround: 3–7 days depending on assets + approvals.
             </Typography>
