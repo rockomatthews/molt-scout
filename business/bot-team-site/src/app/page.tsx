@@ -125,16 +125,23 @@ export default function Home() {
           </div>
 
           <div className={styles.card}>
-            <h2 className={styles.cardTitle}>How we work (weekly)</h2>
+            <h2 className={styles.cardTitle}>Built for small business owners</h2>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              1) <b>Intake</b> — one call + access checklist
-              <br />2) <b>Ship</b> — deploy the first system in 48–72h
-              <br />3) <b>Run</b> — daily ops cycles + monitoring + logging
-              <br />4) <b>Report</b> — weekly summary + next-week plan
-              <br />5) <b>Improve</b> — automations ratchet upward; humans only where needed
+              Clean, fast, mobile-first websites — with a process that keeps things moving.
             </p>
             <p className={styles.p} style={{ marginTop: 8 }}>
-              Goal: you stop context switching and the business keeps moving.
+              <b>What you get</b>
+              <br />• A modern site (Next.js + Material UI)
+              <br />• Copy + CTAs that make sense to customers
+              <br />• Email capture + basic analytics
+              <br />• Ongoing updates (optional)
+            </p>
+            <p className={styles.p} style={{ marginTop: 8 }}>
+              <b>How it works</b>
+              <br />1) Intake (assets + goals)
+              <br />2) Build + polish
+              <br />3) Launch
+              <br />4) Weekly improvements
             </p>
           </div>
 
