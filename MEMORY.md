@@ -26,3 +26,6 @@
 
 ## Automation note
 - Prior background crons/loops were disabled earlier to control quota burn; meeting/research automation must be re-enabled intentionally.
+
+## Preference: link previews
+- For new sites/apps, always set proper iMessage/social previews (OpenGraph + Twitter card) using the site logo, plus apple-touch-icon/favicon.
