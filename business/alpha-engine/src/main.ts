@@ -8,6 +8,7 @@ import { log } from "./logger.js";
 import { fetchTrendingCasts } from "./neynar.js";
 import { extractTickers, scorePost } from "./scoring.js";
 import { proposeTrade, executeTrade } from "./bankr.js";
+import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -25,6 +26,20 @@ async function appendLog(obj: unknown) {
 async function runOnce() {
   const cfg = await loadConfig(ROOT);
   const state = await loadState(ROOT);
+
+  const sp = await scratchpadInit(ROOT, {
+    app: "alpha-engine",
+    dryRun: cfg.mode.dryRun,
+    liveTrading: cfg.mode.liveTrading,
+    risk: cfg.risk,
+    alerts: cfg.alerts,
+    state: {
+      day: state.day,
+      realizedPnlUsd: state.realizedPnlUsd,
+      totalExposureUsd: state.totalExposureUsd,
+      goodAlertsCount: state.goodAlertsCount,
+    },
+  });
 
   // Reset day counters if day changed
   const today = new Date().toISOString().slice(0, 10);
@@ -46,6 +61,12 @@ async function runOnce() {
   }
 
   log.info({ dryRun: cfg.mode.dryRun, liveTrading: cfg.mode.liveTrading, risk: cfg.risk }, "alpha-engine run");
+  await scratchpadAppend(sp.path, {
+    type: "input",
+    ts: new Date().toISOString(),
+    runId: sp.runId,
+    data: { mode: cfg.mode, risk: cfg.risk },
+  });
 
   // Fetch input
   let casts;
@@ -53,11 +74,25 @@ async function runOnce() {
     casts = await fetchTrendingCasts(10);
   } catch (err) {
     log.warn({ err }, "neynar fetch failed; nothing to do");
-    await appendLog({ kind: "error", where: "neynar", message: String((err as any)?.message || err) });
+    const msg = String((err as any)?.message || err);
+    await appendLog({ kind: "error", where: "neynar", message: msg });
+    await scratchpadAppend(sp.path, {
+      type: "error",
+      ts: new Date().toISOString(),
+      runId: sp.runId,
+      where: "neynar",
+      message: msg,
+    });
     return;
   }
 
   log.info({ casts: casts.length }, "neynar casts fetched");
+  await scratchpadAppend(sp.path, {
+    type: "input",
+    ts: new Date().toISOString(),
+    runId: sp.runId,
+    data: { castsFetched: casts.length },
+  });
 
   // Score + candidate selection
   const candidates: Array<{ score: number; tickers: string[]; text: string; url: string }> = [];
@@ -72,6 +107,18 @@ async function runOnce() {
 
   candidates.sort((a, b) => b.score - a.score);
   log.info({ candidates: candidates.length }, "candidates after scoring");
+  await scratchpadAppend(sp.path, {
+    type: "signal",
+    ts: new Date().toISOString(),
+    runId: sp.runId,
+    data: {
+      candidates: candidates.slice(0, 10).map((c) => ({
+        score: c.score,
+        tickers: c.tickers,
+        url: c.url,
+      })),
+    },
+  });
 
   for (const cand of candidates.slice(0, 5)) {
     for (const ticker of cand.tickers.slice(0, 2)) {
@@ -82,6 +129,12 @@ async function runOnce() {
 
       // Always log the alert event
       await appendLog({ kind: "alert", ticker, score: cand.score, url: cand.url, text: cand.text.slice(0, 280) });
+      await scratchpadAppend(sp.path, {
+        type: "signal",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        data: { kind: "alert", ticker, score: cand.score, url: cand.url, text: cand.text.slice(0, 280) },
+      });
 
       // Count "good" alerts during dry-run (simple heuristic: strong score)
       if ((cfg.mode.dryRun || !cfg.mode.liveTrading) && cand.score >= 75) {
@@ -95,11 +148,23 @@ async function runOnce() {
 
       if (!trade) {
         log.info({ ticker, score: cand.score, url: cand.url }, "ALERT (no trade intent)\n" + cand.text);
+        await scratchpadAppend(sp.path, {
+          type: "action",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          data: { action: "alert_only", ticker, score: cand.score, url: cand.url },
+        });
         continue;
       }
 
       if (dryRun) {
         log.warn({ trade }, "DRY_RUN trade intent (not executed)");
+        await scratchpadAppend(sp.path, {
+          type: "action",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          data: { action: "dry_run_trade_intent", trade },
+        });
         continue;
       }
 
@@ -110,6 +175,12 @@ async function runOnce() {
 
       const res = await executeTrade(trade);
       await appendLog({ kind: "trade", trade, result: res });
+      await scratchpadAppend(sp.path, {
+        type: "result",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        data: { action: "execute_trade", trade, result: res },
+      });
       if (res.ok) state.totalExposureUsd += trade.usdSize;
 
       log.info({ trade, res }, "trade attempt");

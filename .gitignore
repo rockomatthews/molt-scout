@@ -1,4 +1,10 @@
 # workspace ignores
 business/x402-paywalled-mcp/
 business/polymarket-btc-5min/
+
+# local secrets
 .secrets/
+
+# run artifacts
+business/alpha-engine/.scratchpad/
+business/alpha-engine/state.json
