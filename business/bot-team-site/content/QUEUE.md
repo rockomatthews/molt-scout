@@ -92,6 +92,18 @@ First test: Live micro-size run ($10–$50): track cumulative YES shares+spend a
 
 ## NEW IDEAS (untriaged)
 
+### 2026-03-10 — Multi-agent shared spaces + miniapp distribution (Doppel pattern)
+
+Source: doppel.fun
+
+Category: Multi-agent UX / distribution
+Why: Doppel validates the “many agents co-building in one shared environment” mental model and ships Farcaster miniapp metadata + clean OG assets. Also a reminder: live embeds will fail publicly; we need graceful fallbacks + monitoring.
+First test:
+- Add miniapp-ready metadata checklist to new projects (OpenGraph + Twitter card + icons + optional fc:miniapp).
+- Add fallback UI for any live widgets (show cached state + retry) + basic uptime alerting.
+- Consider a simple “shared workspace” concept for the Bot Team OS (teams co-editing artifacts in a single view).
+
+
 ### 2026-02-27 — Pay-per-scan “Security Grade Lite” (x402/USDC)
 
 Source: Research PM
