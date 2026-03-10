@@ -30,6 +30,9 @@ export function Header() {
           <Link className={styles.link} href="/daily">
             Daily
           </Link>
+          <Link className={styles.link} href="/trade-school">
+            Trade School
+          </Link>
           <Link className={styles.link} href="/team">
             Team
           </Link>
