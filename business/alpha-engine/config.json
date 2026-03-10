@@ -1,7 +1,8 @@
 {
   "mode": {
     "dryRun": true,
-    "liveTrading": false
+    "liveTrading": false,
+    "paperTrading": true
   },
   "risk": {
     "usdPerTrade": 10,

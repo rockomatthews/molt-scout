@@ -9,6 +9,7 @@ import { fetchTrendingCasts } from "./neynar.js";
 import { extractTickers, scorePost } from "./scoring.js";
 import { proposeTrade, executeTrade } from "./bankr.js";
 import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
+import { runPaperTrading } from "./paper_engine.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -31,13 +32,19 @@ async function runOnce() {
     app: "alpha-engine",
     dryRun: cfg.mode.dryRun,
     liveTrading: cfg.mode.liveTrading,
+    paperTrading: cfg.mode.paperTrading,
     risk: cfg.risk,
     alerts: cfg.alerts,
+    paper: cfg.paper,
     state: {
       day: state.day,
       realizedPnlUsd: state.realizedPnlUsd,
       totalExposureUsd: state.totalExposureUsd,
       goodAlertsCount: state.goodAlertsCount,
+      paper: {
+        cashUsd: state.paper?.cashUsd,
+        positions: Object.keys(state.paper?.positions || {}).length,
+      },
     },
   });
 
@@ -119,6 +126,35 @@ async function runOnce() {
       })),
     },
   });
+
+  // Paper trading (Base onchain tokens) — deterministic + risk-capped
+  if (cfg.mode.paperTrading && cfg.paper.enabled) {
+    try {
+      await runPaperTrading({ root: ROOT, sp, state, risk: cfg.risk, paper: cfg.paper });
+      await scratchpadAppend(sp.path, {
+        type: "result",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        data: {
+          kind: "paper_summary",
+          cashUsd: state.paper?.cashUsd,
+          positions: Object.keys(state.paper?.positions || {}).length,
+          realizedPnlUsd: state.realizedPnlUsd,
+          exposureUsd: state.totalExposureUsd,
+        },
+      } as any);
+    } catch (err: any) {
+      const msg = String(err?.message || err);
+      log.warn({ err }, "paperTrading failed");
+      await scratchpadAppend(sp.path, {
+        type: "error",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        where: "paperTrading",
+        message: msg,
+      } as any);
+    }
+  }
 
   for (const cand of candidates.slice(0, 5)) {
     for (const ticker of cand.tickers.slice(0, 2)) {

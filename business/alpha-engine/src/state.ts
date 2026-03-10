@@ -11,6 +11,20 @@ export type State = {
   // Dry-run validation tracking
   goodAlertsCount: number;
   askedToGoLive: boolean;
+
+  paper?: {
+    cashUsd: number;
+    positions: Record<
+      string,
+      {
+        tokenAddress: string;
+        symbol?: string;
+        qty: number;
+        avgEntry: number;
+        openedAtIso: string;
+      }
+    >;
+  };
 };
 
 export async function loadState(rootDir: string): Promise<State> {
@@ -27,6 +41,7 @@ export async function loadState(rootDir: string): Promise<State> {
       totalExposureUsd: 0,
       goodAlertsCount: 0,
       askedToGoLive: false,
+      paper: { cashUsd: 1000, positions: {} },
     };
   }
 }

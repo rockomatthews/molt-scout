@@ -1,11 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
+import { PaperSchema } from "./paper_config.js";
 
 const ConfigSchema = z.object({
   mode: z.object({
     dryRun: z.boolean().default(true),
     liveTrading: z.boolean().default(false),
+    paperTrading: z.boolean().default(false),
   }),
   risk: z.object({
     usdPerTrade: z.number().positive(),
@@ -29,6 +31,7 @@ const ConfigSchema = z.object({
     minScoreToAlert: z.number().int().default(60),
     cooldownMinutesPerTicker: z.number().int().default(30),
   }),
+  paper: PaperSchema,
 });
 
 export type AlphaConfig = z.infer<typeof ConfigSchema>;
