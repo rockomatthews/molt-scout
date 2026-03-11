@@ -33,6 +33,7 @@ exec "$BIN_PATH" \
   --host 127.0.0.1 \
   --port "$PORT" \
   -m "$MODEL_PATH" \
+  --alias bitnet2b \
   -t "$THREADS" \
   -c 2048 \
   --log-disable
