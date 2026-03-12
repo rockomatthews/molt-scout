@@ -1,4 +1,15 @@
 import { supabasePublic } from "../../lib/supabase";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Container,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 export const dynamic = "force-dynamic";
 
@@ -12,10 +23,14 @@ export default async function DigestPage() {
 
   if (!sb) {
     return (
-      <div>
-        <h1 style={{ marginTop: 0 }}>Digest</h1>
-        <p style={{ opacity: 0.85 }}>Supabase env vars not set yet. Deploy is fine — connect Supabase when ready.</p>
-      </div>
+      <Container disableGutters>
+        <Stack spacing={2}>
+          <Typography variant="h4" sx={{ fontWeight: 900 }}>
+            Digest
+          </Typography>
+          <Alert severity="info">Supabase env vars not set yet. Deploy is fine — connect Supabase when ready.</Alert>
+        </Stack>
+      </Container>
     );
   }
 
@@ -28,37 +43,53 @@ export default async function DigestPage() {
     .limit(25);
 
   return (
-    <div style={{ display: "grid", gap: 12 }}>
-      <h1 style={{ marginTop: 0 }}>Today’s digest</h1>
-      <div style={{ opacity: 0.8 }}>Topic: cure-cancer · Date: {today}</div>
+    <Container disableGutters>
+      <Stack spacing={2}>
+        <Stack spacing={0.5}>
+          <Typography variant="h4" sx={{ fontWeight: 900 }}>
+            Today’s digest
+          </Typography>
+          <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+            <Chip label="topic: cure-cancer" variant="outlined" />
+            <Chip label={`date: ${today}`} variant="outlined" sx={{ opacity: 0.85 }} />
+          </Stack>
+        </Stack>
 
-      {runs.error ? (
-        <div style={{ opacity: 0.85 }}>
-          Error loading runs. Likely schema not applied yet. ({runs.error.message})
-        </div>
-      ) : runs.data?.length ? (
-        <div style={{ display: "grid", gap: 12 }}>
-          {runs.data.map((r) => (
-            <div
-              key={r.id}
-              style={{
-                border: "1px solid rgba(255,255,255,0.10)",
-                borderRadius: 16,
-                padding: 16,
-                background: "rgba(255,255,255,0.03)",
-              }}
-            >
-              <div style={{ fontWeight: 800 }}>Run {r.id}</div>
-              <div style={{ opacity: 0.7, fontSize: 13, marginTop: 6 }}>
-                contributor: {r.contributor_id} · {new Date(r.created_at).toLocaleString()}
-              </div>
-              <div style={{ marginTop: 10, opacity: 0.92, lineHeight: 1.55, whiteSpace: "pre-wrap" }}>{r.summary}</div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div style={{ opacity: 0.85 }}>No runs yet today.</div>
-      )}
-    </div>
+        {runs.error ? (
+          <Alert severity="warning">
+            Error loading runs. Likely schema not applied yet. ({runs.error.message})
+          </Alert>
+        ) : runs.data?.length ? (
+          <Stack spacing={1.5}>
+            {runs.data.map((r, idx) => (
+              <Card key={r.id}>
+                <CardContent>
+                  <Stack spacing={1}>
+                    <Stack direction={{ xs: "column", sm: "row" }} spacing={1} justifyContent="space-between">
+                      <Typography sx={{ fontWeight: 900 }}>Run {r.id}</Typography>
+                      <Typography sx={{ opacity: 0.7, fontSize: 13 }}>
+                        {new Date(r.created_at).toLocaleString()}
+                      </Typography>
+                    </Stack>
+
+                    <Typography sx={{ opacity: 0.75, fontSize: 13 }}>
+                      contributor: {r.contributor_id}
+                    </Typography>
+
+                    <Divider />
+
+                    <Box sx={{ whiteSpace: "pre-wrap", lineHeight: 1.6, opacity: 0.95 }}>{r.summary}</Box>
+
+                    {idx === 0 ? null : null}
+                  </Stack>
+                </CardContent>
+              </Card>
+            ))}
+          </Stack>
+        ) : (
+          <Alert severity="info">No runs yet today.</Alert>
+        )}
+      </Stack>
+    </Container>
   );
 }
