@@ -18,7 +18,7 @@ This skill is for running a **daily 60-minute research block** on a single baked
 ## Configure
 Set these environment variables in the environment that runs `openclaw`:
 
-- `CRP_SITE_URL` (example: `https://<your-vercel-site>.vercel.app`)
+- `CRP_SITE_URL` (example: `https://openclawgives.com`)
 - `CRP_WRITE_TOKEN` (token for `POST /api/push`)
 
 Optional:
