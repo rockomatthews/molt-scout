@@ -80,11 +80,30 @@ export default async function Home() {
               borderRadius: 12,
               background: "#1f8f57",
               color: "#06160d",
-              fontWeight: 800,
+              fontWeight: 900,
             }}
           >
             View today’s digest
           </Link>
+
+          <a
+            href="https://clawhub.com"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              padding: "10px 14px",
+              borderRadius: 12,
+              background: "linear-gradient(135deg, rgba(34,197,94,0.22) 0%, rgba(34,197,94,0.08) 100%)",
+              border: "1px solid rgba(34,197,94,0.35)",
+              color: "#e9f5ec",
+              fontWeight: 900,
+            }}
+          >
+            Download OpenClaw skill
+          </a>
+
           <Link
             href="/api/topic"
             style={{
@@ -99,6 +118,23 @@ export default async function Home() {
           >
             API: topic
           </Link>
+        </div>
+
+        <div style={{ opacity: 0.8, marginTop: 6, lineHeight: 1.5 }}>
+          Install command:
+          <div
+            style={{
+              marginTop: 6,
+              padding: 12,
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.10)",
+              background: "rgba(0,0,0,0.35)",
+              fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+              fontSize: 13,
+            }}
+          >
+            clawhub install community-research-pool-cure-cancer
+          </div>
         </div>
       </div>
 
