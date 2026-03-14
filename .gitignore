@@ -11,6 +11,9 @@ business/polymarket-btc-5min/
 **/.env
 **/.env.*
 
+# firecrawl outputs
+.firecrawl/
+
 # run artifacts
 business/alpha-engine/.scratchpad/
 business/alpha-engine/state.json
