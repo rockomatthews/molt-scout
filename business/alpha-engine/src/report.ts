@@ -150,9 +150,9 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
 
   // 4) Learning log
   lines.push("## 4) Learning log");
-  lines.push("- Change today: added paper-trading skip diagnostics + relaxed Pulse filter (amountMinUsd 1000 → 500) + fixed pricing import resolution.");
+  lines.push("- Change today: fixed Pulse chain id parsing + token address selection; added paper-trading skip diagnostics; added price sanity + major-token denylist + min liquidity filter; fixed tsx runner flag for Node >=20.6.");
   lines.push("- Evidence: see `paper_diag` in scratchpad; it reports why entries were skipped (no price, caps, etc.).");
-  lines.push("- Next hypothesis: if `skipped_no_price` dominates, we need a fallback pricing path or better token address normalization.");
+  lines.push("- Next hypothesis: if `skipped_major` dominates, we need better filtering to target non-major tokens; if `skipped_liquidity` dominates, tune minLiquidityUsd; if `skipped_no_price` dominates, add pricing fallbacks.");
   if (diag) {
     lines.push("");
     lines.push("### Diagnostics (paper_diag)");

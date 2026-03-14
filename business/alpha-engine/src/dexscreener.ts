@@ -17,7 +17,16 @@ const RespSchema = z.object({
   pairs: z.array(PairSchema).optional().nullable(),
 });
 
-export async function fetchDexscreenerPriceUsd(tokenAddress: string): Promise<number | null> {
+export type DexscreenerQuote = {
+  tokenAddress: string;
+  chainId?: string;
+  dexId?: string;
+  pairUrl?: string;
+  priceUsd: number;
+  liquidityUsd: number;
+};
+
+export async function fetchDexscreenerQuote(tokenAddress: string): Promise<DexscreenerQuote | null> {
   const url = `https://api.dexscreener.com/latest/dex/tokens/${tokenAddress}`;
   const res = await fetch(url, { headers: { "user-agent": "alpha-engine" } });
   if (!res.ok) return null;
@@ -28,8 +37,25 @@ export async function fetchDexscreenerPriceUsd(tokenAddress: string): Promise<nu
   const pickFrom = basePairs.length ? basePairs : pairs;
 
   // pick highest liquidity USD
-  pickFrom.sort((a, b) => (Number(b?.liquidity?.usd || 0) - Number(a?.liquidity?.usd || 0)));
+  pickFrom.sort((a, b) => Number(b?.liquidity?.usd || 0) - Number(a?.liquidity?.usd || 0));
   const p = pickFrom[0];
+  if (!p) return null;
+
   const px = p?.priceUsd ? Number(p.priceUsd) : NaN;
-  return Number.isFinite(px) && px > 0 ? px : null;
+  const liq = Number(p?.liquidity?.usd || 0);
+  if (!Number.isFinite(px) || px <= 0) return null;
+
+  return {
+    tokenAddress,
+    chainId: p.chainId,
+    dexId: p.dexId,
+    pairUrl: p.url,
+    priceUsd: px,
+    liquidityUsd: Number.isFinite(liq) ? liq : 0,
+  };
+}
+
+export async function fetchDexscreenerPriceUsd(tokenAddress: string): Promise<number | null> {
+  const q = await fetchDexscreenerQuote(tokenAddress);
+  return q?.priceUsd ?? null;
 }

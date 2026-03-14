@@ -8,6 +8,7 @@ export const PaperSchema = z
     takeProfitPct: z.number().positive().default(0.25),
     stopLossPct: z.number().positive().default(0.15),
     maxPositions: z.number().int().positive().default(10),
+    minLiquidityUsd: z.number().nonnegative().default(10_000),
   })
   .default({});
 

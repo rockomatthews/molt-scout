@@ -1,5 +1,5 @@
 import { getPulseTokenTransactions } from "./pulse.js";
-import { markPriceUsd, pnlUsd, shouldExit } from "./paper.js";
+import { markPriceUsd, markQuote, pnlUsd, shouldExit } from "./paper.js";
 import { scratchpadAppend } from "./scratchpad.js";
 
 export async function runPaperTrading(opts: {
@@ -62,6 +62,7 @@ export async function runPaperTrading(opts: {
     skipped_cash_cap: 0,
     skipped_no_price: 0,
     skipped_price_sanity: 0,
+    skipped_liquidity: 0,
     skipped_major: 0,
     entries: 0,
   };
@@ -129,7 +130,9 @@ export async function runPaperTrading(opts: {
       continue;
     }
 
-    const px = await markPriceUsd(addr);
+    const q = await markQuote(addr);
+    const px = q?.priceUsd;
+
     if (!px) {
       diag.skipped_no_price++;
       continue;
@@ -138,6 +141,12 @@ export async function runPaperTrading(opts: {
     // Price sanity (avoid obviously broken pricing that leads to nonsense qty)
     if (!Number.isFinite(px) || px <= 0 || px < 1e-8 || px > 1_000_000) {
       diag.skipped_price_sanity++;
+      continue;
+    }
+
+    // Liquidity sanity
+    if ((q?.liquidityUsd || 0) < (opts.paper.minLiquidityUsd ?? 10_000)) {
+      diag.skipped_liquidity++;
       continue;
     }
 

@@ -1,4 +1,4 @@
-import { fetchDexscreenerPriceUsd } from "./dexscreener";
+import { fetchDexscreenerPriceUsd, fetchDexscreenerQuote, type DexscreenerQuote } from "./dexscreener";
 
 export type PaperPosition = {
   tokenAddress: string;
@@ -15,6 +15,10 @@ export type PaperState = {
 
 export async function markPriceUsd(tokenAddress: string) {
   return fetchDexscreenerPriceUsd(tokenAddress);
+}
+
+export async function markQuote(tokenAddress: string): Promise<DexscreenerQuote | null> {
+  return fetchDexscreenerQuote(tokenAddress);
 }
 
 export function positionValueUsd(pos: PaperPosition, px: number) {
