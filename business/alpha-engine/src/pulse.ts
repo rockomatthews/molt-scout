@@ -5,8 +5,11 @@ const GQL_URL = 'https://api.wallet.xyz/graphql';
 export type PulseTx = {
   hash?: string;
   walletAddress: string;
+  // wallet.xyz often returns both a primary token and an "other" paired token.
+  // We keep both so downstream can pick the correct purchased asset safely.
   tokenAddress?: string;
-  tokenSymbol?: string;
+  otherTokenAddress?: string;
+  otherTokenSymbol?: string;
   chain?: string;
   type?: string;
   amountUsd?: number;
@@ -17,7 +20,8 @@ export type PulseTx = {
 const PulseTxSchema = z.object({
   walletAddress: z.string(),
   tokenAddress: z.string().optional().nullable(),
-  tokenSymbol: z.string().optional().nullable(),
+  otherTokenAddress: z.string().optional().nullable(),
+  otherTokenSymbol: z.string().optional().nullable(),
   chain: z.string().optional().nullable(),
   type: z.string().optional().nullable(),
   amountUsd: z.number().optional().nullable(),
@@ -85,10 +89,10 @@ export async function getPulseTokenTransactions(opts: {
   return txs.map((x) =>
     PulseTxSchema.parse({
       walletAddress: x.actorAddress,
-      // NOTE: wallet.xyz returns both tokenAddress (the purchased token) and otherTokenAddress (the paired token).
-      // For paper trading we want the purchased token.
-      tokenAddress: x.otherTokenAddress,
-      tokenSymbol: x.otherTokenSymbol,
+      // Keep BOTH; downstream will decide which address is the purchased token.
+      tokenAddress: x.tokenAddress,
+      otherTokenAddress: x.otherTokenAddress,
+      otherTokenSymbol: x.otherTokenSymbol,
       chain: String(x.networkId),
       type: x.type,
       amountUsd: x.valueUsd,

@@ -74,6 +74,20 @@ export async function runPaperTrading(opts: {
     "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
   ]);
 
+  const pickPurchasedTokenAddress = (tx: any) => {
+    const a = (tx.tokenAddress ? String(tx.tokenAddress) : "").toLowerCase();
+    const b = (tx.otherTokenAddress ? String(tx.otherTokenAddress) : "").toLowerCase();
+    // If one side is a known major and the other isn't, prefer the non-major.
+    if (a && b) {
+      const aMajor = MAJOR_DENY.has(a);
+      const bMajor = MAJOR_DENY.has(b);
+      if (aMajor && !bMajor) return b;
+      if (bMajor && !aMajor) return a;
+    }
+    // Otherwise default to tokenAddress.
+    return a || b || "";
+  };
+
   // Entry candidates (Base) via wallet.xyz Pulse
   // Relaxed amountMinUsd slightly so paper trading actually gets enough candidates.
   const txs = await getPulseTokenTransactions({
@@ -93,7 +107,7 @@ export async function runPaperTrading(opts: {
   } as any);
 
   for (const tx of txs) {
-    const addr = tx.tokenAddress;
+    const addr = pickPurchasedTokenAddress(tx);
     if (!addr) {
       diag.skipped_no_addr++;
       continue;
