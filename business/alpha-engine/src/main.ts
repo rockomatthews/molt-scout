@@ -10,6 +10,7 @@ import { extractTickers, scorePost } from "./scoring.js";
 import { proposeTrade, executeTrade } from "./bankr.js";
 import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 import { runPaperTrading } from "./paper_engine.js";
+import { writeDailyReport } from "./report.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -55,6 +56,7 @@ async function runOnce() {
     state.realizedPnlUsd = 0;
     state.goodAlertsCount = 0;
     state.askedToGoLive = false;
+    state.paperStartCashUsd = cfg.paper.startCashUsd;
   }
 
   if (cfg.mode.liveTrading && cfg.mode.dryRun) {
@@ -224,6 +226,25 @@ async function runOnce() {
   }
 
   await saveState(ROOT, state);
+
+  // Write daily report artifact
+  try {
+    const out = await writeDailyReport(ROOT, state, sp.runId);
+    await scratchpadAppend(sp.path, {
+      type: "result",
+      ts: new Date().toISOString(),
+      runId: sp.runId,
+      data: { kind: "daily_report_written", path: out },
+    } as any);
+  } catch (err: any) {
+    await scratchpadAppend(sp.path, {
+      type: "error",
+      ts: new Date().toISOString(),
+      runId: sp.runId,
+      where: "daily_report",
+      message: String(err?.message || err),
+    } as any);
+  }
 }
 
 await runOnce();

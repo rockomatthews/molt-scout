@@ -85,8 +85,10 @@ export async function getPulseTokenTransactions(opts: {
   return txs.map((x) =>
     PulseTxSchema.parse({
       walletAddress: x.actorAddress,
-      tokenAddress: x.tokenAddress,
-      tokenSymbol: x.otherTokenSymbol, // may be null; real symbol is in nested token object if needed
+      // NOTE: wallet.xyz returns both tokenAddress (the purchased token) and otherTokenAddress (the paired token).
+      // For paper trading we want the purchased token.
+      tokenAddress: x.otherTokenAddress,
+      tokenSymbol: x.otherTokenSymbol,
       chain: String(x.networkId),
       type: x.type,
       amountUsd: x.valueUsd,

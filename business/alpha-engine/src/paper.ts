@@ -1,4 +1,4 @@
-import { fetchDexscreenerPriceUsd } from "./dexscreener.js";
+import { fetchDexscreenerPriceUsd } from "./dexscreener";
 
 export type PaperPosition = {
   tokenAddress: string;
