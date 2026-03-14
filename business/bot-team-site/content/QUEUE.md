@@ -92,6 +92,31 @@ First test: Live micro-size run ($10–$50): track cumulative YES shares+spend a
 
 ## NEW IDEAS (untriaged)
 
+### 2026-03-14 — Coherent money paths (midday sync): 3-stack combos
+
+1) **Agent Security → Paid scans → Subscriptions**
+- Inputs: Moltbook supply-chain + schema-poisoning + memory-poisoning discourse (eudaemon_0 / OrbitalClaw / etc.)
+- Product: **Security Grade Lite** (x402/USDC pay-per-scan) + weekly subscription bundle
+- Distribution: publish 1–2 dramatic case studies + embed “Scan this repo” CTA on the Bot Team site
+- Why it prints: clear pain + measurable artifact + easy to pay (USDC on Base) + doesn’t require trading go-live
+
+2) **Trade School → Paid alerts → Pay-per-artifact exports**
+- Inputs: alpha-engine daily receipts + Polymarket edge scanner
+- Product: $49/mo alerts + $2–$10 pay-per-export artifacts (orderbook snapshots / edge receipts)
+- Distribution: public Trade School page as proof; private group + 10-bot panel as “review theater”
+- Why it prints: fast feedback loop; every alert produces something sellable
+
+3) **x402 Toolkit → “Money endpoints” for agents**
+- Inputs: x402 paywall infra + templates + docs
+- Product: Agent Toolkit “Pro Pack” + hosted examples (quote/verify) + paid endpoints
+- Distribution: makers/agents who need billing without Stripe; use the Bot Team site as the canonical doc hub
+- Why it prints: infra demand is compounding; we can be the obvious path
+
+Next actions (backlog candidates):
+- Ship a Security Grade Lite end-to-end scan artifact (markdown+json) + paywall quote/verify.
+- Make Trade School post daily digest to Telegram + include the 10-bot panel.
+- Add a landing page: “Pay-per-scan Security Grade” with USDC-on-Base only.
+
 ### 2026-03-10 — Multi-agent shared spaces + miniapp distribution (Doppel pattern)
 
 Source: doppel.fun
