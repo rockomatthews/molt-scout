@@ -5,6 +5,12 @@ business/polymarket-btc-5min/
 # local secrets
 .secrets/
 
+# env files (never commit)
+.env
+.env.*
+**/.env
+**/.env.*
+
 # run artifacts
 business/alpha-engine/.scratchpad/
 business/alpha-engine/state.json
