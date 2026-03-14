@@ -61,8 +61,17 @@ export async function runPaperTrading(opts: {
     skipped_exposure_cap: 0,
     skipped_cash_cap: 0,
     skipped_no_price: 0,
+    skipped_price_sanity: 0,
+    skipped_major: 0,
     entries: 0,
   };
+
+  const MAJOR_DENY = new Set([
+    // Base canonical WETH
+    "0x4200000000000000000000000000000000000006",
+    // Base USDC
+    "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+  ]);
 
   // Entry candidates (Base) via wallet.xyz Pulse
   // Relaxed amountMinUsd slightly so paper trading actually gets enough candidates.
@@ -114,9 +123,21 @@ export async function runPaperTrading(opts: {
       break;
     }
 
+    // Skip majors (paper engine is for edge discovery, not DCA into majors)
+    if (MAJOR_DENY.has(addr.toLowerCase())) {
+      diag.skipped_major++;
+      continue;
+    }
+
     const px = await markPriceUsd(addr);
     if (!px) {
       diag.skipped_no_price++;
+      continue;
+    }
+
+    // Price sanity (avoid obviously broken pricing that leads to nonsense qty)
+    if (!Number.isFinite(px) || px <= 0 || px < 1e-8 || px > 1_000_000) {
+      diag.skipped_price_sanity++;
       continue;
     }
 
