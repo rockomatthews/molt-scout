@@ -12,6 +12,15 @@ const BodySchema = z
   })
   .strict();
 
+function dayMT() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Denver",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
 function parseCategory(instructions: string): "trading" | "operator" | "security" {
   const m = instructions.match(/category:\s*(trading|operator|security)/i);
   const c = (m?.[1] || "trading").toLowerCase();
@@ -94,11 +103,50 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "db_insert_failed" }, { status: 500 });
   }
 
+  // Streak multiplier (reset to 0 on wrong). Best-effort if state table not present.
+  let awardedPoints = verdict.points;
+  let streak = 0;
+
+  try {
+    const today = dayMT();
+    const { data: st } = await sb
+      .from("paper_session_state")
+      .select("session_id, streak, day, submissions_total, submissions_ok")
+      .eq("session_id", sessionId)
+      .maybeSingle();
+
+    const sameDay = String(st?.day || "") === today;
+    const prevStreak = Number(st?.streak || 0);
+    const nextStreak = verdict.ok ? prevStreak + 1 : 0;
+
+    // multiplier = min(1 + 0.1*streak, 3.0)
+    const mult = Math.min(1 + 0.1 * nextStreak, 3.0);
+    awardedPoints = verdict.ok ? Math.round(10 * mult) : 0;
+    streak = nextStreak;
+
+    await sb
+      .from("paper_session_state")
+      .upsert(
+        {
+          session_id: sessionId,
+          day: today,
+          streak: nextStreak,
+          last_ok_at: verdict.ok ? new Date().toISOString() : (st as any)?.last_ok_at ?? null,
+          submissions_total: (sameDay ? Number(st?.submissions_total || 0) : 0) + 1,
+          submissions_ok: (sameDay ? Number(st?.submissions_ok || 0) : 0) + (verdict.ok ? 1 : 0),
+          updated_at: new Date().toISOString(),
+        } as any,
+        { onConflict: "session_id" },
+      );
+  } catch {
+    // ignore
+  }
+
   // Update balance (simple accumulator).
-  if (verdict.points > 0) {
+  if (awardedPoints > 0) {
     await sb.rpc("paper_add_points", {
       p_session_id: sessionId,
-      p_points: verdict.points,
+      p_points: awardedPoints,
     });
   }
 
@@ -106,9 +154,11 @@ export async function POST(req: Request) {
     ok: true,
     submission: {
       id: submissionId,
-      points: verdict.points,
+      points: awardedPoints,
       verdict: verdict.ok ? "ok" : "rejected",
       details: {
+        category: verdict.category,
+        streak,
         wordCount: verdict.wordCount,
         hits: verdict.hits,
       },

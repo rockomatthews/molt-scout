@@ -15,6 +15,16 @@ function newId(prefix: string) {
   return `${prefix}_${crypto.randomUUID().replace(/-/g, "")}`;
 }
 
+function dayMT() {
+  // America/Denver
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Denver",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
 export async function POST(req: Request) {
   const json = await req.json().catch(() => ({}));
   const body = BodySchema.safeParse(json);
@@ -82,6 +92,43 @@ export async function POST(req: Request) {
   ].join("\n");
 
   const sb = supabaseServerAdmin();
+
+  // Daily cap (25 challenges/day/session)
+  const today = dayMT();
+  const maxPerDay = 25;
+
+  // Load session state (best-effort; if missing table, we don't block mining)
+  const { data: st, error: stErr } = await sb
+    .from("paper_session_state")
+    .select("session_id, day, challenges_issued")
+    .eq("session_id", body.data.sessionId)
+    .maybeSingle();
+
+  if (!stErr && st) {
+    const day = String(st.day || "");
+    const issued = Number(st.challenges_issued || 0);
+    const sameDay = day === today;
+    const used = sameDay ? issued : 0;
+    if (used >= maxPerDay) {
+      return NextResponse.json({ ok: false, error: "daily_cap", hint: `Max ${maxPerDay} challenges/day.` }, { status: 429 });
+    }
+  }
+
+  // Upsert/increment state (best-effort)
+  try {
+    await sb.from("paper_session_state").upsert(
+      {
+        session_id: body.data.sessionId,
+        day: today,
+        challenges_issued: (st && String((st as any).day || "") === today ? Number((st as any).challenges_issued || 0) : 0) + 1,
+        updated_at: new Date().toISOString(),
+      } as any,
+      { onConflict: "session_id" },
+    );
+  } catch {
+    // ignore
+  }
+
   const { error } = await sb.from("paper_challenges").insert({
     id: challengeId,
     session_id: body.data.sessionId,
