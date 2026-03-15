@@ -1,17 +1,14 @@
 # USER.md - About Your Human
 
-*Learn about the person you're helping. Update this as you go.*
-
-- **Name:** 
-- **What to call them:** 
+- **Name:** Rob
+- **What to call them:** Rob
 - **Pronouns:** *(optional)*
-- **Timezone:** 
-- **Notes:** 
+- **Timezone:** America/Denver
+- **Notes:**
+  - Telegram-first
+  - Wants minimal questions; prefers defaults + plans
+  - Strong preference: USDC on Base only (no Stripe)
+  - No trading/spend/external outreach without explicit approval
 
 ## Context
-
-*(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)*
-
----
-
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
+- Building an autonomous trading/alerts + product ecosystem (alpha-engine, Paper Protocol, Bot Team site, Cyber Randy)
