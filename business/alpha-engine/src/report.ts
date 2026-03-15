@@ -19,33 +19,37 @@ type PaperExit = {
   ts: string;
 };
 
-async function findScratchpadPath(root: string, runId: string) {
+async function listScratchpadsForDay(root: string, day: string) {
   const spDir = path.join(root, ".scratchpad");
   try {
     const files = await fs.readdir(spDir);
-    const hit = files.find((f) => f.includes(runId) && f.endsWith(".jsonl"));
-    return hit ? path.join(spDir, hit) : null;
+    // scratchpads are named like: YYYY-MM-DDTHH-mm-ss-..._runid.jsonl
+    const hits = files
+      .filter((f) => f.startsWith(day + "T") && f.endsWith(".jsonl"))
+      .map((f) => path.join(spDir, f))
+      .sort();
+    return hits;
   } catch {
-    return null;
+    return [] as string[];
   }
 }
 
 export async function writeDailyReport(root: string, state: any, runId: string) {
-  const day = (state.day || new Date().toISOString().slice(0, 10)) as string;
+  const day = (state.day || new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date())) as string;
   const dir = path.join(root, "reports");
   await fs.mkdir(dir, { recursive: true });
 
   const paper = state.paper || { cashUsd: null, positions: {} };
-  const positions = Object.values(paper.positions || {}) as any[];
+  const positionsNow = Object.values(paper.positions || {}) as any[];
 
-  // Parse scratchpad to reconstruct entries/exits + diagnostics.
-  const spPath = await findScratchpadPath(root, runId);
+  // Parse ALL scratchpads for the day to reconstruct a true "daily" trades list.
+  const spPaths = await listScratchpadsForDay(root, day);
   const entries: Record<string, PaperEntry> = {};
   const exits: Record<string, PaperExit> = {};
-  let diag: any = null;
+  const diags: Array<{ runId: string; ts: string; diag: any }> = [];
 
-  if (spPath) {
-    const raw = await fs.readFile(spPath, "utf8");
+  for (const spPath of spPaths) {
+    const raw = await fs.readFile(spPath, "utf8").catch(() => "");
     for (const line of raw.split("\n")) {
       if (!line.trim()) continue;
       let obj: any;
@@ -76,7 +80,7 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
         };
       }
       if (data?.kind === "paper_diag") {
-        diag = data.diag;
+        diags.push({ runId: obj.runId, ts: obj.ts, diag: data.diag });
       }
     }
   }
@@ -101,27 +105,41 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   lines.push(`# Alpha Engine — Daily Report (${day})`);
   lines.push("");
   lines.push(`RunId: ${runId}`);
-  if (spPath) lines.push(`Scratchpad: ${path.relative(root, spPath)}`);
+  if (spPaths.length) {
+    lines.push(`Scratchpads (${spPaths.length}):`);
+    for (const p of spPaths.slice(-10)) {
+      lines.push(`- ${path.relative(root, p)}`);
+    }
+    if (spPaths.length > 10) lines.push(`- … (+${spPaths.length - 10} more)`);
+  }
   lines.push("");
 
   // 1) P&L + risk
   lines.push("## 1) P&L + risk");
-  const cashNum = typeof paper.cashUsd === "number" ? paper.cashUsd : null;
-  const cashStr = cashNum === null ? "—" : cashNum.toFixed(2);
-  const realized = Number(state.realizedPnlUsd || 0);
+
   const startCash = Number(state.paperStartCashUsd || 1000);
+  const realized = realizedTrades.reduce((a, id) => a + (exits[id]?.pnlUsd || 0), 0);
+  const openTradeIds = tradeIds.filter((id) => !exits[id]);
+  const openExposure = openTradeIds.reduce((a, id) => a + (entries[id]?.usd || 0), 0);
+  const endCashComputed = startCash - openExposure + realized;
   const pct = startCash ? (realized / startCash) * 100 : 0;
+
   lines.push(`- Start cash (paper): **$${startCash.toFixed(2)}**`);
-  lines.push(`- End cash (paper): **$${cashStr}**`);
+  lines.push(`- End cash (paper, computed): **$${endCashComputed.toFixed(2)}**`);
   lines.push(`- Realized PnL: **$${realized.toFixed(2)}** (${pct.toFixed(2)}%)`);
-  lines.push(`- Exposure used: **$${Number(state.totalExposureUsd || 0).toFixed(2)}**`);
-  lines.push(`- Open positions: **${positions.length}**`);
+  lines.push(`- Open exposure: **$${openExposure.toFixed(2)}** / $${Number(state.risk?.maxTotalExposureUsd || 120).toFixed(2)} cap`);
+  lines.push(`- Open positions (today ledger): **${openTradeIds.length}**`);
+
+  const cashNowNum = typeof paper.cashUsd === "number" ? paper.cashUsd : null;
+  if (cashNowNum !== null) {
+    lines.push(`- State now: cash **$${cashNowNum.toFixed(2)}**, positions **${positionsNow.length}**, exposureCounter **$${Number(state.totalExposureUsd || 0).toFixed(2)}**`);
+  }
   lines.push("");
 
   // 2) Trades list (proof)
   lines.push("## 2) Trades list (proof)");
   if (!tradeIds.length) {
-    lines.push("- (no paper trades this run)");
+    lines.push("- (no paper trades today)");
   } else {
     for (const id of tradeIds) {
       const e = entries[id];
@@ -151,13 +169,16 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   // 4) Learning log
   lines.push("## 4) Learning log");
   lines.push("- Change today: fixed Pulse chain id parsing + token address selection; added paper-trading skip diagnostics; added price sanity + major-token denylist + min liquidity filter; fixed tsx runner flag for Node >=20.6.");
-  lines.push("- Evidence: see `paper_diag` in scratchpad; it reports why entries were skipped (no price, caps, etc.).");
+  lines.push("- Evidence: see `paper_diag` in scratchpads; it reports why entries were skipped (no price, caps, etc.).");
   lines.push("- Next hypothesis: if `skipped_major` dominates, we need better filtering to target non-major tokens; if `skipped_liquidity` dominates, tune minLiquidityUsd; if `skipped_no_price` dominates, add pricing fallbacks.");
-  if (diag) {
+  if (diags.length) {
+    diags.sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
+    const latest = diags[diags.length - 1];
     lines.push("");
-    lines.push("### Diagnostics (paper_diag)");
+    lines.push("### Diagnostics (latest paper_diag)");
+    lines.push(`RunId: ${latest.runId}`);
     lines.push("```json");
-    lines.push(JSON.stringify(diag, null, 2));
+    lines.push(JSON.stringify(latest.diag, null, 2));
     lines.push("```");
   }
   lines.push("");

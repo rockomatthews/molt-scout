@@ -50,7 +50,9 @@ async function runOnce() {
   });
 
   // Reset day counters if day changed
-  const today = new Date().toISOString().slice(0, 10);
+  // Use America/Denver day boundary (not UTC) so the daily report matches MT reminders.
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" })
+    .format(new Date());
   if (state.day !== today) {
     state.day = today;
     state.realizedPnlUsd = 0;
