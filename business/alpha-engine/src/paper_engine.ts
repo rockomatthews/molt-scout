@@ -94,6 +94,7 @@ export async function runPaperTrading(opts: {
     skipped_price_sanity: 0,
     skipped_liquidity: 0,
     skipped_activity: 0,
+    skipped_confirmation2: 0,
     skipped_major: 0,
     entries: 0,
   };
@@ -196,10 +197,14 @@ export async function runPaperTrading(opts: {
       continue;
     }
 
-    // Momentum tilt (small): avoid obvious 24h downtrends
+    // Second-signal confirmation (independent from Pulse):
+    // Use Dexscreener market-structure confirmation so we only enter when the market is actually moving.
+    // Rule: positive 24h momentum + buys dominate sells.
     const pc24 = Number(q?.priceChange24hPct || 0);
-    if (Number.isFinite(pc24) && pc24 < 1) {
-      diag.skipped_activity++;
+    const buys24 = Number(q?.txns24h?.buys || 0);
+    const sells24 = Number(q?.txns24h?.sells || 0);
+    if ((Number.isFinite(pc24) && pc24 < 1) || buys24 <= sells24) {
+      diag.skipped_confirmation2++;
       continue;
     }
 
