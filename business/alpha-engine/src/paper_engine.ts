@@ -16,8 +16,38 @@ export async function runPaperTrading(opts: {
 
   // Exit logic first
   for (const [addr, pos] of Object.entries(paper.positions)) {
+    const opened = new Date((pos as any).openedAtIso).getTime();
+    const ageMin = (now.getTime() - opened) / 60000;
+
     const px = await markPriceUsd(addr);
-    if (!px) continue;
+
+    // If pricing is missing, don't let positions get stuck forever.
+    // Only force a time-based exit at entry price (0 pnl) once holdMinutes has elapsed.
+    if (!px) {
+      if (ageMin < opts.paper.holdMinutes) continue;
+
+      const forcedPx = Number((pos as any).avgEntry);
+      paper.cashUsd += (pos as any).qty * forcedPx;
+      // realized PnL unchanged (0)
+      opts.state.totalExposureUsd -= opts.risk.usdPerTrade;
+
+      delete paper.positions[addr];
+
+      await scratchpadAppend(opts.sp.path, {
+        type: "result",
+        ts: new Date().toISOString(),
+        runId: opts.sp.runId,
+        data: {
+          kind: "paper_exit",
+          tradeId: (pos as any).tradeId,
+          tokenAddress: addr,
+          px: forcedPx,
+          pnlUsd: 0,
+          reason: `time_${opts.paper.holdMinutes}m_no_price`,
+        },
+      } as any);
+      continue;
+    }
 
     const exitCheck = shouldExit({
       pos: pos as any,
