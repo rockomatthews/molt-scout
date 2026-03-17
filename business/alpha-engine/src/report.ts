@@ -19,15 +19,39 @@ type PaperExit = {
   ts: string;
 };
 
+function scratchpadIsoFromFilename(filename: string): string | null {
+  // Example: 2026-03-17T01-34-16-483Z_<runid>.jsonl
+  const m = filename.match(/^(\d{4}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})-(\d{3})Z_/);
+  if (!m) return null;
+  const [, d, hh, mm, ss, ms] = m;
+  return `${d}T${hh}:${mm}:${ss}.${ms}Z`;
+}
+
+function mtDayFromIso(iso: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Denver",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(iso));
+}
+
 async function listScratchpadsForDay(root: string, day: string) {
   const spDir = path.join(root, ".scratchpad");
   try {
     const files = await fs.readdir(spDir);
-    // scratchpads are named like: YYYY-MM-DDTHH-mm-ss-..._runid.jsonl
+
+    // scratchpads are timestamped in UTC (Z) in the filename; map them to MT day.
     const hits = files
-      .filter((f) => f.startsWith(day + "T") && f.endsWith(".jsonl"))
-      .map((f) => path.join(spDir, f))
+      .filter((f) => f.endsWith(".jsonl"))
+      .map((f) => {
+        const iso = scratchpadIsoFromFilename(f);
+        return { f, iso };
+      })
+      .filter((x) => x.iso && mtDayFromIso(x.iso) === day)
+      .map((x) => path.join(spDir, x.f))
       .sort();
+
     return hits;
   } catch {
     return [] as string[];
@@ -146,9 +170,16 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
       const x = exits[id];
       const sym = e?.symbol || "(unknown)";
       const addr = e?.tokenAddress || x?.tokenAddress || "(unknown)";
-      const entryLine = e ? `entry ${new Date(e.ts).toISOString()} @ $${e.entryPx.toFixed(6)}` : "entry —";
+      const fmtPx = (n: number) => {
+        if (!Number.isFinite(n) || n <= 0) return "0";
+        if (n < 1e-6) return n.toExponential(2);
+        if (n < 1) return n.toFixed(8);
+        return n.toFixed(6);
+      };
+
+      const entryLine = e ? `entry ${new Date(e.ts).toISOString()} @ $${fmtPx(e.entryPx)}` : "entry —";
       const exitLine = x
-        ? `exit ${new Date(x.ts).toISOString()} @ $${x.px.toFixed(6)} · PnL $${x.pnlUsd.toFixed(2)} · ${x.reason || "—"}`
+        ? `exit ${new Date(x.ts).toISOString()} @ $${fmtPx(x.px)} · PnL $${x.pnlUsd.toFixed(2)} · ${x.reason || "—"}`
         : "exit OPEN";
       lines.push(`- **${id}** · ${sym} · ${addr}`);
       lines.push(`  - ${entryLine}`);
