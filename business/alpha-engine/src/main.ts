@@ -54,11 +54,15 @@ async function runOnce() {
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" })
     .format(new Date());
   if (state.day !== today) {
+    // New local day (America/Denver). Reset day-scoped counters.
     state.day = today;
     state.realizedPnlUsd = 0;
     state.goodAlertsCount = 0;
     state.askedToGoLive = false;
-    state.paperStartCashUsd = cfg.paper.startCashUsd;
+
+    // Paper trading start-of-day cash should reflect the carried state, so reports don't drift.
+    // (We keep positions/cash across days unless explicitly reset.)
+    state.paperStartCashUsd = typeof state.paper?.cashUsd === "number" ? state.paper.cashUsd : cfg.paper.startCashUsd;
   }
 
   if (cfg.mode.liveTrading && cfg.mode.dryRun) {
