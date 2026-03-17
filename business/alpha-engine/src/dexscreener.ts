@@ -11,6 +11,30 @@ const PairSchema = z.object({
     })
     .optional()
     .nullable(),
+  volume: z
+    .object({
+      h24: z.number().optional().nullable(),
+    })
+    .optional()
+    .nullable(),
+  txns: z
+    .object({
+      h24: z
+        .object({
+          buys: z.number().optional().nullable(),
+          sells: z.number().optional().nullable(),
+        })
+        .optional()
+        .nullable(),
+    })
+    .optional()
+    .nullable(),
+  priceChange: z
+    .object({
+      h24: z.number().optional().nullable(),
+    })
+    .optional()
+    .nullable(),
 });
 
 const RespSchema = z.object({
@@ -24,6 +48,9 @@ export type DexscreenerQuote = {
   pairUrl?: string;
   priceUsd: number;
   liquidityUsd: number;
+  volume24hUsd: number;
+  txns24h: { buys: number; sells: number; total: number };
+  priceChange24hPct: number;
 };
 
 type CacheItem = { ts: number; quote: DexscreenerQuote | null };
@@ -79,6 +106,11 @@ export async function fetchDexscreenerQuote(tokenAddress: string): Promise<Dexsc
     return null;
   }
 
+  const vol24 = Number(p?.volume?.h24 || 0);
+  const buys24 = Number(p?.txns?.h24?.buys || 0);
+  const sells24 = Number(p?.txns?.h24?.sells || 0);
+  const pc24 = Number(p?.priceChange?.h24 || 0);
+
   const out: DexscreenerQuote = {
     tokenAddress,
     chainId: p.chainId,
@@ -86,6 +118,13 @@ export async function fetchDexscreenerQuote(tokenAddress: string): Promise<Dexsc
     pairUrl: p.url,
     priceUsd: px,
     liquidityUsd: Number.isFinite(liq) ? liq : 0,
+    volume24hUsd: Number.isFinite(vol24) ? vol24 : 0,
+    txns24h: {
+      buys: Number.isFinite(buys24) ? buys24 : 0,
+      sells: Number.isFinite(sells24) ? sells24 : 0,
+      total: (Number.isFinite(buys24) ? buys24 : 0) + (Number.isFinite(sells24) ? sells24 : 0),
+    },
+    priceChange24hPct: Number.isFinite(pc24) ? pc24 : 0,
   };
 
   QUOTE_CACHE.set(key, { ts: Date.now(), quote: out });

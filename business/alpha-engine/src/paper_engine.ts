@@ -93,6 +93,7 @@ export async function runPaperTrading(opts: {
     skipped_no_price: 0,
     skipped_price_sanity: 0,
     skipped_liquidity: 0,
+    skipped_activity: 0,
     skipped_major: 0,
     entries: 0,
   };
@@ -119,13 +120,12 @@ export async function runPaperTrading(opts: {
   };
 
   // Entry candidates (Base) via wallet.xyz Pulse
-  // Relaxed amountMinUsd slightly so paper trading actually gets enough candidates.
   const txs = await getPulseTokenTransactions({
     limit: 25,
     offset: 0,
-    amountMinUsd: 500,
-    marketCapMaxUsd: 50_000_000,
-    onlyWithProfile: true,
+    amountMinUsd: opts.paper.pulseAmountMinUsd ?? 500,
+    marketCapMaxUsd: opts.paper.pulseMarketCapMaxUsd ?? 50_000_000,
+    onlyWithProfile: opts.paper.pulseOnlyWithProfile ?? true,
   });
   diag.pulse_txs = txs.length;
 
@@ -183,7 +183,8 @@ export async function runPaperTrading(opts: {
     }
 
     // Price sanity (avoid obviously broken pricing that leads to nonsense qty)
-    if (!Number.isFinite(px) || px <= 0 || px < 1e-8 || px > 1_000_000) {
+    const minPx = opts.paper.minPriceUsd ?? 1e-7;
+    if (!Number.isFinite(px) || px <= 0 || px < minPx || px > 1_000_000) {
       diag.skipped_price_sanity++;
       continue;
     }
@@ -191,6 +192,12 @@ export async function runPaperTrading(opts: {
     // Liquidity sanity
     if ((q?.liquidityUsd || 0) < (opts.paper.minLiquidityUsd ?? 10_000)) {
       diag.skipped_liquidity++;
+      continue;
+    }
+
+    // Activity sanity (aggressive defaults, still filters dead pairs)
+    if ((q?.volume24hUsd || 0) < (opts.paper.minVolume24hUsd ?? 2_000) || (q?.txns24h?.total || 0) < (opts.paper.minTxns24h ?? 20)) {
+      diag.skipped_activity++;
       continue;
     }
 
@@ -221,6 +228,14 @@ export async function runPaperTrading(opts: {
         symbol: tx.tokenSymbol,
         entryPx: px,
         usd: opts.risk.usdPerTrade,
+        quote: {
+          dexId: q?.dexId,
+          liquidityUsd: q?.liquidityUsd,
+          volume24hUsd: q?.volume24hUsd,
+          txns24h: q?.txns24h,
+          priceChange24hPct: q?.priceChange24hPct,
+          pairUrl: q?.pairUrl,
+        },
       },
     } as any);
 

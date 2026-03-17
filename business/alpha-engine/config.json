@@ -25,5 +25,22 @@
   "alerts": {
     "minScoreToAlert": 60,
     "cooldownMinutesPerTicker": 30
+  },
+  "paper": {
+    "enabled": true,
+    "startCashUsd": 1000,
+    "holdMinutes": 30,
+    "takeProfitPct": 0.25,
+    "stopLossPct": 0.15,
+    "maxPositions": 10,
+
+    "pulseAmountMinUsd": 500,
+    "pulseMarketCapMaxUsd": 50000000,
+    "pulseOnlyWithProfile": true,
+
+    "minLiquidityUsd": 10000,
+    "minVolume24hUsd": 2000,
+    "minTxns24h": 20,
+    "minPriceUsd": 0.0000001
   }
 }
