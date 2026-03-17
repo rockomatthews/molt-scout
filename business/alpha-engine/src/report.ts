@@ -59,7 +59,8 @@ async function listScratchpadsForDay(root: string, day: string) {
 }
 
 export async function writeDailyReport(root: string, state: any, runId: string) {
-  const day = (state.day || new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date())) as string;
+  // Day boundary is America/Denver; always compute fresh for report generation.
+  const day = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()) as string;
   const dir = path.join(root, "reports");
   await fs.mkdir(dir, { recursive: true });
 
@@ -141,7 +142,7 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   // 1) P&L + risk
   lines.push("## 1) P&L + risk");
 
-  const startCash = Number(state.paperStartCashUsd || 1000);
+  const startCash = Number((state.paperStartCashUsd ?? 1000));
   const realized = realizedTrades.reduce((a, id) => a + (exits[id]?.pnlUsd || 0), 0);
   const openTradeIds = tradeIds.filter((id) => !exits[id]);
   const openExposure = openTradeIds.reduce((a, id) => a + (entries[id]?.usd || 0), 0);
@@ -157,6 +158,11 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   const cashNowNum = typeof paper.cashUsd === "number" ? paper.cashUsd : null;
   if (cashNowNum !== null) {
     lines.push(`- State now: cash **$${cashNowNum.toFixed(2)}**, positions **${positionsNow.length}**, exposureCounter **$${Number(state.totalExposureUsd || 0).toFixed(2)}**`);
+  }
+
+  // Sanity note if state.day differs from computed report day (can happen if engine hasn't run today).
+  if (state.day && state.day !== day) {
+    lines.push(`- Note: state.day is **${String(state.day)}** but report day is **${day}** (MT). Run alpha-engine to roll day counters.`);
   }
   lines.push("");
 
