@@ -136,6 +136,15 @@ export async function runPaperTrading(opts: {
     data: { kind: "pulse", txs: txs.length },
   } as any);
 
+  // Phase 1: gather + quality-filter candidates
+  const candidates: Array<{
+    addr: string;
+    tokenSymbol?: string;
+    q: any;
+    px: number;
+    score: number;
+  }> = [];
+
   for (const tx of txs) {
     const addr = pickPurchasedTokenAddress(tx);
     if (!addr) {
@@ -155,6 +164,55 @@ export async function runPaperTrading(opts: {
       continue;
     }
 
+    // Skip majors (paper engine is for edge discovery, not DCA into majors)
+    if (MAJOR_DENY.has(addr.toLowerCase())) {
+      diag.skipped_major++;
+      continue;
+    }
+
+    const q = await markQuote(addr);
+    const px = q?.priceUsd;
+    if (!px) {
+      diag.skipped_no_price++;
+      continue;
+    }
+
+    // Price sanity
+    const minPx = opts.paper.minPriceUsd ?? 1e-7;
+    if (!Number.isFinite(px) || px <= 0 || px < minPx || px > 1_000_000) {
+      diag.skipped_price_sanity++;
+      continue;
+    }
+
+    // Liquidity sanity
+    if ((q?.liquidityUsd || 0) < (opts.paper.minLiquidityUsd ?? 10_000)) {
+      diag.skipped_liquidity++;
+      continue;
+    }
+
+    // Activity sanity
+    if ((q?.volume24hUsd || 0) < (opts.paper.minVolume24hUsd ?? 2_000) || (q?.txns24h?.total || 0) < (opts.paper.minTxns24h ?? 20)) {
+      diag.skipped_activity++;
+      continue;
+    }
+
+    // Momentum tilt (small): avoid obvious 24h downtrends
+    const pc24 = Number(q?.priceChange24hPct || 0);
+    if (Number.isFinite(pc24) && pc24 < 1) {
+      diag.skipped_activity++;
+      continue;
+    }
+
+    // Best-of-batch score (aggressive, but quality-biased)
+    const score = (Number(q?.volume24hUsd || 0) * Math.max(1, Number(q?.txns24h?.total || 0))) + Number(q?.liquidityUsd || 0);
+
+    candidates.push({ addr, tokenSymbol: tx.tokenSymbol || undefined, q, px, score });
+  }
+
+  // Phase 2: enter highest-quality candidates first
+  candidates.sort((a, b) => b.score - a.score);
+
+  for (const c of candidates) {
     if (opts.state.realizedPnlUsd <= -Math.abs(opts.risk.maxDailyLossUsd)) {
       diag.skipped_daily_loss_cap++;
       break;
@@ -168,53 +226,22 @@ export async function runPaperTrading(opts: {
       break;
     }
 
-    // Skip majors (paper engine is for edge discovery, not DCA into majors)
-    if (MAJOR_DENY.has(addr.toLowerCase())) {
-      diag.skipped_major++;
-      continue;
-    }
+    // might have been entered earlier in this run
+    if (paper.positions[c.addr]) continue;
 
-    const q = await markQuote(addr);
-    const px = q?.priceUsd;
-
-    if (!px) {
-      diag.skipped_no_price++;
-      continue;
-    }
-
-    // Price sanity (avoid obviously broken pricing that leads to nonsense qty)
-    const minPx = opts.paper.minPriceUsd ?? 1e-7;
-    if (!Number.isFinite(px) || px <= 0 || px < minPx || px > 1_000_000) {
-      diag.skipped_price_sanity++;
-      continue;
-    }
-
-    // Liquidity sanity
-    if ((q?.liquidityUsd || 0) < (opts.paper.minLiquidityUsd ?? 10_000)) {
-      diag.skipped_liquidity++;
-      continue;
-    }
-
-    // Activity sanity (aggressive defaults, still filters dead pairs)
-    if ((q?.volume24hUsd || 0) < (opts.paper.minVolume24hUsd ?? 2_000) || (q?.txns24h?.total || 0) < (opts.paper.minTxns24h ?? 20)) {
-      diag.skipped_activity++;
-      continue;
-    }
-
-    const qty = opts.risk.usdPerTrade / px;
+    const qty = opts.risk.usdPerTrade / c.px;
     paper.cashUsd -= opts.risk.usdPerTrade;
-    const tradeId = `${opts.sp.runId}:${addr.slice(0, 6)}:${Date.now()}`;
-    paper.positions[addr] = {
+    const tradeId = `${opts.sp.runId}:${c.addr.slice(0, 6)}:${Date.now()}`;
+    paper.positions[c.addr] = {
       tradeId,
-      tokenAddress: addr,
-      symbol: tx.tokenSymbol || undefined,
+      tokenAddress: c.addr,
+      symbol: c.tokenSymbol,
       qty,
-      avgEntry: px,
+      avgEntry: c.px,
       openedAtIso: new Date().toISOString(),
     };
 
     opts.state.totalExposureUsd += opts.risk.usdPerTrade;
-
     diag.entries++;
 
     await scratchpadAppend(opts.sp.path, {
@@ -224,22 +251,22 @@ export async function runPaperTrading(opts: {
       data: {
         kind: "paper_entry",
         tradeId,
-        tokenAddress: addr,
-        symbol: tx.tokenSymbol,
-        entryPx: px,
+        tokenAddress: c.addr,
+        symbol: c.tokenSymbol,
+        entryPx: c.px,
         usd: opts.risk.usdPerTrade,
         quote: {
-          dexId: q?.dexId,
-          liquidityUsd: q?.liquidityUsd,
-          volume24hUsd: q?.volume24hUsd,
-          txns24h: q?.txns24h,
-          priceChange24hPct: q?.priceChange24hPct,
-          pairUrl: q?.pairUrl,
+          dexId: c.q?.dexId,
+          liquidityUsd: c.q?.liquidityUsd,
+          volume24hUsd: c.q?.volume24hUsd,
+          txns24h: c.q?.txns24h,
+          priceChange24hPct: c.q?.priceChange24hPct,
+          pairUrl: c.q?.pairUrl,
         },
+        score: c.score,
       },
     } as any);
 
-    // cap entries per run / total positions
     if (Object.keys(paper.positions).length >= opts.paper.maxPositions) break;
   }
 
