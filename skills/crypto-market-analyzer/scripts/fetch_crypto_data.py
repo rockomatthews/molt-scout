@@ -10,33 +10,63 @@ import sys
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 
-# Binance API endpoints
-BASE_URL = "https://api.binance.com"
+# Data source: Coinbase Exchange public API (no auth)
+# We use Coinbase because Binance often returns 451 in US environments.
+BASE_URL = "https://api.exchange.coinbase.com"  # Coinbase Exchange public API
+
+# Map our symbol keys to Coinbase product ids
+PRODUCTS = {
+    "BTCUSDT": "BTC-USD",
+    "ETHUSDT": "ETH-USD",
+}
+
+# Interval mapping (seconds)
+# Coinbase allowed granularities are limited; use 1h for intraday analysis.
+GRANULARITY = {
+    "4h": 60 * 60 * 1,   # we fetch 1h candles and treat last 24h as 24 candles
+    "1d": 60 * 60 * 24,
+}
 
 def fetch_klines(symbol: str, interval: str, limit: int) -> List[List]:
-    """
-    Fetch kline (candlestick) data from Binance.
+    """Fetch OHLCV candles from Coinbase and normalize to a Binance-like kline shape.
 
-    Args:
-        symbol: Trading pair (e.g., "BTCUSDT", "ETHUSDT")
-        interval: Timeframe (e.g., "1h", "4h", "1d")
-        limit: Number of candles to fetch (max 1000)
+    Coinbase endpoint:
+      GET /products/{product_id}/candles?granularity=SECONDS
 
-    Returns:
-        List of klines where each kline is:
-        [open_time, open, high, low, close, volume, close_time, ...]
+    Returns normalized klines:
+      [open_time_ms, open, high, low, close, volume]
+
+    Note: Coinbase returns newest-first; we sort ascending by time.
     """
-    url = f"{BASE_URL}/api/v3/klines"
+    product_id = PRODUCTS.get(symbol)
+    if not product_id:
+        return []
+
+    gran = GRANULARITY.get(interval)
+    if not gran:
+        return []
+
+    url = f"{BASE_URL}/products/{product_id}/candles"
     params = {
-        "symbol": symbol,
-        "interval": interval,
-        "limit": limit
+        "granularity": gran,
     }
 
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response = requests.get(url, params=params, timeout=10, headers={"User-Agent": "crypto-market-analyzer"})
         response.raise_for_status()
-        return response.json()
+        rows = response.json()  # [ time, low, high, open, close, volume ]
+        if not isinstance(rows, list):
+            return []
+
+        # Sort ascending by time
+        rows = sorted(rows, key=lambda r: r[0])
+        rows = rows[-limit:]
+
+        out = []
+        for r in rows:
+            t_s, low, high, open_, close, vol = r
+            out.append([int(t_s) * 1000, str(open_), str(high), str(low), str(close), str(vol)])
+        return out
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data for {symbol}: {e}", file=sys.stderr)
         return []
