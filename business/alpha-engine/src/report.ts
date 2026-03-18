@@ -58,6 +58,22 @@ async function listScratchpadsForDay(root: string, day: string) {
   }
 }
 
+async function listAllScratchpads(root: string) {
+  const spDir = path.join(root, ".scratchpad");
+  try {
+    const files = await fs.readdir(spDir);
+    return files
+      .filter((f) => f.endsWith(".jsonl"))
+      .map((f) => ({ f, iso: scratchpadIsoFromFilename(f) }))
+      .filter((x) => x.iso)
+      // newest first
+      .sort((a, b) => String(b.iso).localeCompare(String(a.iso)))
+      .map((x) => path.join(spDir, x.f));
+  } catch {
+    return [] as string[];
+  }
+}
+
 export async function writeDailyReport(root: string, state: any, runId: string) {
   // Day boundary is America/Denver; always compute fresh for report generation.
   const day = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()) as string;
@@ -111,6 +127,41 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   }
 
   const tradeIds = Array.from(new Set([...Object.keys(entries), ...Object.keys(exits)])).sort();
+
+  // Backfill missing entries for exits by scanning recent scratchpads (carry positions across days).
+  const missingEntryIds = tradeIds.filter((id) => exits[id] && !entries[id]);
+  if (missingEntryIds.length) {
+    const allScratchpads = await listAllScratchpads(root);
+    const want = new Set(missingEntryIds);
+
+    // Scan up to ~250 scratchpads to avoid unbounded work.
+    for (const spPath of allScratchpads.slice(0, 250)) {
+      if (!want.size) break;
+      const raw = await fs.readFile(spPath, "utf8").catch(() => "");
+      for (const line of raw.split("\n")) {
+        if (!line.trim()) continue;
+        let obj: any;
+        try {
+          obj = JSON.parse(line);
+        } catch {
+          continue;
+        }
+        const data = obj?.data;
+        if (data?.kind === "paper_entry" && want.has(data.tradeId)) {
+          entries[data.tradeId] = {
+            tradeId: data.tradeId,
+            tokenAddress: data.tokenAddress,
+            symbol: data.symbol || undefined,
+            entryPx: Number(data.entryPx),
+            usd: Number(data.usd),
+            ts: obj.ts,
+          };
+          want.delete(data.tradeId);
+          if (!want.size) break;
+        }
+      }
+    }
+  }
 
   // Basic stats
   const realizedTrades = tradeIds.filter((id) => exits[id]);
