@@ -11,6 +11,7 @@ import { proposeTrade, executeTrade } from "./bankr.js";
 import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 import { runPaperTrading } from "./paper_engine.js";
 import { writeDailyReport } from "./report.js";
+import { getMacroRegime } from "./macro.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -134,6 +135,21 @@ async function runOnce() {
       })),
     },
   });
+
+  // Macro regime snapshot (BTC/ETH) — a 2nd-order context signal (risk-on / risk-off)
+  try {
+    const macro = await getMacroRegime(ROOT);
+    if (macro) {
+      await scratchpadAppend(sp.path, {
+        type: "signal",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        data: { kind: "macro_regime", macro },
+      } as any);
+    }
+  } catch {
+    // ignore
+  }
 
   // Paper trading (Base onchain tokens) — deterministic + risk-capped
   if (cfg.mode.paperTrading && cfg.paper.enabled) {
