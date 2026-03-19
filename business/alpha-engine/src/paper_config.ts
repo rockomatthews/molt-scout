@@ -20,6 +20,12 @@ export const PaperSchema = z
     minVolume24hUsd: z.number().nonnegative().default(2_000),
     minTxns24h: z.number().int().nonnegative().default(20),
     minPriceUsd: z.number().nonnegative().default(1e-7),
+
+    // Control how fast we add risk even if capacity remains.
+    maxEntriesPerRun: z.number().int().positive().default(2),
+
+    // Second-signal strength (buy pressure)
+    minBuySellRatio24h: z.number().positive().default(1.5),
   })
   .default({});
 

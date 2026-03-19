@@ -95,6 +95,7 @@ export async function runPaperTrading(opts: {
     skipped_liquidity: 0,
     skipped_activity: 0,
     skipped_confirmation2: 0,
+    skipped_macro_riskoff: 0,
     skipped_major: 0,
     entries: 0,
   };
@@ -120,6 +121,16 @@ export async function runPaperTrading(opts: {
     return a || b || "";
   };
 
+  // Macro gate (BTC/ETH regime). If macro is risk-off, do not open new positions.
+  // We still allow exits above.
+  const macro = opts.state?.macroRegime;
+  const btc = macro?.symbols?.find((s: any) => String(s.symbol || "").toUpperCase() === "BTCUSDT");
+  const riskOff =
+    btc &&
+    ((typeof btc.rsi === "number" && btc.rsi < 45) ||
+      (typeof btc.current_price === "number" && typeof btc.sma_20 === "number" && btc.current_price < btc.sma_20) ||
+      (typeof btc.sma_20 === "number" && typeof btc.sma_50 === "number" && btc.sma_20 < btc.sma_50));
+
   // Entry candidates (Base) via wallet.xyz Pulse
   const txs = await getPulseTokenTransactions({
     limit: 25,
@@ -129,6 +140,17 @@ export async function runPaperTrading(opts: {
     onlyWithProfile: opts.paper.pulseOnlyWithProfile ?? true,
   });
   diag.pulse_txs = txs.length;
+
+  if (riskOff) {
+    diag.skipped_macro_riskoff = txs.length;
+    await scratchpadAppend(opts.sp.path, {
+      type: "result",
+      ts: new Date().toISOString(),
+      runId: opts.sp.runId,
+      data: { kind: "paper_diag", diag },
+    } as any);
+    return;
+  }
 
   await scratchpadAppend(opts.sp.path, {
     type: "input",
@@ -203,7 +225,9 @@ export async function runPaperTrading(opts: {
     const pc24 = Number(q?.priceChange24hPct || 0);
     const buys24 = Number(q?.txns24h?.buys || 0);
     const sells24 = Number(q?.txns24h?.sells || 0);
-    if ((Number.isFinite(pc24) && pc24 < 1) || buys24 <= sells24) {
+    const ratio = sells24 > 0 ? buys24 / sells24 : buys24 > 0 ? 99 : 0;
+    const minRatio = opts.paper.minBuySellRatio24h ?? 1.5;
+    if ((Number.isFinite(pc24) && pc24 < 1) || ratio < minRatio) {
       diag.skipped_confirmation2++;
       continue;
     }
@@ -217,7 +241,9 @@ export async function runPaperTrading(opts: {
   // Phase 2: enter highest-quality candidates first
   candidates.sort((a, b) => b.score - a.score);
 
+  const maxEntriesPerRun = opts.paper.maxEntriesPerRun ?? 2;
   for (const c of candidates) {
+    if (diag.entries >= maxEntriesPerRun) break;
     if (opts.state.realizedPnlUsd <= -Math.abs(opts.risk.maxDailyLossUsd)) {
       diag.skipped_daily_loss_cap++;
       break;
