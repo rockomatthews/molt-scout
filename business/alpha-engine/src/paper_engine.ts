@@ -159,6 +159,14 @@ export async function runPaperTrading(opts: {
     data: { kind: "pulse", txs: txs.length },
   } as any);
 
+  // Replay harness input: persist the raw Pulse txs used for candidate generation.
+  await scratchpadAppend(opts.sp.path, {
+    type: "input",
+    ts: new Date().toISOString(),
+    runId: opts.sp.runId,
+    data: { kind: "pulse_txs", txs },
+  } as any);
+
   // Phase 1: gather + quality-filter candidates
   const candidates: Array<{
     addr: string;
@@ -168,6 +176,7 @@ export async function runPaperTrading(opts: {
     score: number;
   }> = [];
 
+  const quotesUsed: Record<string, any> = {};
   for (const tx of txs) {
     const addr = pickPurchasedTokenAddress(tx);
     if (!addr) {
@@ -194,6 +203,7 @@ export async function runPaperTrading(opts: {
     }
 
     const q = await markQuote(addr);
+    if (q) quotesUsed[addr.toLowerCase()] = q;
     const px = q?.priceUsd;
     if (!px) {
       diag.skipped_no_price++;
@@ -237,6 +247,14 @@ export async function runPaperTrading(opts: {
 
     candidates.push({ addr, tokenSymbol: tx.tokenSymbol || undefined, q, px, score });
   }
+
+  // Replay harness input: persist the quotes observed during candidate filtering.
+  await scratchpadAppend(opts.sp.path, {
+    type: "input",
+    ts: new Date().toISOString(),
+    runId: opts.sp.runId,
+    data: { kind: "paper_quotes", quotes: quotesUsed },
+  } as any);
 
   // Phase 2: enter highest-quality candidates first
   candidates.sort((a, b) => b.score - a.score);
