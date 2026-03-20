@@ -2,6 +2,7 @@ import { getPulseTokenTransactions } from "./pulse.js";
 import { markPriceUsd, markQuote, pnlUsd, shouldExit } from "./paper.js";
 import { scratchpadAppend } from "./scratchpad.js";
 import { calcRsi, calcSma, fetchBestPoolForTokenBase, fetchPoolOhlcvBase } from "./candles.js";
+import { quoteConfidenceBase } from "./quote_confidence.js";
 
 export async function runPaperTrading(opts: {
   root: string;
@@ -95,6 +96,7 @@ export async function runPaperTrading(opts: {
     skipped_price_sanity: 0,
     skipped_liquidity: 0,
     skipped_activity: 0,
+    skipped_confidence: 0,
     skipped_confirmation2: 0,
     skipped_macro_riskoff: 0,
     skipped_major: 0,
@@ -206,6 +208,16 @@ export async function runPaperTrading(opts: {
     const q = await markQuote(addr);
     if (q) quotesUsed[addr.toLowerCase()] = q;
     const px = q?.priceUsd;
+
+    // Quote confidence gate: skip weak/inconsistent marks.
+    const qc = await quoteConfidenceBase(addr);
+    // Persist qc into scratchpad quotesUsed too (helps replay/debug)
+    quotesUsed[addr.toLowerCase()] = { ...(quotesUsed[addr.toLowerCase()] || {}), quoteConfidence: qc };
+    const minConf = opts.paper.minQuoteConfidence ?? 0.55;
+    if (qc.confidence < minConf) {
+      diag.skipped_confidence++;
+      continue;
+    }
     if (!px) {
       diag.skipped_no_price++;
       continue;

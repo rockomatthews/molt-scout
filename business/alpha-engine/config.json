@@ -43,6 +43,7 @@
     "minTxns24h": 20,
     "minPriceUsd": 0.0000001,
     "maxEntriesPerRun": 2,
-    "minBuySellRatio24h": 1.05
+    "minBuySellRatio24h": 1.05,
+    "minQuoteConfidence": 0.55
   }
 }

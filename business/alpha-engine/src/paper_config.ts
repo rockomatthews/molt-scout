@@ -26,6 +26,9 @@ export const PaperSchema = z
 
     // Second-signal strength (buy pressure)
     minBuySellRatio24h: z.number().positive().default(1.5),
+
+    // Quote quality gate (0..1). Prevents trading on inconsistent marks.
+    minQuoteConfidence: z.number().min(0).max(1).default(0.55),
   })
   .default({});
 
