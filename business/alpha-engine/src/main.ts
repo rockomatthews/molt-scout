@@ -12,6 +12,7 @@ import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 import { runPaperTrading } from "./paper_engine.js";
 import { writeDailyReport } from "./report.js";
 import { getMacroRegime } from "./macro.js";
+import { writeScoreboard } from "./scoreboard.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -140,6 +141,8 @@ async function runOnce() {
   try {
     const macro = await getMacroRegime(ROOT);
     if (macro) {
+      // Persist on state so downstream modules (paper engine / reporting) can use it.
+      state.macroRegime = macro;
       await scratchpadAppend(sp.path, {
         type: "signal",
         ts: new Date().toISOString(),
@@ -266,6 +269,28 @@ async function runOnce() {
       where: "daily_report",
       message: String(err?.message || err),
     } as any);
+  }
+
+  // Write rolling scoreboard (last ~14 days, if present)
+  try {
+    const dir = path.join(ROOT, "reports");
+    const files = await fs.readdir(dir).catch(() => [] as string[]);
+    const days = files
+      .filter((f) => /^\d{4}-\d{2}-\d{2}\.md$/.test(f))
+      .map((f) => f.replace(/\.md$/, ""))
+      .sort();
+
+    if (days.length) {
+      const out = await writeScoreboard(ROOT, cfg, days.slice(-14));
+      await scratchpadAppend(sp.path, {
+        type: "result",
+        ts: new Date().toISOString(),
+        runId: sp.runId,
+        data: { kind: "scoreboard_written", path: out },
+      } as any);
+    }
+  } catch {
+    // ignore
   }
 }
 
