@@ -1,6 +1,7 @@
 import { getPulseTokenTransactions } from "./pulse.js";
 import { markPriceUsd, markQuote, pnlUsd, shouldExit } from "./paper.js";
 import { scratchpadAppend } from "./scratchpad.js";
+import { calcRsi, calcSma, fetchBestPoolForTokenBase, fetchPoolOhlcvBase } from "./candles.js";
 
 export async function runPaperTrading(opts: {
   root: string;
@@ -230,14 +231,30 @@ export async function runPaperTrading(opts: {
     }
 
     // Second-signal confirmation (independent from Pulse):
-    // Use Dexscreener market-structure confirmation so we only enter when the market is actually moving.
-    // Rule: positive 24h momentum + buys dominate sells.
+    //  (A) Dexscreener market-structure: positive 24h momentum + buy-pressure
+    //  (B) Token-level candles (GeckoTerminal/Base): RSI + SMA confirmation
     const pc24 = Number(q?.priceChange24hPct || 0);
     const buys24 = Number(q?.txns24h?.buys || 0);
     const sells24 = Number(q?.txns24h?.sells || 0);
     const ratio = sells24 > 0 ? buys24 / sells24 : buys24 > 0 ? 99 : 0;
-    const minRatio = opts.paper.minBuySellRatio24h ?? 1.5;
+    const minRatio = opts.paper.minBuySellRatio24h ?? 1.05;
     if ((Number.isFinite(pc24) && pc24 < 1) || ratio < minRatio) {
+      diag.skipped_confirmation2++;
+      continue;
+    }
+
+    // Candle-based confirmation (15m candles): RSI>=55 and close >= SMA20
+    const pool = await fetchBestPoolForTokenBase(addr);
+    if (!pool) {
+      diag.skipped_confirmation2++;
+      continue;
+    }
+    const candles = await fetchPoolOhlcvBase({ poolAddress: pool, timeframe: "minute", aggregate: 15, limit: 60 });
+    const closes = candles.map((c) => c.c);
+    const rsi = calcRsi(closes, 14);
+    const sma20 = calcSma(closes, 20);
+    const last = closes[closes.length - 1];
+    if (!(typeof rsi === "number" && rsi >= 55 && typeof sma20 === "number" && last >= sma20)) {
       diag.skipped_confirmation2++;
       continue;
     }
