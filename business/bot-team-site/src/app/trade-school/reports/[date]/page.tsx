@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 import { Markdown } from "@/app/lib/markdown";
 
 function reportsDir() {
-  return path.resolve(process.cwd(), "..", "..", "..", "alpha-engine", "reports");
+  // Synced at build time by scripts/sync_trade_school_scoreboard.mjs
+  return path.resolve(process.cwd(), "public", "trade-school", "reports");
 }
 
 export default async function TradeSchoolReportPage(props: { params: Promise<{ date: string }> }) {

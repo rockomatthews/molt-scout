@@ -3,8 +3,8 @@ import path from "node:path";
 import Link from "next/link";
 
 function reportsDir() {
-  // bot-team-site is deployed as its own app; alpha-engine lives next to it in the monorepo
-  return path.resolve(process.cwd(), "..", "alpha-engine", "reports");
+  // At build time, we sync alpha-engine reports into public/trade-school/reports.
+  return path.resolve(process.cwd(), "public", "trade-school", "reports");
 }
 
 async function listReports(): Promise<string[]> {
@@ -12,7 +12,7 @@ async function listReports(): Promise<string[]> {
     const dir = reportsDir();
     const files = await fs.readdir(dir);
     return files
-      .filter((f) => f.endsWith(".md"))
+      .filter((f) => f.endsWith(".md") && /^\d{4}-\d{2}-\d{2}\.md$/.test(f))
       .map((f) => f.replace(/\.md$/, ""))
       .sort()
       .reverse();
