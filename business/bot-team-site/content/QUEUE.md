@@ -92,6 +92,30 @@ First test: Live micro-size run ($10–$50): track cumulative YES shares+spend a
 
 ## NEW IDEAS (untriaged)
 
+### 2026-03-21 — Coherent money paths (midday sync): 3-stack combos
+
+1) **Trade School Proof → Paid alerts → Size-up loop**
+- Inputs: alpha-engine daily receipts + rolling scoreboard UI (public)
+- Product: Telegram alerts + weekly “what changed / why it worked” post; later $49/mo USDC-on-Base membership for realtime alerts
+- Why it prints: public proof creates trust; subscription converts; then we can responsibly scale position size once edge is positive
+- Build backlog:
+  - Add “Join alerts” CTA on Trade School with USDC/Base-only pay path (no Stripe)
+  - Add automated “deploy check” so Trade School never silently breaks again
+
+2) **Polymarket artifacts → x402 pay-per-export → bundles**
+- Inputs: polymarket-btc-5min + polymarket artifacts site + x402-paywalled-mcp
+- Product: $2–$10 export artifacts (orderbook + sub-$1 windows + chart), bundled credits
+- Why it prints: selling artifacts avoids permissioned trading while monetizing edge work
+- Build backlog:
+  - One endpoint: `polymarket_edge_snapshot(marketId, window)` returning JSON+md+csv
+
+3) **Clawn Radar → Launch watchlist → Paid “intel with receipts”**
+- Inputs: daily clawn radar scrape (Firecrawl) + upsert to Supabase + /api/radar
+- Product: daily watchlist + paid deep-dive (approval-gated Browserbase) on demand
+- Why it prints: lead-gen funnel into paid research; low risk
+- Build backlog:
+  - Fix/monitor radar pipeline + add “latest 3 launches” widget on site
+
 ### 2026-03-14 — Coherent money paths (midday sync): 3-stack combos
 
 1) **Agent Security → Paid scans → Subscriptions**
