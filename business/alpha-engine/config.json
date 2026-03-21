@@ -42,7 +42,7 @@
     "minVolume24hUsd": 2000,
     "minTxns24h": 20,
     "minPriceUsd": 0.0000001,
-    "maxEntriesPerRun": 2,
+    "maxEntriesPerRun": 4,
     "minBuySellRatio24h": 1.05,
     "minQuoteConfidence": 0.55
   }
