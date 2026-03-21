@@ -106,6 +106,28 @@ export async function writeScoreboard(root: string, cfg: any, days: string[]): P
 
   const fp = configFingerprint(cfg);
 
+  const outDir = path.join(root, "reports");
+  await fs.mkdir(outDir, { recursive: true });
+
+  // JSON (for UI)
+  const jsonPath = path.join(outDir, `SCOREBOARD.json`);
+  await fs.writeFile(
+    jsonPath,
+    JSON.stringify(
+      {
+        updatedAt: new Date().toISOString(),
+        configFingerprint: fp,
+        rolling3d: roll3,
+        rolling7d: roll7,
+        daily: stats,
+      },
+      null,
+      2
+    ),
+    "utf8"
+  );
+
+  // Markdown (for humans)
   const lines: string[] = [];
   lines.push(`# Alpha Engine — Scoreboard`);
   lines.push("");
@@ -119,8 +141,6 @@ export async function writeScoreboard(root: string, cfg: any, days: string[]): P
     lines.push(`- ${s.day}: PnL $${s.realizedPnlUsd.toFixed(2)} · closed ${s.tradesClosed} · win ${s.wins}/${s.tradesClosed || 0} · avgWin $${s.avgWinUsd.toFixed(2)} · avgLoss $${s.avgLossUsd.toFixed(2)} · best $${s.biggestWinUsd.toFixed(2)} · worst $${s.biggestLossUsd.toFixed(2)}`);
   }
 
-  const outDir = path.join(root, "reports");
-  await fs.mkdir(outDir, { recursive: true });
   const outPath = path.join(outDir, `SCOREBOARD.md`);
   await fs.writeFile(outPath, lines.join("\n"), "utf8");
   return outPath;

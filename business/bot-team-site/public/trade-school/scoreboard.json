@@ -1,0 +1,104 @@
+{
+  "updatedAt": "2026-03-21T17:38:34.986Z",
+  "configFingerprint": "6d17daf26e70",
+  "rolling3d": {
+    "pnl": -31.721562648120592,
+    "trades": 19,
+    "winRate": 15.789473684210526
+  },
+  "rolling7d": {
+    "pnl": -48.01896372294113,
+    "trades": 65,
+    "winRate": 20
+  },
+  "daily": [
+    {
+      "day": "2026-03-10",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
+      "wins": 0,
+      "losses": 0,
+      "avgWinUsd": 0,
+      "avgLossUsd": 0,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": 0
+    },
+    {
+      "day": "2026-03-14",
+      "realizedPnlUsd": -14.526580732057624,
+      "tradesClosed": 20,
+      "wins": 5,
+      "losses": 12,
+      "avgWinUsd": 0.6721788270868514,
+      "avgLossUsd": -1.4906229056243232,
+      "biggestWinUsd": 1.5509467989179437,
+      "biggestLossUsd": -6.079545454545455
+    },
+    {
+      "day": "2026-03-15",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
+      "wins": 0,
+      "losses": 0,
+      "avgWinUsd": 0,
+      "avgLossUsd": 0,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": 0
+    },
+    {
+      "day": "2026-03-16",
+      "realizedPnlUsd": 8.292032068363401,
+      "tradesClosed": 23,
+      "wins": 5,
+      "losses": 10,
+      "avgWinUsd": 3.2987312349164126,
+      "avgLossUsd": -0.8201624106218665,
+      "biggestWinUsd": 14.65142857142857,
+      "biggestLossUsd": -2.522571325388227
+    },
+    {
+      "day": "2026-03-17",
+      "realizedPnlUsd": -10.062852411126315,
+      "tradesClosed": 3,
+      "wins": 0,
+      "losses": 3,
+      "avgWinUsd": 0,
+      "avgLossUsd": -3.354284137042105,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": -5.839128419100603
+    },
+    {
+      "day": "2026-03-18",
+      "realizedPnlUsd": -29.769626056025263,
+      "tradesClosed": 14,
+      "wins": 2,
+      "losses": 12,
+      "avgWinUsd": 2.1392818105831677,
+      "avgLossUsd": -2.837349139765966,
+      "biggestWinUsd": 4.225165562913908,
+      "biggestLossUsd": -8.093423799582462
+    },
+    {
+      "day": "2026-03-19",
+      "realizedPnlUsd": 3.110142234812527,
+      "tradesClosed": 3,
+      "wins": 1,
+      "losses": 2,
+      "avgWinUsd": 4.107000795544949,
+      "avgLossUsd": -0.49842928036621115,
+      "biggestWinUsd": 4.107000795544949,
+      "biggestLossUsd": -0.5082592121982216
+    },
+    {
+      "day": "2026-03-20",
+      "realizedPnlUsd": -5.062078826907857,
+      "tradesClosed": 2,
+      "wins": 0,
+      "losses": 2,
+      "avgWinUsd": 0,
+      "avgLossUsd": -2.5310394134539287,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": -4.65965965965966
+    }
+  ]
+}

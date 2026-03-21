@@ -32,6 +32,16 @@ export default async function TradeSchoolPage() {
       </p>
 
       <section style={{ marginTop: 24 }}>
+        <h2 style={{ marginBottom: 8 }}>Scoreboard</h2>
+        <p style={{ opacity: 0.85, marginTop: 0 }}>
+          Rolling 3d/7d performance metrics.
+        </p>
+        <p>
+          <Link href="/trade-school/scoreboard">Open scoreboard →</Link>
+        </p>
+      </section>
+
+      <section style={{ marginTop: 24 }}>
         <h2 style={{ marginBottom: 8 }}>Reports</h2>
         {reports.length === 0 ? (
           <p style={{ opacity: 0.8 }}>

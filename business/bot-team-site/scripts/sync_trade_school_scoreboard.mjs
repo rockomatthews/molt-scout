@@ -5,20 +5,30 @@ import path from "node:path";
 // Run this locally (or in CI) before deploying the bot-team-site.
 
 const here = path.resolve(process.cwd());
-const srcScoreboard = path.resolve(here, "..", "alpha-engine", "reports", "SCOREBOARD.md");
+const srcScoreboardMd = path.resolve(here, "..", "alpha-engine", "reports", "SCOREBOARD.md");
+const srcScoreboardJson = path.resolve(here, "..", "alpha-engine", "reports", "SCOREBOARD.json");
 const srcReportsDir = path.resolve(here, "..", "alpha-engine", "reports");
 
 const outBase = path.resolve(here, "public", "trade-school");
-const outScoreboard = path.join(outBase, "scoreboard.md");
+const outScoreboardMd = path.join(outBase, "scoreboard.md");
+const outScoreboardJson = path.join(outBase, "scoreboard.json");
 const outReportsDir = path.join(outBase, "reports");
 
 await fs.mkdir(outBase, { recursive: true });
 await fs.mkdir(outReportsDir, { recursive: true });
 
-// Scoreboard
-const scoreboardMd = await fs.readFile(srcScoreboard, "utf8");
-await fs.writeFile(outScoreboard, scoreboardMd, "utf8");
-console.log("wrote", outScoreboard);
+// Scoreboard (md + json)
+const scoreboardMd = await fs.readFile(srcScoreboardMd, "utf8");
+await fs.writeFile(outScoreboardMd, scoreboardMd, "utf8");
+
+try {
+  const scoreboardJson = await fs.readFile(srcScoreboardJson, "utf8");
+  await fs.writeFile(outScoreboardJson, scoreboardJson, "utf8");
+} catch {
+  // json not present yet
+}
+
+console.log("wrote", outScoreboardMd);
 
 // Daily reports
 const files = await fs.readdir(srcReportsDir);
