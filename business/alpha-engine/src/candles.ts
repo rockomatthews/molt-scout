@@ -26,18 +26,38 @@ export async function fetchBestPoolForTokenBase(tokenAddress: string): Promise<s
   return m ? m[1].toLowerCase() : null;
 }
 
-export async function fetchPoolOhlcvBase(opts: { poolAddress: string; timeframe: "minute" | "hour" | "day"; aggregate: number; limit: number; }): Promise<OhlcvCandle[]> {
+export async function fetchPoolOhlcvBase(opts: {
+  poolAddress: string;
+  timeframe: "minute" | "hour" | "day";
+  aggregate: number;
+  limit: number;
+}): Promise<OhlcvCandle[]> {
   const url = `https://api.geckoterminal.com/api/v2/networks/base/pools/${opts.poolAddress}/ohlcv/${opts.timeframe}?aggregate=${opts.aggregate}&limit=${opts.limit}`;
-  const res = await fetch(url, { headers: { accept: "application/json;version=20230203", "user-agent": "alpha-engine" } });
-  if (!res.ok) return [];
-  const parsed = OhlcvResp.safeParse(await res.json());
-  if (!parsed.success) return [];
-  const list = parsed.data.data.attributes.ohlcv_list;
-  // GeckoTerminal returns newest-first; reverse to ascending
-  return list
-    .slice()
-    .reverse()
-    .map(([t, o, h, l, c, v]) => ({ t, o, h, l, c, v }));
+
+  const headers = { accept: "application/json;version=20230203", "user-agent": "alpha-engine" };
+
+  // GeckoTerminal sometimes 429s; do a single cheap retry.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const res = await fetch(url, { headers });
+    if (!res.ok) {
+      if ((res.status === 429 || res.status >= 500) && attempt === 0) {
+        await new Promise((r) => setTimeout(r, 600));
+        continue;
+      }
+      return [];
+    }
+
+    const parsed = OhlcvResp.safeParse(await res.json());
+    if (!parsed.success) return [];
+    const list = parsed.data.data.attributes.ohlcv_list;
+    // GeckoTerminal returns newest-first; reverse to ascending
+    return list
+      .slice()
+      .reverse()
+      .map(([t, o, h, l, c, v]) => ({ t, o, h, l, c, v }));
+  }
+
+  return [];
 }
 
 export function calcRsi(closes: number[], period = 14): number | null {

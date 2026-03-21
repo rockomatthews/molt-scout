@@ -256,19 +256,47 @@ export async function runPaperTrading(opts: {
     }
 
     // Candle-based confirmation (15m candles): RSI>=55 and close >= SMA20
+    // If candles are missing, allow a *strict* flow-only pass to avoid "dead engine" mode.
     const pool = await fetchBestPoolForTokenBase(addr);
-    if (!pool) {
-      diag.skipped_confirmation2++;
-      continue;
-    }
-    const candles = await fetchPoolOhlcvBase({ poolAddress: pool, timeframe: "minute", aggregate: 15, limit: 60 });
+    const candles = pool
+      ? await fetchPoolOhlcvBase({ poolAddress: pool, timeframe: "minute", aggregate: 15, limit: 60 })
+      : [];
+
     const closes = candles.map((c) => c.c);
     const rsi = calcRsi(closes, 14);
     const sma20 = calcSma(closes, 20);
     const last = closes[closes.length - 1];
-    if (!(typeof rsi === "number" && rsi >= 55 && typeof sma20 === "number" && last >= sma20)) {
-      diag.skipped_confirmation2++;
-      continue;
+
+    const hasTa = typeof rsi === "number" && typeof sma20 === "number" && Number.isFinite(last);
+    const taPass = hasTa && (rsi as number) >= 55 && (last as number) >= (sma20 as number);
+
+    if (!taPass) {
+      // Graceful degradation: if we have no/insufficient candles, allow a high-quality flow pass.
+      const noCandles = !pool || candles.length < 40 || !hasTa;
+      if (!noCandles) {
+        diag.skipped_confirmation2++;
+        continue;
+      }
+
+      const conf = Number(qc.confidence || 0);
+      const txnsTot = Number(q?.txns24h?.total || 0);
+      const liqUsd = Number(q?.liquidityUsd || 0);
+      const bsRatio = ratio;
+      const pc = pc24;
+
+      const flowPass =
+        conf >= 0.72 &&
+        txnsTot >= 600 &&
+        liqUsd >= 50_000 &&
+        bsRatio >= 1.3 &&
+        Number.isFinite(pc) &&
+        pc >= 2 &&
+        pc <= 250;
+
+      if (!flowPass) {
+        diag.skipped_confirmation2++;
+        continue;
+      }
     }
 
     // Best-of-batch score (aggressive, but quality-biased)
