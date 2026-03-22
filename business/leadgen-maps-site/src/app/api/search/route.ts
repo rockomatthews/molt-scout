@@ -22,13 +22,17 @@ export async function GET(req: Request) {
   const u = new URL(req.url);
   const query = u.searchParams.get("query") || "";
   const limit = Math.max(1, Math.min(50, Number(u.searchParams.get("limit") || 20)));
+  const lat = u.searchParams.get("lat");
+  const lng = u.searchParams.get("lng");
+  const radius = Math.max(1000, Math.min(50_000, Number(u.searchParams.get("radius") || 20_000)));
 
   if (!query.trim()) {
     return NextResponse.json({ ok: false, error: "missing_query" }, { status: 400 });
   }
 
-  // 1) Text search
-  const textUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${encodeURIComponent(apiKey)}`;
+  // 1) Text search (+ optional location bias)
+  const loc = lat && lng ? `&location=${encodeURIComponent(`${lat},${lng}`)}&radius=${encodeURIComponent(String(radius))}` : "";
+  const textUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}${loc}&key=${encodeURIComponent(apiKey)}`;
   const first = await fetchJson(textUrl);
   const results: any[] = Array.isArray(first?.results) ? first.results : [];
 

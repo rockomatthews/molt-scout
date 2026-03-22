@@ -20,7 +20,12 @@ export default function LeadsPage() {
         const sp = new URLSearchParams(window.location.search);
         const q = sp.get("query");
         const limit = sp.get("limit") || "20";
-        const url = q ? `/api/search?query=${encodeURIComponent(q)}&limit=${encodeURIComponent(limit)}` : "/api/leads";
+        const lat = sp.get("lat");
+        const lng = sp.get("lng");
+        const radius = sp.get("radius") || "20000";
+        const url = q
+          ? `/api/search?query=${encodeURIComponent(q)}&limit=${encodeURIComponent(limit)}${lat && lng ? `&lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(lng)}&radius=${encodeURIComponent(radius)}` : ""}`
+          : "/api/leads";
 
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) throw new Error(`http_${res.status}`);
