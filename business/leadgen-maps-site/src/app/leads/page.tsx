@@ -17,9 +17,16 @@ export default function LeadsPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/leads", { cache: "no-store" });
+        const sp = new URLSearchParams(window.location.search);
+        const q = sp.get("query");
+        const limit = sp.get("limit") || "20";
+        const url = q ? `/api/search?query=${encodeURIComponent(q)}&limit=${encodeURIComponent(limit)}` : "/api/leads";
+
+        const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) throw new Error(`http_${res.status}`);
-        setPayload((await res.json()) as Payload);
+        const j = (await res.json()) as any;
+        // /api/search returns {ok, query, generatedAt, leads}
+        setPayload(j?.leads ? j : (j as Payload));
       } catch (e: any) {
         setErr(String(e?.message || e));
       }
