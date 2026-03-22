@@ -1,5 +1,206 @@
 {
-  "query": "example: Roofers in Denver, CO",
-  "generatedAt": "2026-03-22T22:00:00.000Z",
-  "leads": []
+  "query": "Roofers in Denver, CO",
+  "generatedAt": "2026-03-22T22:49:44.443Z",
+  "leads": [
+    {
+      "name": "Elite Roofing & Solar",
+      "website": "https://www.elite-roofs.com/denver-roofers/?utm_source=GBP&utm_medium=Google&utm_campaign=GBP_Denver_Page",
+      "phone": "(303) 296-0361",
+      "address": "5475 Peoria St #4-106, Denver, CO 80239, USA",
+      "rating": 4.9,
+      "reviews": 636,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=9937016880599290217"
+    },
+    {
+      "name": "Sol Vista Roofing",
+      "website": "https://solvistaroofing.com/",
+      "phone": "(720) 665-9868",
+      "address": "5855 E 45th Ave A-132, Denver, CO 80216, USA",
+      "rating": 4.9,
+      "reviews": 325,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=6233995028478039051"
+    },
+    {
+      "name": "Metro City Roofing",
+      "website": "https://metrocityroofing.com/contact/",
+      "phone": "(303) 524-1000",
+      "address": "8354 E Northfield Blvd #3700, Denver, CO 80238, USA",
+      "rating": 5,
+      "reviews": 197,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=10330639736181144691"
+    },
+    {
+      "name": "New Roof Plus",
+      "website": "https://www.newroofplus.com/?utm_campaign=gmb",
+      "phone": "(303) 529-7554",
+      "address": "110 16th St Mall Suite 1455, Denver, CO 80202, USA",
+      "rating": 5,
+      "reviews": 186,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=1849330132689814522"
+    },
+    {
+      "name": "Formula Roofing and Remodeling",
+      "website": "http://www.formularoofing.com/",
+      "phone": "(303) 600-8696",
+      "address": "4560 Columbine St, Denver, CO 80216, USA",
+      "rating": 4.8,
+      "reviews": 471,
+      "categories": "establishment|general_contractor|painter|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=171772518342156819"
+    },
+    {
+      "name": "730 South Exteriors & Roofing",
+      "website": "https://730southexteriors.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+      "phone": "(303) 698-0580",
+      "address": "2281 S Acoma St, Denver, CO 80223, USA",
+      "rating": 4.9,
+      "reviews": 378,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=14071809818707388787"
+    },
+    {
+      "name": "Interstate Roofing, Inc.",
+      "website": "https://www.interstateroof.com/",
+      "phone": "(303) 763-9114",
+      "address": "1000 W 47th Ave, Denver, CO 80211, USA",
+      "rating": 4.7,
+      "reviews": 956,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=12865583747964895979"
+    },
+    {
+      "name": "Riley's Roofing",
+      "website": "http://www.rileysroofing.com/",
+      "phone": "(720) 910-1470",
+      "address": "4160 Fox St, Denver, CO 80216, USA",
+      "rating": 5,
+      "reviews": 120,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=7493094378335213037"
+    },
+    {
+      "name": "Denver Roofers LLC",
+      "website": "http://mydenverroofers.com/",
+      "phone": "(720) 443-4202",
+      "address": "4454 Tennyson St, Denver, CO 80212, USA",
+      "rating": 4.9,
+      "reviews": 67,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=2465384948604304540"
+    },
+    {
+      "name": "Premier Roofing Company",
+      "website": "https://www.premier-roofing.com/locations/denver-roofing/?utm_source=google&utm_medium=local&utm_campaign=GMB&utm_content=Denver",
+      "phone": "(303) 233-7663",
+      "address": "2570 W 8th Ave, Denver, CO 80204, USA",
+      "rating": 4.3,
+      "reviews": 580,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=13851599345467909062"
+    },
+    {
+      "name": "Lifetime Roof & Solar - Denver",
+      "website": "https://mylifetimehome.com/services/residential-roofing-installations/",
+      "phone": "(303) 335-6097",
+      "address": "9525 E 40th Ave suite 160C, Denver, CO 80238, USA",
+      "rating": 5,
+      "reviews": 450,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=16861356970979921575"
+    },
+    {
+      "name": "Native Roofing & Construction",
+      "website": "https://www.nativeroofingconst.com/",
+      "phone": "(303) 579-7774",
+      "address": "10861 Utica St, Westminster, CO 80031, USA",
+      "rating": 5,
+      "reviews": 153,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=11379765166304090871"
+    },
+    {
+      "name": "Colorado Precision Roofing",
+      "website": "http://coloradoprecisionroofing.com/",
+      "phone": "(303) 872-7750",
+      "address": "1001 Bannock St, Denver, CO 80204, USA",
+      "rating": 5,
+      "reviews": 35,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=6372398907678889942"
+    },
+    {
+      "name": "Core Roofing + Solar",
+      "website": "https://www.coreroofing.com/?utm_source=gmb&utm_medium=organic&utm_campaign=listing",
+      "phone": "(720) 794-9144",
+      "address": "4049 St Paul St, Denver, CO 80216, USA",
+      "rating": 4.9,
+      "reviews": 410,
+      "categories": "establishment|point_of_interest|roofing_contractor|store",
+      "mapsUrl": "https://maps.google.com/?cid=2319376516044281248"
+    },
+    {
+      "name": "Ethos Roofing & Restoration",
+      "website": "https://www.ethosroofing.com/?utm_campaign=gmb",
+      "phone": "(720) 549-7454",
+      "address": "2305 E Arapahoe Rd #153, Centennial, CO 80122, USA",
+      "rating": 4.9,
+      "reviews": 300,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=15292542822002860017"
+    },
+    {
+      "name": "Mighty Dog Roofing of Downtown Denver",
+      "website": "https://www.mightydogroofing.com/downtown-denver-co/",
+      "phone": "(720) 796-9052",
+      "address": "3000 Lawrence St #145, Denver, CO 80205, USA",
+      "rating": 4.8,
+      "reviews": 96,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=17852774354645759789"
+    },
+    {
+      "name": "Horn Brothers Roofing",
+      "website": "https://hornbrothersroofing.com/?utm_campaign=gmb",
+      "phone": "(720) 802-0259",
+      "address": "2325 S Jason St, Denver, CO 80223, USA",
+      "rating": 4.9,
+      "reviews": 83,
+      "categories": "establishment|point_of_interest|roofing_contractor|store",
+      "mapsUrl": "https://maps.google.com/?cid=4536320718325508936"
+    },
+    {
+      "name": "Integrity Pro Roofing | Denver Commercial Roofing",
+      "website": "https://integrityproroofing.com/denver/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+      "phone": "(303) 968-9842",
+      "address": "1415 Park Ave W, Denver, CO 80205, USA",
+      "rating": 4.9,
+      "reviews": 220,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=18102962519672985886"
+    },
+    {
+      "name": "A-Denver Roofing",
+      "website": "https://www.a-denverroofing.com/",
+      "phone": "(303) 455-3185",
+      "address": "1600 Broadway #1600, Denver, CO 80202, USA",
+      "rating": 4.9,
+      "reviews": 38,
+      "categories": "establishment|general_contractor|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=3359899935213862565"
+    },
+    {
+      "name": "Best Roof Roofing",
+      "website": "http://bestroofroofing.com/",
+      "phone": "(303) 929-9196",
+      "address": "3879 E 120th Ave #343, Thornton, CO 80233, USA",
+      "rating": 5,
+      "reviews": 195,
+      "categories": "establishment|point_of_interest|roofing_contractor",
+      "mapsUrl": "https://maps.google.com/?cid=1261262604660906839"
+    }
+  ]
 }
