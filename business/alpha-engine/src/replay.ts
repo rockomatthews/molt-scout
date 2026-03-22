@@ -9,6 +9,7 @@ type Quote = {
   priceChange24hPct: number;
   dexId?: string;
   pairUrl?: string;
+  quoteConfidence?: { confidence?: number; reasons?: string[] };
 };
 
 type PulseTx = {
@@ -88,6 +89,9 @@ export async function loadReplaySnapshot(root: string, day: string): Promise<Sna
             priceChange24hPct: Number(q.priceChange24hPct || 0),
             dexId: q.dexId,
             pairUrl: q.pairUrl,
+            quoteConfidence: q.quoteConfidence
+              ? { confidence: Number(q.quoteConfidence.confidence ?? 0), reasons: Array.isArray(q.quoteConfidence.reasons) ? q.quoteConfidence.reasons : [] }
+              : undefined,
           };
         }
       }
@@ -109,6 +113,8 @@ export function simulateEntries(opts: {
     minPriceUsd: number;
     minBuySellRatio24h: number;
     minMomentum24hPct: number;
+    scoreMode?: "legacy" | "factors";
+    scoreWeights?: { momentum?: number; buyPressure?: number; activity?: number; liquidity?: number; confidence?: number };
   };
 }) {
   const diag: Record<string, number> = {
@@ -139,6 +145,48 @@ export function simulateEntries(opts: {
   };
 
   const candidates: Array<{ addr: string; score: number; q: Quote; px: number }> = [];
+
+  function clamp01(x: number) {
+    return Math.max(0, Math.min(1, x));
+  }
+
+  function factorScore(q: Quote) {
+    const w = opts.paper.scoreWeights || {};
+    const W = {
+      momentum: Number(w.momentum ?? 0.25),
+      buyPressure: Number(w.buyPressure ?? 0.20),
+      activity: Number(w.activity ?? 0.25),
+      liquidity: Number(w.liquidity ?? 0.20),
+      confidence: Number(w.confidence ?? 0.10),
+    };
+
+    // normalize inputs to ~0..1 using soft caps/logs
+    const mom = clamp01((Number(q.priceChange24hPct || 0) - 1) / 25); // 1%..26% → 0..1
+
+    const buys = q.txns24h?.buys || 0;
+    const sells = q.txns24h?.sells || 0;
+    const ratio = sells > 0 ? buys / sells : buys > 0 ? 3 : 0;
+    const bp = clamp01((Math.min(3, ratio) - 1) / 2); // 1..3 → 0..1
+
+    const tx = Number(q.txns24h?.total || 0);
+    const vol = Number(q.volume24hUsd || 0);
+    const activity = clamp01(Math.log10(1 + tx) / 3) * 0.5 + clamp01(Math.log10(1 + vol) / 6) * 0.5;
+
+    const liq = Number(q.liquidityUsd || 0);
+    const liqN = clamp01(Math.log10(1 + liq) / 6);
+
+    const conf = clamp01(Number(q.quoteConfidence?.confidence ?? 0));
+
+    const denom = W.momentum + W.buyPressure + W.activity + W.liquidity + W.confidence;
+    const s =
+      W.momentum * mom +
+      W.buyPressure * bp +
+      W.activity * activity +
+      W.liquidity * liqN +
+      W.confidence * conf;
+
+    return denom > 0 ? s / denom : s;
+  }
 
   for (const tx of opts.pulseTxs.slice(0, 25)) {
     const addr = pickPurchasedTokenAddress(tx);
@@ -173,7 +221,11 @@ export function simulateEntries(opts: {
       continue;
     }
 
-    const score = (q.volume24hUsd || 0) * Math.max(1, q.txns24h?.total || 0) + (q.liquidityUsd || 0);
+    const scoreMode = opts.paper.scoreMode || "legacy";
+    const score =
+      scoreMode === "factors"
+        ? factorScore(q)
+        : (q.volume24hUsd || 0) * Math.max(1, q.txns24h?.total || 0) + (q.liquidityUsd || 0);
     candidates.push({ addr, score, q, px });
   }
 

@@ -1,0 +1,49 @@
+{
+  "mode": {
+    "dryRun": true,
+    "liveTrading": false,
+    "paperTrading": true
+  },
+  "risk": {
+    "usdPerTrade": 10,
+    "maxTotalExposureUsd": 120,
+    "maxDailyLossUsd": 50
+  },
+  "sources": {
+    "farcaster": {
+      "enabled": true,
+      "channels": ["base"],
+      "watchAccounts": []
+    }
+  },
+  "execution": {
+    "venues": {
+      "cex": { "enabled": true, "name": "hyperliquid" },
+      "onchain": { "enabled": true, "chain": "base" }
+    }
+  },
+  "alerts": {
+    "minScoreToAlert": 60,
+    "cooldownMinutesPerTicker": 30
+  },
+  "paper": {
+    "enabled": true,
+    "startCashUsd": 1000,
+    "holdMinutes": 30,
+    "takeProfitPct": 0.25,
+    "stopLossPct": 0.15,
+    "maxPositions": 10,
+
+    "pulseAmountMinUsd": 500,
+    "pulseMarketCapMaxUsd": 50000000,
+    "pulseOnlyWithProfile": true,
+
+    "minLiquidityUsd": 10000,
+    "minVolume24hUsd": 2000,
+    "minTxns24h": 20,
+    "minPriceUsd": 0.0000001,
+    "maxEntriesPerRun": 4,
+    "minBuySellRatio24h": 1.05,
+    "minQuoteConfidence": 0.55
+  }
+}

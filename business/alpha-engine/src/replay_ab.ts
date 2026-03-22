@@ -37,7 +37,9 @@ function paperFromCfg(cfg: any) {
     minTxns24h: Number(p.minTxns24h ?? 20),
     minPriceUsd: Number(p.minPriceUsd ?? 1e-7),
     minBuySellRatio24h: Number(p.minBuySellRatio24h ?? 1.05),
-    minMomentum24hPct: 1,
+    minMomentum24hPct: Number(p.minMomentum24hPct ?? 1),
+    scoreMode: (p.scoreMode === "factors" ? "factors" : "legacy") as any,
+    scoreWeights: p.scoreWeights || undefined,
   };
 }
 
