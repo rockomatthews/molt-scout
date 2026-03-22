@@ -17,3 +17,7 @@ business/polymarket-btc-5min/
 # run artifacts
 business/alpha-engine/.scratchpad/
 business/alpha-engine/state.json
+
+# leadgen-maps-site
+business/leadgen-maps-site/node_modules/
+business/leadgen-maps-site/.next/
