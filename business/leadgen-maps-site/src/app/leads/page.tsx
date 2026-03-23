@@ -45,6 +45,17 @@ export default function LeadsPage() {
     return Array.from(s);
   }, [leads]);
 
+  const [txHash, setTxHash] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return window.localStorage.getItem("leadgen_txHash") || "";
+  });
+
+  const isLiveSearch = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const sp = new URLSearchParams(window.location.search);
+    return Boolean(sp.get("query"));
+  }, []);
+
   return (
     <main style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 16px" }}>
       <h1 style={{ margin: 0 }}>Leads</h1>
@@ -54,10 +65,57 @@ export default function LeadsPage() {
         Count: <b>{leads.length}</b>
       </p>
 
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-        <a href="/leads/latest.csv" style={{ textDecoration: "underline" }}>Download CSV</a>
-        <a href="/leads/latest.json" style={{ textDecoration: "underline" }}>Download JSON</a>
-      </div>
+      {!isLiveSearch ? (
+        <section style={{ padding: 14, border: "1px solid rgba(0,0,0,0.12)", borderRadius: 12, marginBottom: 12 }}>
+          <div style={{ fontWeight: 700, marginBottom: 8 }}>Unlock Latest</div>
+          <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 10 }}>
+            Pricing: <b>$1</b> for JSON, <b>$5</b> for CSV (CSV unlocks both).
+          </div>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <input
+              value={txHash}
+              onChange={(e) => {
+                setTxHash(e.target.value);
+                if (typeof window !== "undefined") window.localStorage.setItem("leadgen_txHash", e.target.value);
+              }}
+              placeholder="Paste Base USDC transfer tx hash (0x...)"
+              style={{ flex: "1 1 420px", padding: 10, borderRadius: 10, border: "1px solid rgba(0,0,0,0.16)" }}
+            />
+            <a
+              href={`/api/latest/quote?format=csv`}
+              target="_blank"
+              rel="noreferrer"
+              style={{ textDecoration: "underline" }}
+            >
+              View payment instructions
+            </a>
+          </div>
+
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 10 }}>
+            <a
+              href={txHash ? `/api/latest/download?format=csv&txHash=${encodeURIComponent(txHash)}` : "#"}
+              style={{ textDecoration: "underline", pointerEvents: txHash ? "auto" : "none", opacity: txHash ? 1 : 0.5 }}
+            >
+              Download CSV ($5)
+            </a>
+            <a
+              href={txHash ? `/api/latest/download?format=json&txHash=${encodeURIComponent(txHash)}` : "#"}
+              style={{ textDecoration: "underline", pointerEvents: txHash ? "auto" : "none", opacity: txHash ? 1 : 0.5 }}
+            >
+              Download JSON ($1)
+            </a>
+          </div>
+
+          <div style={{ fontSize: 12, opacity: 0.7, marginTop: 8 }}>
+            Note: live searches remain free; “Latest” downloads are paid.
+          </div>
+        </section>
+      ) : (
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
+          <a href="/leads" style={{ textDecoration: "underline" }}>Back to Latest</a>
+        </div>
+      )}
 
       {err ? (
         <div style={{ padding: 16, border: "1px solid rgba(0,0,0,0.12)", borderRadius: 12 }}>
