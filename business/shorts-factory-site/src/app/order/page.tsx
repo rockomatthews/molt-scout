@@ -28,17 +28,19 @@ export default function OrderPage() {
     notes: "",
   });
 
-  async function submit() {
+  async function submit(tier: "starter" | "standard" | "monthly") {
     setStatus("sending");
     setErr("");
     try {
-      const res = await fetch("/api/order", {
+      // Create Stripe Checkout session
+      const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, tier }),
       });
-      if (!res.ok) throw new Error(`http_${res.status}`);
-      setStatus("sent");
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j?.url) throw new Error(j?.error || `http_${res.status}`);
+      window.location.href = j.url;
     } catch (e: any) {
       setStatus("error");
       setErr(String(e?.message || e));
@@ -78,12 +80,20 @@ export default function OrderPage() {
               <TextField label="Your email or Telegram" value={form.contact} onChange={(e) => setForm({ ...form, contact: e.target.value })} />
               <TextField label="Notes" multiline minRows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
 
-              <Button disabled={status === "sending"} variant="contained" onClick={submit}>
-                Submit
-              </Button>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2}>
+                <Button disabled={status === "sending"} variant="outlined" onClick={() => submit("starter")}>
+                  Pay $99 (5 videos)
+                </Button>
+                <Button disabled={status === "sending"} variant="contained" onClick={() => submit("standard")}>
+                  Pay $199 (10 videos)
+                </Button>
+                <Button disabled={status === "sending"} variant="outlined" onClick={() => submit("monthly")}>
+                  Subscribe $499/mo
+                </Button>
+              </Stack>
 
               <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                MVP: this stores nothing long-term yet; it’s just a request pipeline stub.
+                Checkout is Stripe. After payment we’ll confirm delivery via your contact field.
               </Typography>
             </Stack>
           </CardContent>
