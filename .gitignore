@@ -21,3 +21,7 @@ business/alpha-engine/state.json
 # leadgen-maps-site
 business/leadgen-maps-site/node_modules/
 business/leadgen-maps-site/.next/
+
+# shorts-factory-site
+business/shorts-factory-site/node_modules/
+business/shorts-factory-site/.next/
