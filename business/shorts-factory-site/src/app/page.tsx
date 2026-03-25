@@ -23,11 +23,43 @@ export default function HomePage() {
     <Box
       sx={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(1200px 700px at 20% 10%, rgba(124,255,178,0.14), transparent 60%), radial-gradient(900px 600px at 80% 20%, rgba(122,167,255,0.12), transparent 55%), #0b0f17",
+        position: "relative",
+        overflow: "hidden",
+        background: "#0b0f17",
       }}
     >
-      <Container maxWidth="lg" sx={{ py: 6 }}>
+      {/* Background montage (muted) */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          opacity: 0.22,
+          filter: "saturate(1.1) contrast(1.05)",
+          pointerEvents: "none",
+        }}
+      >
+        <video
+          src="/samples/site-bg-montage.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+        {/* soft gradient on top so text stays readable */}
+        <Box
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(1200px 700px at 20% 10%, rgba(124,255,178,0.14), transparent 60%), radial-gradient(900px 600px at 80% 20%, rgba(122,167,255,0.12), transparent 55%), rgba(11,15,23,0.75)",
+          }}
+        />
+      </Box>
+
+      <Container maxWidth="lg" sx={{ py: 6, position: "relative", zIndex: 1 }}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Stack direction="row" alignItems="center" spacing={1.2}>
             <BoltIcon color="primary" />
