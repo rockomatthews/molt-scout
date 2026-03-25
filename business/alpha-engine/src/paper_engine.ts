@@ -284,14 +284,16 @@ export async function runPaperTrading(opts: {
       const bsRatio = ratio;
       const pc = pc24;
 
+      // Flow-pass (no candles): keep this strict enough to avoid junk,
+      // but not so strict that the engine goes dead when candle APIs fail.
       const flowPass =
-        conf >= 0.72 &&
-        txnsTot >= 600 &&
-        liqUsd >= 50_000 &&
-        bsRatio >= 1.3 &&
+        conf >= 0.68 &&
+        txnsTot >= 300 &&
+        liqUsd >= 25_000 &&
+        bsRatio >= 1.2 &&
         Number.isFinite(pc) &&
-        pc >= 2 &&
-        pc <= 250;
+        pc >= 1 &&
+        pc <= 1000;
 
       if (!flowPass) {
         diag.skipped_confirmation2++;
