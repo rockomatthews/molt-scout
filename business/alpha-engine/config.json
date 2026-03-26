@@ -44,6 +44,10 @@
     "minPriceUsd": 0.0000001,
     "maxEntriesPerRun": 4,
     "minBuySellRatio24h": 1.05,
-    "minQuoteConfidence": 0.55
+    "minQuoteConfidence": 0.55,
+    "maxMomentum24hPct": 300,
+    "maxVolToLiq24h": 8,
+    "wickinessMax": 6,
+    "maxRange15mPct": 12
   }
 }

@@ -29,6 +29,17 @@ export const PaperSchema = z
 
     // Quote quality gate (0..1). Prevents trading on inconsistent marks.
     minQuoteConfidence: z.number().min(0).max(1).default(0.55),
+
+    // Momentum sanity gate (avoid chasing extreme 24h pumps that mean-revert)
+    maxMomentum24hPct: z.number().nonnegative().default(300),
+
+    // Volatility / churn proxies (when candles are missing)
+    // volume24hUsd / liquidityUsd too high often means unstable, dump-prone markets.
+    maxVolToLiq24h: z.number().nonnegative().default(8),
+
+    // Candle-based guards (when candles exist)
+    wickinessMax: z.number().nonnegative().default(6),
+    maxRange15mPct: z.number().nonnegative().default(12)
   })
   .default({});
 

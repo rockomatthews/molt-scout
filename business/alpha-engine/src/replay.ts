@@ -113,6 +113,9 @@ export function simulateEntries(opts: {
     minPriceUsd: number;
     minBuySellRatio24h: number;
     minMomentum24hPct: number;
+    maxMomentum24hPct?: number;
+    minQuoteConfidence?: number;
+    maxVolToLiq24h?: number;
     scoreMode?: "legacy" | "factors";
     scoreWeights?: { momentum?: number; buyPressure?: number; activity?: number; liquidity?: number; confidence?: number };
   };
@@ -124,6 +127,8 @@ export function simulateEntries(opts: {
     skipped_activity: 0,
     skipped_price: 0,
     skipped_confirmation2: 0,
+    skipped_confidence: 0,
+    skipped_volatility: 0,
     selected: 0,
   };
 
@@ -213,11 +218,30 @@ export function simulateEntries(opts: {
       continue;
     }
 
+    const conf = Number(q.quoteConfidence?.confidence ?? 0);
+    const minConf = Number(opts.paper.minQuoteConfidence ?? 0);
+    if (conf < minConf) {
+      diag.skipped_confidence++;
+      continue;
+    }
+
     const buys = q.txns24h?.buys || 0;
     const sells = q.txns24h?.sells || 0;
     const ratio = sells > 0 ? buys / sells : buys > 0 ? 99 : 0;
-    if ((q.priceChange24hPct || 0) < opts.paper.minMomentum24hPct || ratio < opts.paper.minBuySellRatio24h) {
+
+    const pc = Number(q.priceChange24hPct || 0);
+    const maxMom = Number(opts.paper.maxMomentum24hPct ?? 300);
+    if (pc < opts.paper.minMomentum24hPct || pc > maxMom || ratio < opts.paper.minBuySellRatio24h) {
       diag.skipped_confirmation2++;
+      continue;
+    }
+
+    const liq = Number(q.liquidityUsd || 0);
+    const vol = Number(q.volume24hUsd || 0);
+    const volToLiq = liq > 0 ? vol / liq : 999;
+    const maxVolToLiq = Number(opts.paper.maxVolToLiq24h ?? 8);
+    if (volToLiq > maxVolToLiq) {
+      diag.skipped_volatility++;
       continue;
     }
 

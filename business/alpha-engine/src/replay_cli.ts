@@ -25,6 +25,9 @@ const sim = simulateEntries({
     minPriceUsd: cfg.paper.minPriceUsd ?? 1e-7,
     minBuySellRatio24h: cfg.paper.minBuySellRatio24h ?? 1.05,
     minMomentum24hPct: 1,
+    maxMomentum24hPct: cfg.paper.maxMomentum24hPct ?? 300,
+    minQuoteConfidence: cfg.paper.minQuoteConfidence ?? 0,
+    maxVolToLiq24h: cfg.paper.maxVolToLiq24h ?? 8,
   },
 });
 

@@ -246,8 +246,21 @@ export async function runPaperTrading(opts: {
     //  (A) Dexscreener market-structure: positive 24h momentum + buy-pressure
     //  (B) Token-level candles (GeckoTerminal/Base): RSI + SMA confirmation
     const pc24 = Number(q?.priceChange24hPct || 0);
+    const maxMom = opts.paper.maxMomentum24hPct ?? 300;
+    if (Number.isFinite(pc24) && pc24 > maxMom) {
+      diag.skipped_confirmation2++;
+      continue;
+    }
     const buys24 = Number(q?.txns24h?.buys || 0);
     const sells24 = Number(q?.txns24h?.sells || 0);
+    const liqUsd0 = Number(q?.liquidityUsd || 0);
+    const volUsd0 = Number(q?.volume24hUsd || 0);
+    const volToLiq = liqUsd0 > 0 ? volUsd0 / liqUsd0 : 999;
+    const maxVolToLiq = opts.paper.maxVolToLiq24h ?? 8;
+    if (volToLiq > maxVolToLiq) {
+      diag.skipped_confirmation2++;
+      continue;
+    }
     const ratio = sells24 > 0 ? buys24 / sells24 : buys24 > 0 ? 99 : 0;
     const minRatio = opts.paper.minBuySellRatio24h ?? 1.05;
     if ((Number.isFinite(pc24) && pc24 < 1) || ratio < minRatio) {
@@ -261,6 +274,24 @@ export async function runPaperTrading(opts: {
     const candles = pool
       ? await fetchPoolOhlcvBase({ poolAddress: pool, timeframe: "minute", aggregate: 15, limit: 60 })
       : [];
+
+    // Volatility / wick filters (only when we actually have candles)
+    if (candles.length >= 40) {
+      const lastN = candles.slice(-20);
+      const eps = 1e-12;
+      const wickiness =
+        lastN.reduce((acc, c) => acc + (c.h - c.l) / (Math.abs(c.c - c.o) + eps), 0) /
+        Math.max(1, lastN.length);
+      const maxRangePct =
+        Math.max(...lastN.map((c) => ((c.h - c.l) / Math.max(eps, c.c)) * 100));
+
+      const wickinessMax = opts.paper.wickinessMax ?? 6;
+      const maxRange15mPct = opts.paper.maxRange15mPct ?? 12;
+      if (!Number.isFinite(wickiness) || wickiness > wickinessMax || !Number.isFinite(maxRangePct) || maxRangePct > maxRange15mPct) {
+        diag.skipped_confirmation2++;
+        continue;
+      }
+    }
 
     const closes = candles.map((c) => c.c);
     const rsi = calcRsi(closes, 14);
