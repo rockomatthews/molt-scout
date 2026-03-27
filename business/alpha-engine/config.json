@@ -5,9 +5,9 @@
     "paperTrading": true
   },
   "risk": {
-    "usdPerTrade": 10,
-    "maxTotalExposureUsd": 120,
-    "maxDailyLossUsd": 50
+    "usdPerTrade": 25,
+    "maxTotalExposureUsd": 250,
+    "maxDailyLossUsd": 100
   },
   "sources": {
     "farcaster": {
@@ -42,7 +42,7 @@
     "minVolume24hUsd": 2000,
     "minTxns24h": 20,
     "minPriceUsd": 0.0000001,
-    "maxEntriesPerRun": 4,
+    "maxEntriesPerRun": 8,
     "minBuySellRatio24h": 1.05,
     "minQuoteConfidence": 0.55,
     "maxMomentum24hPct": 300,
