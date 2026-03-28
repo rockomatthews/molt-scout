@@ -29,8 +29,8 @@
   "paper": {
     "enabled": true,
     "startCashUsd": 1000,
-    "holdMinutes": 30,
-    "takeProfitPct": 0.25,
+    "holdMinutes": 45,
+    "takeProfitPct": 0.35,
     "stopLossPct": 0.15,
     "maxPositions": 10,
 

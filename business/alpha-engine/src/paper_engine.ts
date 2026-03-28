@@ -22,6 +22,14 @@ export async function runPaperTrading(opts: {
     const ageMin = (now.getTime() - opened) / 60000;
 
     const px = await markPriceUsd(addr);
+    // Update peak price for trailing logic.
+    try {
+      const p = pos as any;
+      const prevPeak = typeof p.peakPx === "number" ? p.peakPx : Number(p.avgEntry);
+      if (px && Number.isFinite(px)) p.peakPx = Math.max(prevPeak, Number(px));
+    } catch {
+      // ignore
+    }
 
     // If pricing is missing, don't let positions get stuck forever.
     // Only force a time-based exit at entry price (0 pnl) once holdMinutes has elapsed.
