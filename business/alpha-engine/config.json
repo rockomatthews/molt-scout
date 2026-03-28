@@ -7,6 +7,7 @@
   "paper": { "enabled": false },
   "okxPaper": {
     "enabled": true,
+    "dynamicTopN": 30,
     "instIds": [
       "BTC-USDT-SWAP",
       "ETH-USDT-SWAP",

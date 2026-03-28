@@ -1,5 +1,6 @@
 import { scratchpadAppend } from './scratchpad.js';
 import { fetchOkxCandles, fetchOkxMarkPrice, calcAtrPct } from './okx_public.js';
+import { fetchOkxSwapTickers, pickTopSwapsByVolume } from './okx_universe.js';
 
 export type OkxPaperPosition = {
   instId: string;
@@ -108,10 +109,19 @@ export async function runOkxPaperTrading(opts: {
   }
 
   // Entries
+  // Universe selection
+  const requestedInstIds = (() => {
+    const topN = Number((opts.okx as any).dynamicTopN || 0);
+    if (topN > 0) return null; // dynamic
+    return Array.isArray(opts.okx.instIds) ? opts.okx.instIds : [];
+  })();
+
+  const instIds = requestedInstIds ?? pickTopSwapsByVolume(await fetchOkxSwapTickers(), Number((opts.okx as any).dynamicTopN || 0));
+
   // Validate instrument ids quickly: keep only those with a mark price.
   // This lets us stuff a big alt universe in config without breaking runs.
   const validInstIds: string[] = [];
-  for (const instId of opts.okx.instIds) {
+  for (const instId of instIds) {
     const px = await fetchOkxMarkPrice({ instId });
     if (px) validInstIds.push(instId);
   }

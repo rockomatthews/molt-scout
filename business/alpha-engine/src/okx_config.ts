@@ -5,6 +5,8 @@ export const OkxPaperSchema = z
     enabled: z.boolean().default(false),
 
     // Instruments to trade (perps)
+    // If dynamicTopN is set, we will select the top-N SWAPs by 24h volume from OKX tickers.
+    dynamicTopN: z.number().int().nonnegative().default(0),
     instIds: z.array(z.string()).default(['BTC-USDT-SWAP', 'ETH-USDT-SWAP']),
 
     // Candles
