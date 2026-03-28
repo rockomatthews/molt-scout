@@ -10,6 +10,7 @@ import { extractTickers, scorePost } from "./scoring.js";
 import { proposeTrade, executeTrade } from "./bankr.js";
 import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 import { runPaperTrading } from "./paper_engine.js";
+import { runOkxPaperTrading } from "./okx_paper.js";
 import { writeDailyReport } from "./report.js";
 import { getMacroRegime } from "./macro.js";
 import { writeScoreboard } from "./scoreboard.js";
@@ -154,32 +155,50 @@ async function runOnce() {
     // ignore
   }
 
-  // Paper trading (Base onchain tokens) — deterministic + risk-capped
-  if (cfg.mode.paperTrading && cfg.paper.enabled) {
-    try {
-      await runPaperTrading({ root: ROOT, sp, state, risk: cfg.risk, paper: cfg.paper });
-      await scratchpadAppend(sp.path, {
-        type: "result",
-        ts: new Date().toISOString(),
-        runId: sp.runId,
-        data: {
-          kind: "paper_summary",
-          cashUsd: state.paper?.cashUsd,
-          positions: Object.keys(state.paper?.positions || {}).length,
-          realizedPnlUsd: state.realizedPnlUsd,
-          exposureUsd: state.totalExposureUsd,
-        },
-      } as any);
-    } catch (err: any) {
-      const msg = String(err?.message || err);
-      log.warn({ err }, "paperTrading failed");
-      await scratchpadAppend(sp.path, {
-        type: "error",
-        ts: new Date().toISOString(),
-        runId: sp.runId,
-        where: "paperTrading",
-        message: msg,
-      } as any);
+  // Paper trading — onchain (Base) + OKX perps (paper). Both share the same global risk caps.
+  if (cfg.mode.paperTrading) {
+    if (cfg.paper.enabled) {
+      try {
+        await runPaperTrading({ root: ROOT, sp, state, risk: cfg.risk, paper: cfg.paper });
+        await scratchpadAppend(sp.path, {
+          type: "result",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          data: {
+            kind: "paper_summary",
+            cashUsd: state.paper?.cashUsd,
+            positions: Object.keys(state.paper?.positions || {}).length,
+            realizedPnlUsd: state.realizedPnlUsd,
+            exposureUsd: state.totalExposureUsd,
+          },
+        } as any);
+      } catch (err: any) {
+        const msg = String(err?.message || err);
+        log.warn({ err }, "paperTrading failed");
+        await scratchpadAppend(sp.path, {
+          type: "error",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          where: "paperTrading",
+          message: msg,
+        } as any);
+      }
+    }
+
+    if (cfg.okxPaper?.enabled) {
+      try {
+        await runOkxPaperTrading({ root: ROOT, sp, state, risk: cfg.risk, okx: cfg.okxPaper });
+      } catch (err: any) {
+        const msg = String(err?.message || err);
+        log.warn({ err }, "okxPaperTrading failed");
+        await scratchpadAppend(sp.path, {
+          type: "error",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          where: "okxPaperTrading",
+          message: msg,
+        } as any);
+      }
     }
   }
 
@@ -249,6 +268,9 @@ async function runOnce() {
       log.info({ trade, res }, "trade attempt");
     }
   }
+
+  // Persist the risk config used for this run so reports can display correct caps.
+  state.risk = cfg.risk;
 
   await saveState(ROOT, state);
 

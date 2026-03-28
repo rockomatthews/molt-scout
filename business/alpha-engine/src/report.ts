@@ -1,22 +1,27 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-type PaperEntry = {
+type TradeEntry = {
   tradeId: string;
-  tokenAddress: string;
+  // Either onchain token address or OKX instrument id.
+  assetId: string;
   symbol?: string;
   entryPx: number;
   usd: number;
   ts: string;
+  venue: "onchain" | "okx";
+  side?: "long" | "short";
 };
 
-type PaperExit = {
+type TradeExit = {
   tradeId: string;
-  tokenAddress: string;
+  assetId: string;
   px: number;
   pnlUsd: number;
   reason?: string;
   ts: string;
+  venue: "onchain" | "okx";
+  side?: "long" | "short";
 };
 
 function scratchpadIsoFromFilename(filename: string): string | null {
@@ -85,9 +90,10 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
 
   // Parse ALL scratchpads for the day to reconstruct a true "daily" trades list.
   const spPaths = await listScratchpadsForDay(root, day);
-  const entries: Record<string, PaperEntry> = {};
-  const exits: Record<string, PaperExit> = {};
+  const entries: Record<string, TradeEntry> = {};
+  const exits: Record<string, TradeExit> = {};
   const diags: Array<{ runId: string; ts: string; diag: any }> = [];
+  const okxDiags: Array<{ runId: string; ts: string; diag: any }> = [];
 
   for (const spPath of spPaths) {
     const raw = await fs.readFile(spPath, "utf8").catch(() => "");
@@ -103,25 +109,56 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
       if (data?.kind === "paper_entry") {
         entries[data.tradeId] = {
           tradeId: data.tradeId,
-          tokenAddress: data.tokenAddress,
+          assetId: data.tokenAddress,
           symbol: data.symbol || undefined,
           entryPx: Number(data.entryPx),
           usd: Number(data.usd),
           ts: obj.ts,
+          venue: "onchain",
         };
       }
       if (data?.kind === "paper_exit") {
         exits[data.tradeId] = {
           tradeId: data.tradeId,
-          tokenAddress: data.tokenAddress,
+          assetId: data.tokenAddress,
           px: Number(data.px),
           pnlUsd: Number(data.pnlUsd),
           reason: data.reason,
           ts: obj.ts,
+          venue: "onchain",
         };
       }
+
+      if (data?.kind === "okx_paper_entry") {
+        entries[data.tradeId] = {
+          tradeId: data.tradeId,
+          assetId: data.instId,
+          symbol: data.instId,
+          entryPx: Number(data.entryPx),
+          usd: Number(data.usd),
+          ts: obj.ts,
+          venue: "okx",
+          side: data.side,
+        };
+      }
+      if (data?.kind === "okx_paper_exit") {
+        exits[data.tradeId] = {
+          tradeId: data.tradeId,
+          assetId: data.instId,
+          px: Number(data.px),
+          pnlUsd: Number(data.pnlUsd),
+          reason: data.reason,
+          ts: obj.ts,
+          venue: "okx",
+          side: data.side,
+        };
+      }
+
       if (data?.kind === "paper_diag") {
         diags.push({ runId: obj.runId, ts: obj.ts, diag: data.diag });
+      }
+      if (data?.kind === "okx_paper_diag") {
+        okxDiags.push({ runId: obj.runId, ts: obj.ts, diag: data.diag });
       }
     }
   }
@@ -129,7 +166,7 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   const tradeIds = Array.from(new Set([...Object.keys(entries), ...Object.keys(exits)])).sort();
 
   // Backfill missing entries for exits by scanning recent scratchpads (carry positions across days).
-  const missingEntryIds = tradeIds.filter((id) => exits[id] && !entries[id]);
+  const missingEntryIds = tradeIds.filter((id) => exits[id] && !entries[id] && exits[id].venue === "onchain");
   if (missingEntryIds.length) {
     const allScratchpads = await listAllScratchpads(root);
     const want = new Set(missingEntryIds);
@@ -150,11 +187,12 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
         if (data?.kind === "paper_entry" && want.has(data.tradeId)) {
           entries[data.tradeId] = {
             tradeId: data.tradeId,
-            tokenAddress: data.tokenAddress,
+            assetId: data.tokenAddress,
             symbol: data.symbol || undefined,
             entryPx: Number(data.entryPx),
             usd: Number(data.usd),
             ts: obj.ts,
+            venue: "onchain",
           };
           want.delete(data.tradeId);
           if (!want.size) break;
@@ -225,20 +263,23 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
     for (const id of tradeIds) {
       const e = entries[id];
       const x = exits[id];
+      const venue = e?.venue || x?.venue || "onchain";
       const sym = e?.symbol || "(unknown)";
-      const addr = e?.tokenAddress || x?.tokenAddress || "(unknown)";
+      const asset = e?.assetId || x?.assetId || "(unknown)";
+
       const fmtPx = (n: number) => {
         if (!Number.isFinite(n) || n <= 0) return "0";
         if (n < 1e-6) return n.toExponential(2);
         if (n < 1) return n.toFixed(8);
-        return n.toFixed(6);
+        if (n < 1000) return n.toFixed(4);
+        return n.toFixed(2);
       };
 
-      const entryLine = e ? `entry ${new Date(e.ts).toISOString()} @ $${fmtPx(e.entryPx)}` : "entry —";
+      const entryLine = e ? `entry ${new Date(e.ts).toISOString()} @ $${fmtPx(e.entryPx)}${e.side ? ` · ${e.side}` : ""}` : "entry —";
       const exitLine = x
         ? `exit ${new Date(x.ts).toISOString()} @ $${fmtPx(x.px)} · PnL $${x.pnlUsd.toFixed(2)} · ${x.reason || "—"}`
         : "exit OPEN";
-      lines.push(`- **${id}** · ${sym} · ${addr}`);
+      lines.push(`- **${id}** · ${venue} · ${sym} · ${asset}`);
       lines.push(`  - ${entryLine}`);
       lines.push(`  - ${exitLine}`);
     }
@@ -264,6 +305,17 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
     const latest = diags[diags.length - 1];
     lines.push("");
     lines.push("### Diagnostics (latest paper_diag)");
+    lines.push(`RunId: ${latest.runId}`);
+    lines.push("```json");
+    lines.push(JSON.stringify(latest.diag, null, 2));
+    lines.push("```");
+  }
+
+  if (okxDiags.length) {
+    okxDiags.sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
+    const latest = okxDiags[okxDiags.length - 1];
+    lines.push("");
+    lines.push("### Diagnostics (latest okx_paper_diag)");
     lines.push(`RunId: ${latest.runId}`);
     lines.push("```json");
     lines.push(JSON.stringify(latest.diag, null, 2));

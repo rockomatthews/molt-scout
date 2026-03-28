@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { PaperSchema } from "./paper_config.js";
+import { OkxPaperSchema } from "./okx_config.js";
 
 const ConfigSchema = z.object({
   mode: z.object({
@@ -32,6 +33,7 @@ const ConfigSchema = z.object({
     cooldownMinutesPerTicker: z.number().int().default(30),
   }),
   paper: PaperSchema,
+  okxPaper: OkxPaperSchema,
 });
 
 export type AlphaConfig = z.infer<typeof ConfigSchema>;
