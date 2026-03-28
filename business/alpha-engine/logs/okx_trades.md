@@ -1,0 +1,3 @@
+- [2026-03-28 21:17:16.073Z] ENTRY okx CHZ-USDT-SWAP long · entryPx $0.0415 · usd $60 · lev 5 · atrPct 0.269 · breakoutLookback 12 · tradeId 85e2c51969d1:CHZ-USDT-SWAP:1774732636072
+- [2026-03-28 21:17:16.075Z] ENTRY okx MEW-USDT-SWAP short · entryPx $0.0005612 · usd $60 · lev 5 · atrPct 0.041 · breakoutLookback 12 · tradeId 85e2c51969d1:MEW-USDT-SWAP:1774732636074
+- [2026-03-28 21:17:16.075Z] ENTRY okx TURBO-USDT-SWAP short · entryPx $0.0010495 · usd $60 · lev 5 · atrPct 0.105 · breakoutLookback 12 · tradeId 85e2c51969d1:TURBO-USDT-SWAP:1774732636075

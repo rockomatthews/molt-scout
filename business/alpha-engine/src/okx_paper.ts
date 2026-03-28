@@ -1,6 +1,7 @@
 import { scratchpadAppend } from './scratchpad.js';
 import { fetchOkxCandles, fetchOkxMarkPrice, calcAtrPct } from './okx_public.js';
 import { fetchOkxSwapTickers, pickTopSwapsByVolume } from './okx_universe.js';
+import { appendOkxJournal, fmtIso } from './okx_journal.js';
 
 export type OkxPaperPosition = {
   instId: string;
@@ -71,8 +72,9 @@ export async function runOkxPaperTrading(opts: {
         type: 'result',
         ts: new Date().toISOString(),
         runId: opts.sp.runId,
-        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `stop_${opts.okx.stopLossPct}%` },
+        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `stop_${opts.okx.stopLossPct}%`, side: pos.side },
       } as any);
+      await appendOkxJournal(opts.root, `- [${fmtIso(new Date())}] EXIT okx ${instId} ${pos.side} · pnlUsd $${(((opts.risk.usdPerTrade * p) / 100)).toFixed(2)} · pnlPct ${p.toFixed(2)}% · reason stop_${opts.okx.stopLossPct}% · tradeId ${(pos as any).tradeId}`);
       continue;
     }
     if (p >= Math.abs(opts.okx.takeProfitPct)) {
@@ -84,8 +86,9 @@ export async function runOkxPaperTrading(opts: {
         type: 'result',
         ts: new Date().toISOString(),
         runId: opts.sp.runId,
-        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `tp_${opts.okx.takeProfitPct}%` },
+        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `tp_${opts.okx.takeProfitPct}%`, side: pos.side },
       } as any);
+      await appendOkxJournal(opts.root, `- [${fmtIso(new Date())}] EXIT okx ${instId} ${pos.side} · pnlUsd $${(((opts.risk.usdPerTrade * p) / 100)).toFixed(2)} · pnlPct ${p.toFixed(2)}% · reason tp_${opts.okx.takeProfitPct}% · tradeId ${(pos as any).tradeId}`);
       continue;
     }
 
@@ -99,8 +102,9 @@ export async function runOkxPaperTrading(opts: {
         type: 'result',
         ts: new Date().toISOString(),
         runId: opts.sp.runId,
-        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `trail_${opts.okx.trailFromPeakPct}%` },
+        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `trail_${opts.okx.trailFromPeakPct}%`, side: pos.side },
       } as any);
+      await appendOkxJournal(opts.root, `- [${fmtIso(new Date())}] EXIT okx ${instId} ${pos.side} · pnlUsd $${(((opts.risk.usdPerTrade * p) / 100)).toFixed(2)} · pnlPct ${p.toFixed(2)}% · reason trail_${opts.okx.trailFromPeakPct}% · tradeId ${(pos as any).tradeId}`);
       continue;
     }
 
@@ -207,6 +211,12 @@ export async function runOkxPaperTrading(opts: {
       runId: opts.sp.runId,
       data: { kind: 'okx_paper_entry', tradeId, instId: c.instId, side: c.side, entryPx: c.px, usd: opts.risk.usdPerTrade, leverage: opts.okx.leverage, atrPct: c.atrPct, score: c.score },
     } as any);
+
+    // Journal: record a compact thesis so we can learn from outcomes.
+    await appendOkxJournal(
+      opts.root,
+      `- [${fmtIso(new Date())}] ENTRY okx ${c.instId} ${c.side} · entryPx $${c.px} · usd $${opts.risk.usdPerTrade} · lev ${opts.okx.leverage} · atrPct ${c.atrPct.toFixed(3)} · breakoutLookback ${opts.okx.breakoutLookback} · tradeId ${tradeId}`
+    );
   }
 
   await scratchpadAppend(opts.sp.path, {
