@@ -1,12 +1,14 @@
 # Alpha Engine — Scoreboard
 
-Config fingerprint: 3633f92f78ac
+Config fingerprint: 738c61322483
 
-Rolling 3d: PnL $-0.45 · Trades 1 · WinRate 0.0%
-Rolling 7d: PnL $-42.24 · Trades 23 · WinRate 13.0%
+Rolling 3d: PnL $-2.54 · Trades 8 · WinRate 37.5%
+Rolling 7d: PnL $-4.49 · Trades 13 · WinRate 30.8%
 
 ## Daily
-- 2026-03-25: PnL $-0.45 · closed 1 · win 0/1 · avgWin $0.00 · avgLoss $-0.45 · best $0.00 · worst $-0.45
+- 2026-03-27: PnL $0.00 · closed 0 · win 0/0 · avgWin $0.00 · avgLoss $0.00 · best $0.00 · worst $0.00
+- 2026-03-26: PnL $4.62 · closed 3 · win 2/3 · avgWin $3.83 · avgLoss $-3.04 · best $5.39 · worst $-3.04
+- 2026-03-25: PnL $-7.16 · closed 5 · win 1/5 · avgWin $0.04 · avgLoss $-1.80 · best $0.04 · worst $-4.53
 - 2026-03-24: PnL $0.00 · closed 0 · win 0/0 · avgWin $0.00 · avgLoss $0.00 · best $0.00 · worst $0.00
 - 2026-03-21: PnL $0.00 · closed 0 · win 0/0 · avgWin $0.00 · avgLoss $0.00 · best $0.00 · worst $0.00
 - 2026-03-20: PnL $-5.06 · closed 2 · win 0/2 · avgWin $0.00 · avgLoss $-2.53 · best $0.00 · worst $-4.66

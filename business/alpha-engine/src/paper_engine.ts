@@ -144,15 +144,13 @@ export async function runPaperTrading(opts: {
   });
   diag.pulse_txs = txs.length;
 
-  if (riskOff) {
-    diag.skipped_macro_riskoff = txs.length;
-    await scratchpadAppend(opts.sp.path, {
-      type: "result",
-      ts: new Date().toISOString(),
-      runId: opts.sp.runId,
-      data: { kind: "paper_diag", diag },
-    } as any);
-    return;
+  // Risk-off handling:
+  // Default behavior was to block all new entries when macro is risk-off.
+  // To avoid long stretches of zero trades, we allow a *strict* micro-mode
+  // that only takes the cleanest setups under tighter filters.
+  const riskOffMode = Boolean(riskOff);
+  if (riskOffMode) {
+    diag.skipped_macro_riskoff = txs.length; // informational: macro was risk-off this run
   }
 
   await scratchpadAppend(opts.sp.path, {
@@ -213,7 +211,8 @@ export async function runPaperTrading(opts: {
     const qc = await quoteConfidenceBase(addr);
     // Persist qc into scratchpad quotesUsed too (helps replay/debug)
     quotesUsed[addr.toLowerCase()] = { ...(quotesUsed[addr.toLowerCase()] || {}), quoteConfidence: qc };
-    const minConf = opts.paper.minQuoteConfidence ?? 0.55;
+    const minConfBase = opts.paper.minQuoteConfidence ?? 0.55;
+    const minConf = riskOffMode ? Math.max(0.70, minConfBase) : minConfBase;
     if (qc.confidence < minConf) {
       diag.skipped_confidence++;
       continue;
@@ -246,7 +245,8 @@ export async function runPaperTrading(opts: {
     //  (A) Dexscreener market-structure: positive 24h momentum + buy-pressure
     //  (B) Token-level candles (GeckoTerminal/Base): RSI + SMA confirmation
     const pc24 = Number(q?.priceChange24hPct || 0);
-    const maxMom = opts.paper.maxMomentum24hPct ?? 300;
+    const maxMomBase = opts.paper.maxMomentum24hPct ?? 300;
+    const maxMom = riskOffMode ? Math.min(120, maxMomBase) : maxMomBase;
     if (Number.isFinite(pc24) && pc24 > maxMom) {
       diag.skipped_confirmation2++;
       continue;
@@ -256,13 +256,15 @@ export async function runPaperTrading(opts: {
     const liqUsd0 = Number(q?.liquidityUsd || 0);
     const volUsd0 = Number(q?.volume24hUsd || 0);
     const volToLiq = liqUsd0 > 0 ? volUsd0 / liqUsd0 : 999;
-    const maxVolToLiq = opts.paper.maxVolToLiq24h ?? 8;
+    const maxVolToLiqBase = opts.paper.maxVolToLiq24h ?? 8;
+    const maxVolToLiq = riskOffMode ? Math.min(4, maxVolToLiqBase) : maxVolToLiqBase;
     if (volToLiq > maxVolToLiq) {
       diag.skipped_confirmation2++;
       continue;
     }
     const ratio = sells24 > 0 ? buys24 / sells24 : buys24 > 0 ? 99 : 0;
-    const minRatio = opts.paper.minBuySellRatio24h ?? 1.05;
+    const minRatioBase = opts.paper.minBuySellRatio24h ?? 1.05;
+    const minRatio = riskOffMode ? Math.max(1.25, minRatioBase) : minRatioBase;
     if ((Number.isFinite(pc24) && pc24 < 1) || ratio < minRatio) {
       diag.skipped_confirmation2++;
       continue;
@@ -349,7 +351,8 @@ export async function runPaperTrading(opts: {
   // Phase 2: enter highest-quality candidates first
   candidates.sort((a, b) => b.score - a.score);
 
-  const maxEntriesPerRun = opts.paper.maxEntriesPerRun ?? 2;
+  const maxEntriesPerRunBase = opts.paper.maxEntriesPerRun ?? 2;
+  const maxEntriesPerRun = riskOffMode ? Math.min(2, maxEntriesPerRunBase) : maxEntriesPerRunBase;
   for (const c of candidates) {
     if (diag.entries >= maxEntriesPerRun) break;
     if (opts.state.realizedPnlUsd <= -Math.abs(opts.risk.maxDailyLossUsd)) {
