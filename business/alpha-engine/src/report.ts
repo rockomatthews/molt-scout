@@ -1,6 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
+import { maxDrawdownPct, sortinoRatio, type EquityPoint } from "./metrics";
+
 type TradeEntry = {
   tradeId: string;
   // Either onchain token address or OKX instrument id.
@@ -238,6 +240,33 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   const endCashComputed = startCash - openExposure + realized;
   const pct = startCash ? (realized / startCash) * 100 : 0;
 
+  // Risk metrics: we don't have mark-to-market, so we compute them on **realized equity only**.
+  // This avoids nonsense drawdowns caused by treating open exposure as a loss.
+  const equitySeries: EquityPoint[] = [];
+  {
+    let realizedSoFar = 0;
+    const events: Array<{ ts: string; tradeId: string }> = [];
+    for (const id of realizedTrades) {
+      const x = exits[id];
+      if (x?.ts) events.push({ ts: x.ts, tradeId: id });
+    }
+    events.sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
+
+    // Start point
+    equitySeries.push({ ts: new Date(`${day}T00:00:00.000Z`).toISOString(), equityUsd: startCash });
+
+    for (const ev of events) {
+      realizedSoFar += exits[ev.tradeId]?.pnlUsd || 0;
+      equitySeries.push({ ts: ev.ts, equityUsd: startCash + realizedSoFar });
+    }
+
+    // End point
+    equitySeries.push({ ts: new Date().toISOString(), equityUsd: startCash + realizedSoFar });
+  }
+
+  const maxDdPct = maxDrawdownPct(equitySeries);
+  const sortino = sortinoRatio(equitySeries);
+
   lines.push(`- Start cash (paper): **$${startCash.toFixed(2)}**`);
   lines.push(`- End cash (paper, computed): **$${endCashComputed.toFixed(2)}**`);
   lines.push(`- Realized PnL: **$${realized.toFixed(2)}** (${pct.toFixed(2)}%)`);
@@ -293,6 +322,7 @@ export async function writeDailyReport(root: string, state: any, runId: string) 
   lines.push(`- Avg win: **$${avgWin.toFixed(2)}** · Avg loss: **$${avgLoss.toFixed(2)}**`);
   lines.push(`- Biggest winner: **${biggestWinner ? `${biggestWinner.id} ($${biggestWinner.pnl.toFixed(2)})` : "—"}**`);
   lines.push(`- Biggest loser: **${biggestLoser ? `${biggestLoser.id} ($${biggestLoser.pnl.toFixed(2)})` : "—"}**`);
+  lines.push(`- Risk metrics (daily): max drawdown **${maxDdPct.toFixed(2)}%** · Sortino **${sortino.toFixed(3)}**`);
   lines.push("");
 
   // 4) Learning log
