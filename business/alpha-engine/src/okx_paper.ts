@@ -108,8 +108,16 @@ export async function runOkxPaperTrading(opts: {
   }
 
   // Entries
+  // Validate instrument ids quickly: keep only those with a mark price.
+  // This lets us stuff a big alt universe in config without breaking runs.
+  const validInstIds: string[] = [];
+  for (const instId of opts.okx.instIds) {
+    const px = await fetchOkxMarkPrice({ instId });
+    if (px) validInstIds.push(instId);
+  }
+
   const diag: Record<string, number> = {
-    insts: opts.okx.instIds.length,
+    insts: validInstIds.length,
     skipped_already_held: 0,
     skipped_exposure_cap: 0,
     skipped_cash: 0,
@@ -119,7 +127,7 @@ export async function runOkxPaperTrading(opts: {
 
   const candidates: Array<{ instId: string; side: 'long' | 'short'; score: number; px: number; atrPct: number }> = [];
 
-  for (const instId of opts.okx.instIds) {
+  for (const instId of validInstIds) {
     if (paper.positions[instId]) {
       diag.skipped_already_held++;
       continue;

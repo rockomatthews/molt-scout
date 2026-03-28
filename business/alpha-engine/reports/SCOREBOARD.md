@@ -1,6 +1,6 @@
 # Alpha Engine — Scoreboard
 
-Config fingerprint: 639c1d907192
+Config fingerprint: 6719117282ae
 
 Rolling 3d: PnL $3.94 · Trades 8 · WinRate 50.0%
 Rolling 7d: PnL $-8.28 · Trades 15 · WinRate 33.3%
