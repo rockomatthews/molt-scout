@@ -212,7 +212,9 @@ export async function runPaperTrading(opts: {
     // Persist qc into scratchpad quotesUsed too (helps replay/debug)
     quotesUsed[addr.toLowerCase()] = { ...(quotesUsed[addr.toLowerCase()] || {}), quoteConfidence: qc };
     const minConfBase = opts.paper.minQuoteConfidence ?? 0.55;
-    const minConf = riskOffMode ? Math.max(0.70, minConfBase) : minConfBase;
+    // In risk-off, we still want *some* trades. Use a higher bar than risk-on,
+    // but not so high that we go to zero for hours.
+    const minConf = riskOffMode ? Math.max(0.62, minConfBase) : minConfBase;
     if (qc.confidence < minConf) {
       diag.skipped_confidence++;
       continue;
