@@ -45,7 +45,7 @@ export async function runOkxPaperTrading(opts: {
   if (!opts.okx.enabled) return;
 
   const now = new Date();
-  const paper: OkxPaperState = opts.state.okxPaper || { cashUsd: 10_000, positions: {} };
+  const paper: OkxPaperState = opts.state.okxPaper || { cashUsd: 3_000, positions: {} };
   opts.state.okxPaper = paper;
 
   // Exits first

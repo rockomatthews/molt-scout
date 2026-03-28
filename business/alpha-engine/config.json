@@ -1,6 +1,6 @@
 {
   "mode": { "dryRun": true, "liveTrading": false, "paperTrading": true },
-  "risk": { "usdPerTrade": 25, "maxTotalExposureUsd": 500, "maxDailyLossUsd": 200 },
+  "risk": { "usdPerTrade": 60, "maxTotalExposureUsd": 1200, "maxDailyLossUsd": 300 },
   "sources": { "farcaster": { "enabled": false, "channels": ["base"], "watchAccounts": [] } },
   "execution": { "venues": { "cex": { "enabled": true, "name": "okx" }, "onchain": { "enabled": false, "chain": "base" } } },
   "alerts": { "minScoreToAlert": 60, "cooldownMinutesPerTicker": 30 },
