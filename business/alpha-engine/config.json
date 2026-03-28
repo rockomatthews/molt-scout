@@ -6,8 +6,8 @@
   },
   "risk": {
     "usdPerTrade": 25,
-    "maxTotalExposureUsd": 250,
-    "maxDailyLossUsd": 100
+    "maxTotalExposureUsd": 500,
+    "maxDailyLossUsd": 200
   },
   "sources": {
     "farcaster": {
