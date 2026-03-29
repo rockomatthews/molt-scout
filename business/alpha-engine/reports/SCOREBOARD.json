@@ -1,28 +1,17 @@
 {
-  "updatedAt": "2026-03-28T23:41:53.629Z",
-  "configFingerprint": "c8f18a078531",
+  "updatedAt": "2026-03-29T13:44:24.621Z",
+  "configFingerprint": "bc91d6da263c",
   "rolling3d": {
-    "pnl": 3.9378864470180375,
-    "trades": 8,
-    "winRate": 50
+    "pnl": -0.680751565542458,
+    "trades": 5,
+    "winRate": 40
   },
   "rolling7d": {
-    "pnl": -8.280488519782544,
-    "trades": 15,
-    "winRate": 33.33333333333333
+    "pnl": -3.218409692874687,
+    "trades": 13,
+    "winRate": 38.46153846153847
   },
   "daily": [
-    {
-      "day": "2026-03-10",
-      "realizedPnlUsd": 0,
-      "tradesClosed": 0,
-      "wins": 0,
-      "losses": 0,
-      "avgWinUsd": 0,
-      "avgLossUsd": 0,
-      "biggestWinUsd": 0,
-      "biggestLossUsd": 0
-    },
     {
       "day": "2026-03-14",
       "realizedPnlUsd": -14.526580732057624,
@@ -165,6 +154,17 @@
       "avgLossUsd": -1.0956937799043074,
       "biggestWinUsd": 0.487804878048781,
       "biggestLossUsd": -1.0956937799043074
+    },
+    {
+      "day": "2026-03-29",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
+      "wins": 0,
+      "losses": 0,
+      "avgWinUsd": 0,
+      "avgLossUsd": 0,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": 0
     }
   ]
 }
