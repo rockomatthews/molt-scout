@@ -63,7 +63,7 @@ export async function computeDayStats(root: string, day: string): Promise<DaySta
         continue;
       }
       const data = obj?.data;
-      if (data?.kind === "paper_exit") {
+      if (data?.kind === "paper_exit" || data?.kind === "okx_paper_exit") {
         exits.push({ tradeId: data.tradeId, pnlUsd: Number(data.pnlUsd), ts: obj.ts });
       }
     }

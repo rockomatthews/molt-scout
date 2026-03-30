@@ -1,28 +1,17 @@
 {
-  "updatedAt": "2026-03-29T13:44:24.621Z",
+  "updatedAt": "2026-03-30T23:10:22.794Z",
   "configFingerprint": "bc91d6da263c",
   "rolling3d": {
-    "pnl": -0.680751565542458,
-    "trades": 5,
-    "winRate": 40
+    "pnl": 71.65563027558537,
+    "trades": 738,
+    "winRate": 48.1029810298103
   },
   "rolling7d": {
-    "pnl": -3.218409692874687,
-    "trades": 13,
-    "winRate": 38.46153846153847
+    "pnl": 69.0451094845662,
+    "trades": 749,
+    "winRate": 47.930574098798395
   },
   "daily": [
-    {
-      "day": "2026-03-14",
-      "realizedPnlUsd": -14.526580732057624,
-      "tradesClosed": 20,
-      "wins": 5,
-      "losses": 12,
-      "avgWinUsd": 0.6721788270868514,
-      "avgLossUsd": -1.4906229056243232,
-      "biggestWinUsd": 1.5509467989179437,
-      "biggestLossUsd": -6.079545454545455
-    },
     {
       "day": "2026-03-15",
       "realizedPnlUsd": 0,
@@ -146,25 +135,36 @@
     },
     {
       "day": "2026-03-28",
-      "realizedPnlUsd": -0.6078889018555265,
-      "tradesClosed": 2,
-      "wins": 1,
-      "losses": 1,
-      "avgWinUsd": 0.487804878048781,
-      "avgLossUsd": -1.0956937799043074,
-      "biggestWinUsd": 0.487804878048781,
-      "biggestLossUsd": -1.0956937799043074
+      "realizedPnlUsd": 0.0006984214571566227,
+      "tradesClosed": 123,
+      "wins": 62,
+      "losses": 61,
+      "avgWinUsd": 0.42909032060077434,
+      "avgLossUsd": -0.4361131386195221,
+      "biggestWinUsd": 1.1990008326394703,
+      "biggestLossUsd": -2.9679648241206036
     },
     {
       "day": "2026-03-29",
-      "realizedPnlUsd": 0,
-      "tradesClosed": 0,
-      "wins": 0,
-      "losses": 0,
-      "avgWinUsd": 0,
-      "avgLossUsd": 0,
-      "biggestWinUsd": 0,
-      "biggestLossUsd": 0
+      "realizedPnlUsd": 80.4722243031548,
+      "tradesClosed": 362,
+      "wins": 185,
+      "losses": 175,
+      "avgWinUsd": 1.1227437209034405,
+      "avgLossUsd": -0.7270592232227527,
+      "biggestWinUsd": 34.040892773528945,
+      "biggestLossUsd": -2.6940346375881994
+    },
+    {
+      "day": "2026-03-30",
+      "realizedPnlUsd": -8.817292449026597,
+      "tradesClosed": 253,
+      "wins": 108,
+      "losses": 144,
+      "avgWinUsd": 1.0767024838343238,
+      "avgLossUsd": -0.8687580604384274,
+      "biggestWinUsd": 8.526383526383526,
+      "biggestLossUsd": -4.594748858447489
     }
   ]
 }
