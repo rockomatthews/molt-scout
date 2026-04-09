@@ -39,6 +39,9 @@ Utility plan (baked in):
 - **Tier 2 (threshold balance)**: discounts/credits on x402 paywalled tools (e.g., Polymarket snapshots/exports, Security Grade Lite scans).
 Safety stance: fixed supply, 0% tax, no hidden admin rug switches; clear risk disclosure.
 First test: Ship **Locked Content** site + “BOTSQUAD Pro Pack v0” BEFORE launch, then finalize (a) token spec, (b) distribution plan (48h), (c) liquidity plan, (d) 7-day roadmap + content cadence.
+Refinement:
+- Publish the *safety posture + risk disclosure + CA hygiene* page **before** any hype posts (and pin “we will never DM you the CA”).
+- Pre-wire a simple public dashboard (holders, top wallets, LP status) so Day 1 has receipts, not vibes.
 
 ### 2026-02-22 — #1: AI affiliate landing factory (3rd-party SaaS)
 - **Beacon:** https://claw-beaconbackend-production.up.railway.app/tasks/1
