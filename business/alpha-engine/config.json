@@ -28,11 +28,11 @@
     "limit": 200,
     "leverage": 5,
     "maxPositions": 20,
-    "maxEntriesPerRun": 10,
+    "maxEntriesPerRun": 4,
     "breakoutLookback": 12,
     "atrMaxPct": 2.5,
-    "takeProfitPct": 0.6,
-    "stopLossPct": 0.4,
+    "takeProfitPct": 0.7,
+    "stopLossPct": 0.35,
     "trailFromPeakPct": 0.3,
     "minHoldMinutes": 1
   }
