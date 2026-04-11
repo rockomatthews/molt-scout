@@ -15,6 +15,7 @@ export type OkxPaperPosition = {
 export type OkxPaperState = {
   cashUsd: number;
   positions: Record<string, OkxPaperPosition>; // instId -> position
+  cooldownUntilIsoByInstId?: Record<string, string>; // instId -> ISO
 };
 
 function pnlPct(pos: OkxPaperPosition, px: number) {
@@ -47,7 +48,7 @@ export async function runOkxPaperTrading(opts: {
   if (!opts.okx.enabled) return;
 
   const now = new Date();
-  const paper: OkxPaperState = opts.state.okxPaper || { cashUsd: 3_000, positions: {} };
+  const paper: OkxPaperState = opts.state.okxPaper || { cashUsd: 3_000, positions: {}, cooldownUntilIsoByInstId: {} };
   opts.state.okxPaper = paper;
 
   // Exits first
@@ -68,13 +69,21 @@ export async function runOkxPaperTrading(opts: {
       opts.state.realizedPnlUsd += (opts.risk.usdPerTrade * p) / 100;
       opts.state.totalExposureUsd -= opts.risk.usdPerTrade;
       delete paper.positions[instId];
+
+      // Cooldown after stop to avoid immediate re-entry churn.
+      // Default 60 minutes if not configured.
+      const cooldownMin = Number((opts.okx as any).cooldownAfterStopMinutes || 60);
+      const until = new Date(now.getTime() + cooldownMin * 60000).toISOString();
+      paper.cooldownUntilIsoByInstId = paper.cooldownUntilIsoByInstId || {};
+      paper.cooldownUntilIsoByInstId[instId] = until;
+
       await scratchpadAppend(opts.sp.path, {
         type: 'result',
         ts: new Date().toISOString(),
         runId: opts.sp.runId,
-        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `stop_${opts.okx.stopLossPct}%`, side: pos.side },
+        data: { kind: 'okx_paper_exit', instId, tradeId: (pos as any).tradeId, px, pnlPct: p, pnlUsd: (opts.risk.usdPerTrade * p) / 100, reason: `stop_${opts.okx.stopLossPct}%`, side: pos.side, cooldownUntilIso: until },
       } as any);
-      await appendOkxJournal(opts.root, `- [${fmtIso(new Date())}] EXIT okx ${instId} ${pos.side} · pnlUsd $${(((opts.risk.usdPerTrade * p) / 100)).toFixed(2)} · pnlPct ${p.toFixed(2)}% · reason stop_${opts.okx.stopLossPct}% · tradeId ${(pos as any).tradeId}`);
+      await appendOkxJournal(opts.root, `- [${fmtIso(new Date())}] EXIT okx ${instId} ${pos.side} · pnlUsd $${(((opts.risk.usdPerTrade * p) / 100)).toFixed(2)} · pnlPct ${p.toFixed(2)}% · reason stop_${opts.okx.stopLossPct}% · cooldownUntil ${until} · tradeId ${(pos as any).tradeId}`);
       continue;
     }
     if (p >= Math.abs(opts.okx.takeProfitPct)) {
@@ -133,6 +142,7 @@ export async function runOkxPaperTrading(opts: {
   const diag: Record<string, number> = {
     insts: validInstIds.length,
     skipped_already_held: 0,
+    skipped_cooldown: 0,
     skipped_exposure_cap: 0,
     skipped_cash: 0,
     skipped_atr: 0,
@@ -147,11 +157,21 @@ export async function runOkxPaperTrading(opts: {
       continue;
     }
 
+    const cdIso = paper.cooldownUntilIsoByInstId?.[instId];
+    if (cdIso && new Date(cdIso).getTime() > now.getTime()) {
+      diag.skipped_cooldown++;
+      continue;
+    }
+
     const candles = await fetchOkxCandles({ instId, bar: opts.okx.bar, limit: opts.okx.limit });
     if (candles.length < Math.max(30, opts.okx.breakoutLookback + 2)) continue;
 
     const atrPct = calcAtrPct(candles, 14) ?? 0;
-    if (atrPct > opts.okx.atrMaxPct) {
+
+    // Regime gates: skip too-chaotic and too-dead markets.
+    const atrMax = opts.okx.atrMaxPct;
+    const atrMin = Number((opts.okx as any).atrMinPct || 0);
+    if (atrPct > atrMax || atrPct < atrMin) {
       diag.skipped_atr++;
       continue;
     }
