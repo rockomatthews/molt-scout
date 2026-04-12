@@ -189,9 +189,16 @@ export async function runOkxPaperTrading(opts: {
     else if (last < lo) side = 'short';
     if (!side) continue;
 
-    // Score: stronger breakout distance / lower vol
+    // Breakout strength gate + scoring
     const dist = side === 'long' ? (last - hi) / hi : (lo - last) / lo;
-    const score = dist * 1000 + Math.max(0, 10 - atrPct);
+    const range = (hi - lo) / Math.max(1e-12, lo);
+    const strength = range > 0 ? dist / range : 0;
+
+    const minStrength = Number((opts.okx as any).minBreakoutStrength || 0);
+    if (strength < minStrength) continue;
+
+    // Score: stronger breakout distance / lower vol / stronger breakout
+    const score = dist * 1000 + strength * 100 + Math.max(0, 10 - atrPct);
 
     candidates.push({ instId, side, score, px: last, atrPct });
   }

@@ -33,6 +33,7 @@
     "atrMinPct": 0.04,
     "atrMaxPct": 2.5,
     "cooldownAfterStopMinutes": 60,
+    "minBreakoutStrength": 0.2,
     "takeProfitPct": 0.7,
     "stopLossPct": 0.35,
     "trailFromPeakPct": 0.3,
