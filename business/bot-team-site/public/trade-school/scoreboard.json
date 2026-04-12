@@ -1,19 +1,19 @@
 {
-  "updatedAt": "2026-03-21T17:38:34.986Z",
-  "configFingerprint": "6d17daf26e70",
+  "updatedAt": "2026-04-12T08:28:41.204Z",
+  "configFingerprint": "4bf1dd458572",
   "rolling3d": {
-    "pnl": -31.721562648120592,
-    "trades": 19,
-    "winRate": 15.789473684210526
+    "pnl": 152.6404035377634,
+    "trades": 152,
+    "winRate": 50
   },
   "rolling7d": {
-    "pnl": -48.01896372294113,
-    "trades": 65,
-    "winRate": 20
+    "pnl": 155.15252818503882,
+    "trades": 895,
+    "winRate": 44.91620111731844
   },
   "daily": [
     {
-      "day": "2026-03-10",
+      "day": "2026-03-21",
       "realizedPnlUsd": 0,
       "tradesClosed": 0,
       "wins": 0,
@@ -24,18 +24,7 @@
       "biggestLossUsd": 0
     },
     {
-      "day": "2026-03-14",
-      "realizedPnlUsd": -14.526580732057624,
-      "tradesClosed": 20,
-      "wins": 5,
-      "losses": 12,
-      "avgWinUsd": 0.6721788270868514,
-      "avgLossUsd": -1.4906229056243232,
-      "biggestWinUsd": 1.5509467989179437,
-      "biggestLossUsd": -6.079545454545455
-    },
-    {
-      "day": "2026-03-15",
+      "day": "2026-03-24",
       "realizedPnlUsd": 0,
       "tradesClosed": 0,
       "wins": 0,
@@ -46,59 +35,136 @@
       "biggestLossUsd": 0
     },
     {
-      "day": "2026-03-16",
-      "realizedPnlUsd": 8.292032068363401,
-      "tradesClosed": 23,
-      "wins": 5,
-      "losses": 10,
-      "avgWinUsd": 3.2987312349164126,
-      "avgLossUsd": -0.8201624106218665,
-      "biggestWinUsd": 14.65142857142857,
-      "biggestLossUsd": -2.522571325388227
+      "day": "2026-03-25",
+      "realizedPnlUsd": -7.156296139892724,
+      "tradesClosed": 5,
+      "wins": 1,
+      "losses": 4,
+      "avgWinUsd": 0.039032006245120626,
+      "avgLossUsd": -1.7988320365344612,
+      "biggestWinUsd": 0.039032006245120626,
+      "biggestLossUsd": -4.525423728813559
     },
     {
-      "day": "2026-03-17",
-      "realizedPnlUsd": -10.062852411126315,
+      "day": "2026-03-26",
+      "realizedPnlUsd": 4.6186380125604956,
       "tradesClosed": 3,
-      "wins": 0,
-      "losses": 3,
-      "avgWinUsd": 0,
-      "avgLossUsd": -3.354284137042105,
-      "biggestWinUsd": 0,
-      "biggestLossUsd": -5.839128419100603
-    },
-    {
-      "day": "2026-03-18",
-      "realizedPnlUsd": -29.769626056025263,
-      "tradesClosed": 14,
       "wins": 2,
-      "losses": 12,
-      "avgWinUsd": 2.1392818105831677,
-      "avgLossUsd": -2.837349139765966,
-      "biggestWinUsd": 4.225165562913908,
-      "biggestLossUsd": -8.093423799582462
+      "losses": 1,
+      "avgWinUsd": 3.8277571841544344,
+      "avgLossUsd": -3.0368763557483733,
+      "biggestWinUsd": 5.392683886193783,
+      "biggestLossUsd": -3.0368763557483733
     },
     {
-      "day": "2026-03-19",
-      "realizedPnlUsd": 3.110142234812527,
+      "day": "2026-03-27",
+      "realizedPnlUsd": -0.07286266368693146,
       "tradesClosed": 3,
       "wins": 1,
-      "losses": 2,
-      "avgWinUsd": 4.107000795544949,
-      "avgLossUsd": -0.49842928036621115,
-      "biggestWinUsd": 4.107000795544949,
-      "biggestLossUsd": -0.5082592121982216
+      "losses": 1,
+      "avgWinUsd": 0.02431906614786175,
+      "avgLossUsd": -0.09718172983479322,
+      "biggestWinUsd": 0.02431906614786175,
+      "biggestLossUsd": -0.09718172983479322
     },
     {
-      "day": "2026-03-20",
-      "realizedPnlUsd": -5.062078826907857,
-      "tradesClosed": 2,
+      "day": "2026-03-28",
+      "realizedPnlUsd": 0.0006984214571566227,
+      "tradesClosed": 123,
+      "wins": 62,
+      "losses": 61,
+      "avgWinUsd": 0.42909032060077434,
+      "avgLossUsd": -0.4361131386195221,
+      "biggestWinUsd": 1.1990008326394703,
+      "biggestLossUsd": -2.9679648241206036
+    },
+    {
+      "day": "2026-03-29",
+      "realizedPnlUsd": 80.4722243031548,
+      "tradesClosed": 362,
+      "wins": 185,
+      "losses": 175,
+      "avgWinUsd": 1.1227437209034405,
+      "avgLossUsd": -0.7270592232227527,
+      "biggestWinUsd": 34.040892773528945,
+      "biggestLossUsd": -2.6940346375881994
+    },
+    {
+      "day": "2026-03-30",
+      "realizedPnlUsd": 5.670747856315149,
+      "tradesClosed": 365,
+      "wins": 168,
+      "losses": 196,
+      "avgWinUsd": 1.0436799654926896,
+      "avgLossUsd": -0.8656504405431462,
+      "biggestWinUsd": 8.526383526383526,
+      "biggestLossUsd": -4.594748858447489
+    },
+    {
+      "day": "2026-03-31",
+      "realizedPnlUsd": -3.158623209039747,
+      "tradesClosed": 378,
+      "wins": 158,
+      "losses": 220,
+      "avgWinUsd": 1.011398494669952,
+      "avgLossUsd": -0.7407253880313285,
+      "biggestWinUsd": 7.135488308115544,
+      "biggestLossUsd": -5.730897009966774
+    },
+    {
+      "day": "2026-04-07",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
       "wins": 0,
-      "losses": 2,
+      "losses": 0,
       "avgWinUsd": 0,
-      "avgLossUsd": -2.5310394134539287,
+      "avgLossUsd": 0,
       "biggestWinUsd": 0,
-      "biggestLossUsd": -4.65965965965966
+      "biggestLossUsd": 0
+    },
+    {
+      "day": "2026-04-08",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
+      "wins": 0,
+      "losses": 0,
+      "avgWinUsd": 0,
+      "avgLossUsd": 0,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": 0
+    },
+    {
+      "day": "2026-04-09",
+      "realizedPnlUsd": 0,
+      "tradesClosed": 0,
+      "wins": 0,
+      "losses": 0,
+      "avgWinUsd": 0,
+      "avgLossUsd": 0,
+      "biggestWinUsd": 0,
+      "biggestLossUsd": 0
+    },
+    {
+      "day": "2026-04-10",
+      "realizedPnlUsd": 88.29042025479394,
+      "tradesClosed": 28,
+      "wins": 15,
+      "losses": 13,
+      "avgWinUsd": 7.615083496879673,
+      "avgLossUsd": -1.995064015261627,
+      "biggestWinUsd": 41.844542891663316,
+      "biggestLossUsd": -10.333221137664085
+    },
+    {
+      "day": "2026-04-11",
+      "realizedPnlUsd": 64.34998328296946,
+      "tradesClosed": 124,
+      "wins": 61,
+      "losses": 63,
+      "avgWinUsd": 2.2122303759247304,
+      "avgLossUsd": -1.120572534102208,
+      "biggestWinUsd": 32.98416655813349,
+      "biggestLossUsd": -8.478735005452561
     }
   ]
 }
