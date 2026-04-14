@@ -32,7 +32,7 @@
     "breakoutLookback": 12,
     "atrMinPct": 0.04,
     "atrMaxPct": 2.5,
-    "cooldownAfterStopMinutes": 60,
+    "cooldownAfterStopMinutes": 20,
     "minBreakoutStrength": 0.2,
     "takeProfitPct": 0.7,
     "stopLossPct": 0.35,
