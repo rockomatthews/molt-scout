@@ -15,6 +15,7 @@ import { runHyperliquidPaper } from "./hyperliquid_paper.js";
 import { writeDailyReport } from "./report.js";
 import { getMacroRegime } from "./macro.js";
 import { writeScoreboard } from "./scoreboard.js";
+import { pushStateSnapshot, ensureRemoteConfigSeed } from "./cloud_sync.js";
 
 const ROOT = path.resolve(process.cwd());
 
@@ -32,6 +33,13 @@ async function appendLog(obj: unknown) {
 async function runOnce() {
   const cfg = await loadConfig(ROOT);
   const state = await loadState(ROOT);
+
+  // Seed remote config once so the hosted dashboard levers can auto-populate.
+  try {
+    await ensureRemoteConfigSeed(ROOT);
+  } catch {
+    // ignore (missing env or supabase down)
+  }
 
   const sp = await scratchpadInit(ROOT, {
     app: "alpha-engine",
@@ -290,6 +298,13 @@ async function runOnce() {
   state.risk = cfg.risk;
 
   await saveState(ROOT, state);
+
+  // Push latest state snapshot for hosted dashboard.
+  try {
+    await pushStateSnapshot(state);
+  } catch {
+    // ignore (missing env or supabase down)
+  }
 
   // Write daily report artifact
   try {

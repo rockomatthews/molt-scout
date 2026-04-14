@@ -16,6 +16,7 @@
     "scoreboard": "node --import tsx -e \"import path from 'node:path'; import {loadConfig} from './src/config.js'; import {writeScoreboard} from './src/scoreboard.js'; import fs from 'node:fs/promises'; const ROOT=path.resolve(process.cwd()); const cfg=await loadConfig(ROOT); const files=await fs.readdir(path.join(ROOT,'reports')).catch(()=>[]); const days=files.filter(f=>/^\\d{4}-\\d{2}-\\d{2}\\.md$/.test(f)).map(f=>f.replace(/\\.md$/,'')).sort(); const out=await writeScoreboard(ROOT,cfg,days.slice(-14)); console.log(out);\""
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.103.0",
     "dotenv": "^16.4.5",
     "pino": "^9.0.0",
     "viem": "^2.45.3",
