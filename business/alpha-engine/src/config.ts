@@ -34,6 +34,13 @@ const ConfigSchema = z.object({
   }),
   paper: PaperSchema,
   okxPaper: OkxPaperSchema,
+  hyperliquidPaper: z
+    .object({
+      enabled: z.boolean().default(false),
+      startCashUsd: z.number().positive().default(20_000),
+      maxPositions: z.number().int().positive().default(5),
+    })
+    .default({ enabled: false, startCashUsd: 20_000, maxPositions: 5 }),
 });
 
 export type AlphaConfig = z.infer<typeof ConfigSchema>;

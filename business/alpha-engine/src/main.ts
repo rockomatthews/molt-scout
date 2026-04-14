@@ -11,6 +11,7 @@ import { proposeTrade, executeTrade } from "./bankr.js";
 import { scratchpadAppend, scratchpadInit } from "./scratchpad.js";
 import { runPaperTrading } from "./paper_engine.js";
 import { runOkxPaperTrading } from "./okx_paper.js";
+import { runHyperliquidPaper } from "./hyperliquid_paper.js";
 import { writeDailyReport } from "./report.js";
 import { getMacroRegime } from "./macro.js";
 import { writeScoreboard } from "./scoreboard.js";
@@ -196,6 +197,22 @@ async function runOnce() {
           ts: new Date().toISOString(),
           runId: sp.runId,
           where: "okxPaperTrading",
+          message: msg,
+        } as any);
+      }
+    }
+
+    if ((cfg as any).hyperliquidPaper?.enabled) {
+      try {
+        await runHyperliquidPaper({ root: ROOT, sp, state, risk: cfg.risk, hl: (cfg as any).hyperliquidPaper });
+      } catch (err: any) {
+        const msg = String(err?.message || err);
+        log.warn({ err }, "hyperliquidPaper failed");
+        await scratchpadAppend(sp.path, {
+          type: "error",
+          ts: new Date().toISOString(),
+          runId: sp.runId,
+          where: "hyperliquidPaper",
           message: msg,
         } as any);
       }
