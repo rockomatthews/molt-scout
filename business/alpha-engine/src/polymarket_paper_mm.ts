@@ -46,6 +46,9 @@ export type PaperMMParams = {
   maxInventorySharesPerSide: number;
   tradeSizeShares: number;
   simMinutes: number;
+  // Inventory-skewed quoting: shift quotes based on net inventory.
+  // 0 disables skew. Typical: 0.0005 to 0.002.
+  inventorySkewPerShare?: number;
   seed?: number;
 };
 
@@ -136,8 +139,16 @@ export async function runPaperPolymarketMM(opts: {
       const pNo = 1 - pYes;
       const hs = Math.max(0, opts.params.quoteHalfSpread);
 
-      const qYes = clamp(pYes - hs, 0.0001, 0.9999);
-      const qNo = clamp(pNo - hs, 0.0001, 0.9999);
+      // Inventory skew: if we are long YES (or NO), worsen the quote for adding more
+      // and improve the opposite side to encourage rebalancing.
+      const skewPerShare = Math.max(0, Number(opts.params.inventorySkewPerShare || 0));
+      const netYesMinusNo = s.invYes - s.invNo;
+      const skew = netYesMinusNo * skewPerShare;
+
+      // If net long YES, decrease YES bid (pay less) and increase NO bid (pay more).
+      // If net long NO, the opposite.
+      const qYes = clamp(pYes - hs - skew, 0.0001, 0.9999);
+      const qNo = clamp(pNo - hs + skew, 0.0001, 0.9999);
 
       const pFill = fillProbPerStep(m.volumeUsd, opts.params.refreshSeconds);
 

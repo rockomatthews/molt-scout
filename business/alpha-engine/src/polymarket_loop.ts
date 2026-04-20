@@ -37,6 +37,7 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
       maxInventorySharesPerSide: 300,
       tradeSizeShares: 25,
       simMinutes: 60,
+      inventorySkewPerShare: 0.001,
     },
   });
   const mm = result;
