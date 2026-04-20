@@ -5,9 +5,9 @@
   "execution": { "venues": { "cex": { "enabled": true, "name": "okx" }, "onchain": { "enabled": false, "chain": "base" } } },
   "alerts": { "minScoreToAlert": 60, "cooldownMinutesPerTicker": 30 },
   "paper": { "enabled": false },
-  "hyperliquidPaper": { "enabled": true, "startCashUsd": 20000, "maxPositions": 5 },
+  "hyperliquidPaper": { "enabled": false, "startCashUsd": 20000, "maxPositions": 5 },
   "okxPaper": {
-    "enabled": true,
+    "enabled": false,
     "dynamicTopN": 30,
     "instIds": [
       "BTC-USDT-SWAP",
