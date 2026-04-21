@@ -32,12 +32,12 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
     sp,
     markets: top,
     params: {
-      quoteHalfSpread: 0.005,
+      quoteHalfSpread: 0.015,
       refreshSeconds: 15,
       maxInventorySharesPerSide: 300,
       tradeSizeShares: 25,
       simMinutes: 60,
-      inventorySkewPerShare: 0.001,
+      inventorySkewPerShare: 0,
     },
   });
   const mm = result;
