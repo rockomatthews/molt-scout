@@ -14,11 +14,15 @@ import path from "node:path";
 import { scratchpadInit, scratchpadAppend } from "./scratchpad.js";
 import { scoutPolymarketRebates } from "./polymarket_rebate_scout.js";
 import { runPaperPolymarketMM } from "./polymarket_paper_mm.js";
+import { appendEquityPoint, readEquityCurve } from "./polymarket_equity_curve.js";
+import { loadPaperState, savePaperState, getOrInitPos } from "./polymarket_paper_state.js";
 
 const ROOT = path.resolve(process.cwd());
 
 export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: number }) {
   const sp = await scratchpadInit(ROOT, { app: "alpha-engine", kind: "polymarket_loop" });
+
+  const state = await loadPaperState(ROOT, 20_000);
 
   const top = await scoutPolymarketRebates({
     sp,
@@ -26,6 +30,13 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
     minVolumeUsd: opts?.minVolumeUsd ?? 100_000,
     topN: opts?.topN ?? 10,
   });
+
+  // Inject persisted positions for the markets we are trading this run.
+  const positions: Record<string, { invYes: number; invNo: number }> = {};
+  for (const m of top) {
+    const ps = getOrInitPos(state, m.conditionId);
+    positions[m.conditionId] = { invYes: ps.invYes, invNo: ps.invNo };
+  }
 
   const { result } = await runPaperPolymarketMM({
     root: ROOT,
@@ -39,14 +50,38 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
       simMinutes: 60,
       inventorySkewPerShare: 0,
     },
+    state: { cashUsd: state.cashUsd, positions },
   });
   const mm = result;
+
+  // Update persisted state.
+  // Persist cash and *all* per-market inventories (not just top winners).
+  state.cashUsd = mm.account.cashUsd;
+  for (const t of mm.all || []) {
+    const ps = getOrInitPos(state, t.conditionId);
+    ps.invYes = t.invYes;
+    ps.invNo = t.invNo;
+  }
+  const statePath = await savePaperState(ROOT, state);
+
+  // Append equity point.
+  const curvePath = await appendEquityPoint(ROOT, {
+    ts: new Date().toISOString(),
+    paperBalanceUsd: mm.account.paperBalanceUsd,
+    mtmPnlUsd: mm.totals.mtmPnl,
+    fills: mm.totals.fills,
+  });
+
+  const equityCurve = await readEquityCurve(ROOT, 200);
 
   const out = {
     ts: new Date().toISOString(),
     kind: "polymarket_loop",
     topMarkets: top,
     mm,
+    paperStatePath: statePath,
+    equityCurvePath: curvePath,
+    equityCurve,
   };
 
   const outPath = path.join(ROOT, "logs", "polymarket_loop.json");

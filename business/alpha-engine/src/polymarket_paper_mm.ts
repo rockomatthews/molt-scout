@@ -105,6 +105,11 @@ export async function runPaperPolymarketMM(opts: {
   markets: PaperMMMarket[];
   params: PaperMMParams;
   account?: { startCashUsd?: number };
+  // Optional persisted state injection.
+  state?: {
+    cashUsd: number;
+    positions: Record<string, { invYes: number; invNo: number }>;
+  };
 }) {
   const sp = opts.sp ?? (await scratchpadInit(opts.root, { kind: "polymarket_paper_mm" }));
 
@@ -120,16 +125,26 @@ export async function runPaperPolymarketMM(opts: {
 
   const steps = Math.max(1, Math.floor((opts.params.simMinutes * 60) / opts.params.refreshSeconds));
 
+  const startCashUsd = typeof opts.account?.startCashUsd === "number" ? opts.account!.startCashUsd! : 20_000;
   const account: PaperAccount = {
-    startCashUsd: typeof opts.account?.startCashUsd === "number" ? opts.account!.startCashUsd! : 20_000,
-    cashUsd: typeof opts.account?.startCashUsd === "number" ? opts.account!.startCashUsd! : 20_000,
+    startCashUsd,
+    cashUsd: typeof opts.state?.cashUsd === "number" ? opts.state!.cashUsd : startCashUsd,
   };
 
   const byId = new Map<string, { m: PaperMMMarket; s: MarketState }>();
   for (const m of opts.markets) {
+    const ps = opts.state?.positions?.[m.conditionId];
     byId.set(m.conditionId, {
       m,
-      s: { invYes: 0, invNo: 0, cash: 0, fillsYes: 0, fillsNo: 0, spreadPnl: 0, feeEquivalent: 0 },
+      s: {
+        invYes: typeof ps?.invYes === "number" ? ps!.invYes : 0,
+        invNo: typeof ps?.invNo === "number" ? ps!.invNo : 0,
+        cash: 0,
+        fillsYes: 0,
+        fillsNo: 0,
+        spreadPnl: 0,
+        feeEquivalent: 0,
+      },
     });
   }
 
@@ -213,8 +228,9 @@ export async function runPaperPolymarketMM(opts: {
     { mtmPnl: 0, spreadPnl: 0, feeEquivalent: 0, fills: 0 }
   );
 
-  // Portfolio-level (paper) balance: startCash + total mtm pnl.
-  const paperBalanceUsd = account.startCashUsd + totals.mtmPnl;
+  // Portfolio-level (paper) balance: cash + MTM value of inventories.
+  // (Start cash is just a reference point.)
+  const paperBalanceUsd = account.cashUsd + totals.mtmPnl;
 
   const result = {
     kind: "polymarket_paper_mm",
@@ -223,8 +239,9 @@ export async function runPaperPolymarketMM(opts: {
     refreshSeconds: opts.params.refreshSeconds,
     simMinutes: opts.params.simMinutes,
     params: opts.params,
-    account: { startCashUsd: account.startCashUsd, paperBalanceUsd },
+    account: { startCashUsd: account.startCashUsd, cashUsd: account.cashUsd, paperBalanceUsd },
     totals,
+    all: perMarket,
     top: perMarket.slice(0, 15),
   };
 
