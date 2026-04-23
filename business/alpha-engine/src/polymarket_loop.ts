@@ -28,7 +28,7 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
     sp,
     limit: 200,
     minVolumeUsd: opts?.minVolumeUsd ?? 100_000,
-    topN: opts?.topN ?? 10,
+    topN: opts?.topN ?? 25,
   });
 
   // Inject persisted positions for the markets we are trading this run.
@@ -45,8 +45,8 @@ export async function runPolymarketLoop(opts?: { topN?: number; minVolumeUsd?: n
     params: {
       quoteHalfSpread: 0.015,
       refreshSeconds: 15,
-      maxInventorySharesPerSide: 300,
-      tradeSizeShares: 25,
+      maxInventorySharesPerSide: 1500,
+      tradeSizeShares: 100,
       simMinutes: 60,
       inventorySkewPerShare: 0,
     },

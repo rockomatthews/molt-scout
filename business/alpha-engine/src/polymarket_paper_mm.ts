@@ -171,12 +171,15 @@ export async function runPaperPolymarketMM(opts: {
       if (rng() < pFill) {
         if (s.invYes + opts.params.tradeSizeShares <= opts.params.maxInventorySharesPerSide) {
           const size = opts.params.tradeSizeShares;
-          s.invYes += size;
-          s.cash -= size * qYes;
-          account.cashUsd -= size * qYes;
-          s.fillsYes += 1;
-          s.spreadPnl += size * (pYes - qYes);
-          s.feeEquivalent += size * m.feeRate * pYes * (1 - pYes);
+          const cost = size * qYes;
+          if (account.cashUsd - cost >= 0) {
+            s.invYes += size;
+            s.cash -= cost;
+            account.cashUsd -= cost;
+            s.fillsYes += 1;
+            s.spreadPnl += size * (pYes - qYes);
+            s.feeEquivalent += size * m.feeRate * pYes * (1 - pYes);
+          }
         }
       }
 
@@ -184,12 +187,15 @@ export async function runPaperPolymarketMM(opts: {
       if (rng() < pFill) {
         if (s.invNo + opts.params.tradeSizeShares <= opts.params.maxInventorySharesPerSide) {
           const size = opts.params.tradeSizeShares;
-          s.invNo += size;
-          s.cash -= size * qNo;
-          account.cashUsd -= size * qNo;
-          s.fillsNo += 1;
-          s.spreadPnl += size * (pNo - qNo);
-          s.feeEquivalent += size * m.feeRate * pNo * (1 - pNo);
+          const cost = size * qNo;
+          if (account.cashUsd - cost >= 0) {
+            s.invNo += size;
+            s.cash -= cost;
+            account.cashUsd -= cost;
+            s.fillsNo += 1;
+            s.spreadPnl += size * (pNo - qNo);
+            s.feeEquivalent += size * m.feeRate * pNo * (1 - pNo);
+          }
         }
       }
     }
