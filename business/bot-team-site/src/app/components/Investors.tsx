@@ -43,7 +43,7 @@ export default function Investors() {
         // This is a simple bridge so /investors works immediately.
         // Later we can swap to a proper API/Supabase source.
         const url =
-          "https://raw.githubusercontent.com/rockomatthews/molt-scout/master/business/alpha-engine/logs/polymarket_loop.json";
+          "/api/investors";
         const r = await fetch(url, { cache: "no-store" });
         if (!r.ok) throw new Error(`fetch failed ${r.status}`);
         const j = (await r.json()) as LoopJson;
