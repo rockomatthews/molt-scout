@@ -235,8 +235,9 @@ export async function runPaperPolymarketMM(opts: {
   );
 
   // Portfolio-level (paper) balance: cash + MTM value of inventories.
-  // (Start cash is just a reference point.)
-  const paperBalanceUsd = account.cashUsd + totals.mtmPnl;
+  // To compute MTM inventory value, we must exclude per-market cash (which duplicates account.cashUsd).
+  const inventoryMtmUsd = perMarket.reduce((acc, r) => acc + r.invYes * r.pYes + r.invNo * (1 - r.pYes), 0);
+  const paperBalanceUsd = account.cashUsd + inventoryMtmUsd;
 
   const result = {
     kind: "polymarket_paper_mm",
@@ -247,6 +248,7 @@ export async function runPaperPolymarketMM(opts: {
     params: opts.params,
     account: { startCashUsd: account.startCashUsd, cashUsd: account.cashUsd, paperBalanceUsd },
     totals,
+    inventoryMtmUsd,
     all: perMarket,
     top: perMarket.slice(0, 15),
   };
